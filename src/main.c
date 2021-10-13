@@ -9,11 +9,28 @@
 
 #include<stdio.h>
 #include<stdlib.h>
+#include<string.h>
+
 #include "map/map.h"
 
 int main(int argc, char const *argv[])
 {
-    int** map = createMap(10, 10);
-    displayMap(map, 10, 10);
+    int x = 10;
+    int y = 10;
+    int zone = 1;
+
+    int** map = createMap(x, y, zone);
+    map = placePlayer(map);
+    displayMap(map, x, y);
+    zone += 1;
+    printf("\n\n");
+
+    int** map2 = createMap(x, y, zone);
+    displayMap(map2, x, y);
+    printf("\n\n");
+
+    int** map3 = createMap(x, y, zone);
+    displayMap(map3, x, y);
+    zone += 1;
     return 0;
 }

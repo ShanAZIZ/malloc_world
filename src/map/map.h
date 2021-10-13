@@ -13,5 +13,6 @@
 int** createMap(int, int);
 void displayMap(int**, int, int);
 int defineRandom(int);
+int** placePlayer(int**);
 
 #endif

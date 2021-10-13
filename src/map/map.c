@@ -27,7 +27,7 @@ int** createMap(int x, int y) {
     for(int i = 0; i < x; i++) {
         map[i] = malloc(sizeof(int) * y);
         for(int j = 0; j < y; j++) {
-            int random = defineRandom(5);
+            int random = defineRandom(2);
             if(random == 1) {
                 map[i][j] = 0;
             } else {
@@ -35,6 +35,7 @@ int** createMap(int x, int y) {
             }
         }
     }
+    map = placePlayer(map);
     return map;
 }
 
@@ -46,4 +47,18 @@ void displayMap(int** map, int x, int y) {
         }
         printf("\n");
     }
+}
+
+// function to place the player
+int** placePlayer(int** map) {
+    int random1 = (rand() % sizeof(map));
+    int random2 = (rand() % sizeof(map));
+
+    if(map[random1][random2] == 0) {
+        map[random1][random2] = 1;
+    } else {
+        map = placePlayer(map);
+    }
+
+    return map;
 }

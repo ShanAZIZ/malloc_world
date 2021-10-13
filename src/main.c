@@ -27,10 +27,10 @@ int main(int argc, char const *argv[])
 
     int** map2 = createMap(x, y, zone);
     displayMap(map2, x, y);
+    zone += 1;
     printf("\n\n");
 
     int** map3 = createMap(x, y, zone);
     displayMap(map3, x, y);
-    zone += 1;
     return 0;
 }

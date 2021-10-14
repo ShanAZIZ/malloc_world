@@ -14,8 +14,11 @@ int** createMap(int, int, int);
 void displayMap(int**, int, int);
 int defineRandom(int, int);
 int** placePlayer(int**);
-int** generateByZone(int**, int, int, int);
+int** generateByZone(int**, int, int, int, int*, int*, int*);
 int** placePortalZone2(int**);
 int** placePortalZone3(int**);
+int** placeRocks(int**, int, int, int, int);
+int** placeGrass(int**, int*, int, int, int);
+int** placeWood(int**, int, int, int, int);
 
 #endif

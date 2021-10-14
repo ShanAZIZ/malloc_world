@@ -16,8 +16,7 @@
 
 // function to make a random number for zone
 int defineRandom(int min, int max) {
-    int random = (rand() % (max - 0 + 1 + (-2))) - min;
-    return random;
+    return (rand() % (max - min) + min);
 }
 
 // function to place the portal in first zone to second zone and second zone to first zone
@@ -51,11 +50,17 @@ int** placePortalZone3(int** map) {
 // function to create the map
 // take the large, long and zone to create in arguments
 int** createMap(int x, int y, int zone) {
+    int* cptGrass = malloc(sizeof(int));
+    int* cptWood = 0;
+    int* cptRocks = 0;
     int** map = malloc(sizeof(int*) * x);
+
+    *cptGrass = 0;
+
     for(int i = 0; i < x; i++) {
         map[i] = malloc(sizeof(int) * y);
-        for(int j = 0; j < y; j++) {
-            map = generateByZone(map, zone, i, j);
+        for(int j = 0; j < y - 1; j++) {
+            map = generateByZone(map, zone, i, j, cptGrass, cptRocks, cptWood);
         }
     }
 
@@ -95,36 +100,79 @@ int** placePlayer(int** map) {
 }
 
 // function to generate map by zone
-int** generateByZone(int** map, int zone, int i, int j) {
-    int random;
+int** generateByZone(int** map, int zone, int i, int j, int* cptGrass, int* cptRocks, int* cptWood) {
+    int random = 0;
     switch(zone) {
         case 1: {
-            random = defineRandom(1, 7);
-            if(random == 1) {
-                map[i][j] = 0;
-            } else {
-                map[i][j] = random;
+            do {
+                random = defineRandom(-1, 2);
+            } while (random == 1);
+
+            map[i][j] = random;
+
+            while(*cptGrass < 3) {
+                printf("%d\n", *cptGrass);
+                map = placeGrass(map, cptGrass, i, j, zone);
+                *cptGrass += 1;
             }
+
+
+            /*for(int cptRocks = 0; cptRocks < 3; cptRocks++) {
+                map = placeRocks(map, cptRocks, i, j, zone);
+            }
+
+            for(int cptGrass = 1; cptGrass <= 3; cptGrass++) {
+                map = placeGrass(map, cptGrass, i, j, zone);
+            }
+
+            for(int cptWood = 0; cptWood < 3; cptWood++) {
+                if(map[i][j] == 0) {
+                    map = placeWood(map, cptWood, i, j, zone);
+                }
+            }*/
+
             break;
         }
 
         case 2: {
-            random = defineRandom(1, 9);
-            if(random == 1 || random == 3 || random == 5 || random == 4) {
-                map[i][j] = 0;
-            } else {
-                map[i][j] = random;
+            do {
+                random = defineRandom(-1, 2);
+            } while(random == 1);
+
+            for(int cptRocks = 0; cptRocks < 3; cptRocks++) {
+                map = placeRocks(map, cptRocks, i, j, zone);
             }
+
+            for(int cptGrass = 0; cptGrass < 3; cptGrass++) {
+                map = placeGrass(map, cptGrass, i, j, zone);
+            }
+
+            for(int cptWood = 0; cptWood < 3; cptWood++) {
+                map = placeWood(map, cptWood, i, j, zone);
+            }
+
+            map[i][j] = random;
             break;
         }
 
         case 3: {
-            random = defineRandom(1, 14);
-            if(random == 1 || random == -2 || random == 3 || random == 4 || random == 5 || random == 6 || random == 7 || random == 8) {
-                map[i][j] = 0;
-            } else {
-                map[i][j] = random;
+            do {
+                random = defineRandom(-1, 2);
+            } while(random == 1);
+
+            for(int cptGrass = 0; cptGrass < 3; cptGrass++) {
+                map = placeGrass(map, cptGrass, i, j, zone);
             }
+
+            for(int cptRocks = 0; cptRocks < 3; cptRocks++) {
+                map = placeRocks(map, cptRocks, i, j, zone);
+            }
+
+            for(int cptWood = 0; cptWood < 3; cptWood++) {
+                map = placeWood(map, cptWood, i, j, zone);
+            }
+
+            map[i][j] = random;
             break;
         }
 
@@ -132,5 +180,46 @@ int** generateByZone(int** map, int zone, int i, int j) {
             return 0;
         }
     }
+    return map;
+}
+
+// place the rocks
+int** placeRocks(int** map, int cptRocks, int i, int j, int zone) {
+    if(zone == 1) {
+        map[i][j] = 4;
+    } else if(zone == 2) {
+        map[i][j] = 7;
+    } else if(zone == 3) {
+        map[i][j] = 10;
+    }
+
+    return map;
+}
+
+// place the grass
+int** placeGrass(int** map, int* cptGrass, int i, int j, int zone) {
+    if(zone == 1) {
+        printf("%d - %d\n", i, j);
+        map[i][j] = 3;
+    } else if(zone == 2) {
+        map[i][j] = 6;
+    } else if(zone == 3) {
+        map[i][j] = 9;
+    }
+    return map;
+}
+
+// place the wood
+int** placeWood(int** map, int cptWood, int i, int j, int zone) {
+    if(cptWood < 3) {
+        if(zone == 1) {
+            map[i][j] = 5;
+        } else if(zone == 2) {
+            map[i][j] = 8;
+        } else if(zone == 3) {
+            map[i][j] = 11;
+        }
+    }
+
     return map;
 }

@@ -53,3 +53,7 @@ item** createItemList(){
     }
     return itemList;
 }
+
+item* getOneItem(item** itemList, int id){
+    return itemList[id];
+}

@@ -18,7 +18,7 @@ item** createItemList(){
     itemList[0] = malloc(sizeof(item));
     itemList[0] = NULL;
 
-    char names[34][50] = {"Epee en bois", "Pioche en bois", "Serpe en bois", "Hache en bois", "Sapin", "Pierre",
+    char* names[34] = {"Epee en bois", "Pioche en bois", "Serpe en bois", "Hache en bois", "Sapin", "Pierre",
                           "Herbe", "Epee en pierre", "Lance en pierre", "Marteau en pierre", "Plastron en pierre",
                           "Pioche en pierre", "Serpe en pierre", "Hache en pierre", "Potion de vie I", "Hetre", "Fer",
                           "Lavande", "Epee en fer", "Lance en fer", "Marteau en fer", "Plastron en fer",
@@ -26,7 +26,7 @@ item** createItemList(){
                           "Chanvre", "Epee en diamant", "Lance en diamant", "Marteau en diamant", "Plastron en diamant",
                           "Potion de vie III"};
 
-    char types[34][50] = {"Arme", "Outil", "Outil", "Outil", "Ressource de craft", "Ressource de craft",
+    char* types[34] = {"Arme", "Outil", "Outil", "Outil", "Ressource de craft", "Ressource de craft",
                           "Ressource de craft", "Arme", "Arme", "Arme", "Armure",
                           "Outil", "Outil", "Outil", "Soin", "Ressource de craft", "Ressource de craft",
                           "Ressource de craft", "Arme", "Arme", "Arme", "Armure",
@@ -51,6 +51,7 @@ item** createItemList(){
                itemList[i]->type, itemList[i]->damage, itemList[i]->durability, itemList[i]->quantity,
                itemList[i]->protection);
     }
+
     return itemList;
 }
 

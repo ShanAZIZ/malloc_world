@@ -10,27 +10,40 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
-
+#include <time.h>
 #include "map/map.h"
+
+
 
 int main(int argc, char const *argv[])
 {
+    srand( time( NULL ) );
     int x = 10;
     int y = 10;
     int zone = 1;
 
-    int** map = createMap(x, y, zone);
-    map = placePlayer(map);
+    int** map = initMap(x, y, zone);
+    map[4][4] = 1;
+    fillMap(map, x, y, zone);
+    zone += 1;
     displayMap(map, x, y);
-    zone += 1;
-    printf("\n\n");
 
-    int** map2 = createMap(x, y, zone);
+    printf("\n\n");
+    x += 2;
+    y += 2;
+    int** map2 = initMap(x, y, zone);
+    fillMap(map2, x, y, zone);
+    zone += 1;
     displayMap(map2, x, y);
-    zone += 1;
+
     printf("\n\n");
 
-    int** map3 = createMap(x, y, zone);
+    x += 2;
+    y += 2;
+    int** map3 = initMap(x, y, zone);
+    fillMap(map3, x, y, zone);
+    placeBoss(map3, x);
     displayMap(map3, x, y);
+
     return 0;
 }

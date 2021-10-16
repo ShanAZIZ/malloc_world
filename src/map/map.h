@@ -10,15 +10,16 @@
 #ifndef MAP_H
 #define MAP_H
 
-int** createMap(int, int, int);
+
 void displayMap(int**, int, int);
-int defineRandom(int, int);
-int** placePlayer(int**);
-int** generateByZone(int**, int, int, int, int*, int*, int*);
-int** placePortalZone2(int**);
-int** placePortalZone3(int**);
-int** placeRocks(int**, int, int, int, int);
-int** placeGrass(int**, int*, int, int, int);
-int** placeWood(int**, int, int, int, int);
+int** initMap(int width, int height, int zone);
+int** placeGrass(int** map, int posX, int posY, int zone, int* cpt_grass);
+int** placeRock(int** map, int posX, int posY, int zone, int* cpt_rock);
+int** placeWood(int** map, int posX, int posY, int zone, int* cpt_wood);
+int** placeMonster(int** map, int posX, int posY, int zone, int* cpt_monster);
+int** placeNPC(int** map, int width);
+int** placePortal(int** map, int width, int zone);
+int** placeBoss(int** map, int width);
+int** fillMap(int** map, int width, int height, int zone);
 
 #endif

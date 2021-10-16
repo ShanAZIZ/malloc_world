@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-Player* initPlayer(){
-    Player* mainPlayer = malloc(sizeof(Player));
+player * initPlayer(){
+    player * mainPlayer = malloc(sizeof(player));
     mainPlayer->maxHp = 100;
     mainPlayer->currentHp = 100;
     mainPlayer->level = 1;
@@ -14,7 +14,7 @@ Player* initPlayer(){
     return mainPlayer;
 }
 
-void appendToInventory(int stuffId, Player* player){
+void appendToInventory(int stuff_id, player* player){
     // Recuperer l'objet dans ITEM
     // verifier le type de l'objet 
     // Utiliser l'append qui va bien
@@ -22,8 +22,8 @@ void appendToInventory(int stuffId, Player* player){
     {
         if (player->inventory[i] == NULL)
         {
-            player->inventory[i] = stuffId;
-            printf(" l'objet %d à bien été ajouter dans l'inventaire", stuffId);
+            player->inventory[i] = stuff_id;
+            printf(" l'objet %d à bien été ajouter dans l'inventaire", stuff_id);
         }
         else {
            printf("Echec de l'ajout à l'inventaire car l'inventaire est plein");

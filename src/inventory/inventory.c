@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <items.h>
-#include "string.h"
+#include <string.h>
 #include "inventory.h"
 
 inventory* initPlayerInventory(item** item_list){

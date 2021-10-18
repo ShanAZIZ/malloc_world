@@ -10,9 +10,8 @@
  * Struct Player
  */
 typedef struct Player {
-    int xp;
+    int current_xp;
     int level;
-    int max_hp;
     int current_hp;
     inventory* inventory;
 } player;

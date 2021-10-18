@@ -1,3 +1,4 @@
+#include "items.h"
 #ifndef MALLOC_WORLD_INVENTORY_H
 #define MALLOC_WORLD_INVENTORY_H
 #endif

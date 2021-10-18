@@ -9,9 +9,13 @@
 
 #include<stdio.h>
 #include<stdlib.h>
+#include<player.h>
 
 int main(int argc, char const *argv[])
 {
-    
+    printf("bonjour\n");
+    item** item_list = createItemList();
+    player* my_player = initPlayer(item_list);
+    printf("%s", my_player->inventory->inventory_content[0]->type);
     return 0;
 }

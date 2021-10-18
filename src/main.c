@@ -12,8 +12,7 @@
 #include<string.h>
 #include <time.h>
 #include "map/map.h"
-
-
+#include "player/player.h"
 
 int main(int argc, char const *argv[])
 {
@@ -43,6 +42,10 @@ int main(int argc, char const *argv[])
     int** map3 = initMap(x, y, zone);
     fillMap(map3, x, y, zone);
     displayMap(map3, x, y);
+    printf("bonjour\n");
+    item** item_list = createItemList();
+    player* my_player = initPlayer(item_list);
+    printf("%s", my_player->inventory->inventory_content[0]->type);
 
     return 0;
 }

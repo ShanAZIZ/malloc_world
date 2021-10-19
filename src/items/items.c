@@ -47,9 +47,9 @@ item** createItemList(){
         *itemList[i] = (item) {i, names[i - 1], types[i - 1], damage[i - 1], durability[i - 1], 1, protection[i - 1]};
     }
     for (int i = 1; i < count; i++) {
-        printf("%p | %d | %s | %s | %d | %d | %d | %d\n", itemList[i], itemList[i]->value, itemList[i]->name,
+        /*printf("%p | %d | %s | %s | %d | %d | %d | %d\n", itemList[i], itemList[i]->value, itemList[i]->name,
                itemList[i]->type, itemList[i]->damage, itemList[i]->durability, itemList[i]->quantity,
-               itemList[i]->protection);
+               itemList[i]->protection);*/
     }
 
     return itemList;

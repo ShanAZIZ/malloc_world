@@ -31,6 +31,6 @@ typedef struct Player
 Player* initPlayer();
 void appendWeaponToInventory(int stuffId);
 void appendArmorToInventory(int stuffId);
-void appendResourceToInventory(int stufftId);
-void appendToInventory(int stuffId); // Utilisera les 3 fonctions ci dessus selon le stuffId
+void appendResourceToInventory(int stuffId);
+void appendToInventory(int stuffId, Player*); // Utilisera les 3 fonctions ci dessus selon le stuffId
 

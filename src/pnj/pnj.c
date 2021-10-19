@@ -5,7 +5,7 @@
 #include "pnj.h"
 
 InventoryPnj* initInventoryPnj() {
-    InventoryPnj* inventory = malloc(sizeof(*inventory) * 100);
+    InventoryPnj* inventory = malloc(sizeof(InventoryPnj));
     inventory->idObject = 0;
     inventory->next = NULL;
 
@@ -13,13 +13,13 @@ InventoryPnj* initInventoryPnj() {
 }
 
 InventoryPnj* fillInventory(item* item, Player* player, InventoryPnj *inventory) {
-    if(inventory->idObject == 0) {
-        inventory->idObject = item->value;
-        player->inventory[item->value] = 0;
-    } else if(inventory->next == NULL) {
+    if(inventory->next == NULL) {
         inventory->next = initInventoryPnj();
         inventory->next->idObject = item->value;
-        player->inventory[item->value] = 0;
+        // player->inventory[item->value] = 0;
+    } else if(inventory->idObject == 0) {
+        inventory->idObject = item->value;
+        // player->inventory[item->value] = 0;
     } else {
         inventory->next = fillInventory(item, player, inventory->next);
     }

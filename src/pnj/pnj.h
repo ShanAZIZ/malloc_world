@@ -12,11 +12,10 @@
 #include <stdio.h>
 #include "../items/items.h"
 
-typedef struct InventoryPnj InventoryPnj;
-struct InventoryPnj {
+typedef struct InventoryPnj {
     int idObject;   // id of the object stock in inventory of pnj
-    InventoryPnj* next;
-};
+    struct InventoryPnj* next;
+} InventoryPnj;
 
 InventoryPnj* initInventoryPnj();
 InventoryPnj* fillInventory(item*, Player*, InventoryPnj*);

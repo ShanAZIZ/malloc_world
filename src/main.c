@@ -42,7 +42,6 @@ int main(int argc, char const *argv[])
     y += 2;
     int** map3 = initMap(x, y, zone);
     fillMap(map3, x, y, zone);
-    placeBoss(map3, x);
     displayMap(map3, x, y);
 
     return 0;

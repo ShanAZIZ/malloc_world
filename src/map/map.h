@@ -13,13 +13,14 @@
 
 void displayMap(int**, int, int);
 int** initMap(int width, int height, int zone);
-int** placeGrass(int** map, int posX, int posY, int zone, int* cpt_grass);
-int** placeRock(int** map, int posX, int posY, int zone, int* cpt_rock);
-int** placeWood(int** map, int posX, int posY, int zone, int* cpt_wood);
-int** placeMonster(int** map, int posX, int posY, int zone, int* cpt_monster);
-int** placeNPC(int** map, int width);
-int** placePortal(int** map, int width, int zone);
-int** placeBoss(int** map, int width);
+int** placeWalls(int** map, int width, int height);
+int** placeGrass(int** map, int posX, int posY, int zone);
+int** placeRock(int** map, int posX, int posY, int zone);
+int** placeWood(int** map, int posX, int posY, int zone);
+int** placeMonsters(int** map, int posX, int posY, int zone);
+int** placeNPC(int** map, int width, int height);
+int** placePortal(int** map, int width, int height, int zone);
+int** placeBoss(int** map, int width, int height);
 int** fillMap(int** map, int width, int height, int zone);
 
 #endif

@@ -22,7 +22,7 @@ typedef struct item item;
 #ifndef MALLOC_WORLD_ITEMS_H
 #define MALLOC_WORLD_ITEMS_H
 
-item** createItemList();
-item* getOneItem(item**, int);
+item** createItemList(void);
+item* getOneItem(item** itemList, int itemId);
 
 #endif //MALLOC_WORLD_ITEMS_H

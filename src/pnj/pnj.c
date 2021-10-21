@@ -29,11 +29,52 @@ InventoryPnj* fillInventory(item* item, Player* player, InventoryPnj *inventory)
 
 void showInventoryContent(InventoryPnj* inventory, int id) {
     item** itemList = createItemList();
+    InventoryPnj* nextElement = malloc(sizeof(InventoryPnj));
+    nextElement = inventory;
+    while(nextElement != NULL) {
+        printf("%d | %s | %s | %d | %d | %d | %d\n", nextElement->idObject, itemList[nextElement->idObject]->name,
+               itemList[nextElement->idObject]->type, itemList[nextElement->idObject]->damage, itemList[nextElement->idObject]->durability, itemList[nextElement->idObject]->quantity,
+               itemList[nextElement->idObject]->protection);
+        nextElement = nextElement->next;
+        id += 1;
+    }
+}
 
-    while(inventory->idObject != 0) {
-        printf("%p | %d | %s | %s | %d | %d | %d | %d\n", &inventory[id], inventory[id].idObject, itemList[inventory[id].idObject]->name,
-               itemList[inventory[id].idObject]->type, itemList[inventory[id].idObject]->damage, itemList[inventory[id].idObject]->durability, itemList[inventory[id].idObject]->quantity,
-               itemList[inventory[id].idObject]->protection);
-        showInventoryContent(inventory->next, id ++);
+void menuPnj(Player* player) {
+    int choice = 0;
+    do {
+        printf("Hello player. \nWhat do you want to do ?\n1 - Repair your stuff\n2 - Access to the inventory of the PNJ\n");
+        scanf("%d", &choice);
+    } while(choice < 1 || choice > 2);
+
+    if(choice == 1) {
+        repairStuff(player);
+    } else if(choice == 2) {
+        inventoryMenu();
+    }
+}
+
+void repairStuff(Player* player) {
+    // TODO function to repair the stuff of the player
+    item** itemList = createItemList();
+    printf("%d", itemList[player->inventory[0]]->durability);
+    printf("%s", itemList[player->inventory[1]]->name);
+    printf("%s", itemList[player->inventory[2]]->name);
+    printf("%s", itemList[player->inventory[3]]->name);
+}
+
+void inventoryMenu() {
+    int choice = 0;
+    do {
+        printf("\nYou are in the inventory of the pnj. What do you want to do ?\n1 - Drop objects\n2 - Collect objects\n");
+        scanf("%d", &choice);
+    } while(choice < 1 || choice > 2);
+
+    if(choice == 1) {
+        // TODO choose the objects (id) and number check if exists and put it in pnj's inventory
+        printf("Choose the object");
+    } else if(choice == 2) {
+        // TODO choose the objects (id) and number check if exists and put it in player's inventory
+        printf("Choose the object");
     }
 }

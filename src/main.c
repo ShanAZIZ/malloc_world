@@ -13,7 +13,7 @@
 
 int main(int argc, char const *argv[])
 {
-    Player* player = initPlayer();
+    /*Player* player = initPlayer();
     item** itemList = createItemList();
     item* item = getOneItem(itemList, 5);
     InventoryPnj* inventory = initInventoryPnj();
@@ -25,8 +25,10 @@ int main(int argc, char const *argv[])
     item = getOneItem(itemList, 15);
     inventory = fillInventory(item, player, inventory);
 
-    showInventoryContent(inventory, 0);
+    showInventoryContent(inventory, 0);*/
 
+    Player* player = initPlayer();
+    menuPnj(player);
 
     return 0;
 }

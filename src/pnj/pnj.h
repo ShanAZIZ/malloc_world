@@ -10,7 +10,7 @@
 #include <player.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include "../items/items.h"
+#include <items.h>
 
 typedef struct InventoryPnj {
     int idObject;   // id of the object stock in inventory of pnj
@@ -20,3 +20,6 @@ typedef struct InventoryPnj {
 InventoryPnj* initInventoryPnj();
 InventoryPnj* fillInventory(item*, Player*, InventoryPnj*);
 void showInventoryContent();
+void menuPnj(Player*);
+void repairStuff(Player*);
+void inventoryMenu();

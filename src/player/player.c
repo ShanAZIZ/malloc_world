@@ -8,3 +8,7 @@ player * initPlayer(item** item_list){
     mainPlayer->inventory = initPlayerInventory(item_list);
     return mainPlayer;
 }
+
+inventory* getInventory(player* player){
+    return player->inventory;
+}

@@ -21,3 +21,4 @@ typedef struct Player {
  * @return
  */
 player* initPlayer(item**);
+inventory* getInventory(player* player);

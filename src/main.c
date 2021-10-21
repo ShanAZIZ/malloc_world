@@ -3,7 +3,7 @@
  * Made by: GROUPE 5 - AL2 
  * Projet: Malloc-World
  * Date de création: 09/10/2021
- * Dernière modification : 17/10/2021
+ * Dernière modification : 22/10/2021
  * Par: DAILLY Armand
  */
 
@@ -47,5 +47,7 @@ int main(int argc, char const *argv[])
     player* my_player = initPlayer(item_list);
     printf("%s", my_player->inventory->inventory_content[0]->type);
 
+    appendRessourceDeCraft(item_list, 6, my_player->inventory);
+    my_player->inventory->inventory_content[4]->quantity = 20;
     return 0;
 }

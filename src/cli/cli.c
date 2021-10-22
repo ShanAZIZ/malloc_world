@@ -15,8 +15,28 @@ void newGame(){
     // Ici l'enchainement des tours dans une fonction
     // Pour le moment un seul tour
     // Enchainement des tours dans une fonction
-    tour(); // prendra en paramètre la map, le joueur et la liste d'item
-    printf("\nfin du tour");
+    printf("\n Etat du joueur a ce tour et coordonnee peut etre");
+    // Afficher l'etat du joueur ( santé etc)
+    int game;
+    do {
+        printf("\n1. Jouer");
+        printf("\n2. Sauvegarder la partie");
+        printf("\n0. Quitter la partie");
+        printf("\nVotre choix : ");
+        scanf("%d", &game);
+        switch (game) {
+            case 1:
+                tour();// prendra en paramètre la map, le joueur et la liste d'item
+                break;
+            case 2:
+                printf("\nSauvegarder");
+                break;
+            case 0:
+                break;
+            default:
+                printf("\nChoix incorrect");
+        }
+    } while (game != 0);
 }
 
 void title(){
@@ -30,7 +50,7 @@ void title(){
 
 int mainMenu(){
     int value;
-    printf("\nBienvenue dans MALLOC WORLD");
+    printf("\nBienvenue dans le menu principal");
     printf("\nQue souhaitez vous faire ? ");
     printf("\n     1. Commencer une nouvelle partie");
     printf("\n     2. Charger une partie");
@@ -63,14 +83,10 @@ void mainMenuAction() {
 }
 
 int tourMenu(){
-    printf("\n Etat du joueur a ce tour et coordonnee peut etre");
-    // Afficher l'etat du joueur ( santé etc)
     int value;
     printf("\nQue souhaitez vous faire : ");
     printf("\n     1. Effectuer une action (se deplacer, interagir avec les alentours) ");
     printf("\n     2. Mon inventaire");
-    printf("\n     3. Informations sur le joueur");
-    printf("\n     4. Sauvegarder la partie ");
     printf("\n     0. Terminer le tour ");
     printf("\nVotre choix : ");
     scanf("%d", &value);
@@ -90,12 +106,6 @@ void tour(){
                 printf("\nInventaire du joueur ");
                 value = 0;
                 break;
-            case 3:
-                printf("\nInformations sur le joueur ");
-                break;
-            case 4:
-                printf("\nSauvegarde de la partie");
-                value = 0;
             case 0:
                 printf("\nFin du tour");
                 value = 0;

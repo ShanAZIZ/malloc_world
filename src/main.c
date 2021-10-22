@@ -9,9 +9,11 @@
 
 #include<stdio.h>
 #include<stdlib.h>
+#include "cli/cli.h"
 
 int main(int argc, char const *argv[])
 {
-    
+    title();
+
     return 0;
 }

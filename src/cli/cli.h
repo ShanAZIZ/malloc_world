@@ -12,6 +12,15 @@
 
 #endif //MALLOC_WORLD_CLI_H
 
+#include<stdio.h>
+#include<stdlib.h>
+
+/**
+ * Entry point of the CLI
+ */
+void start();
+
+
 /**
  * Main game title
  */
@@ -30,24 +39,15 @@ void mainMenuAction();
 
 /**
  * Launch a new game
- * @return
  */
-int newGame();
-
-/**
- * Load an existing game
- * @return
- */
-int loadGame();
+void newGame();
 
 /**
  * Play menu
- * @return
+ * @return Int
  */
 int tourMenu();
 /**
  * Play
- * @return
  */
-int tour();
-
+void tour();

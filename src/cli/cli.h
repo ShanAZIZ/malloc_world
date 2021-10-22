@@ -12,15 +12,37 @@
 
 #endif //MALLOC_WORLD_CLI_H
 
+/**
+ * Main game title
+ */
 void title();
 
+/**
+ * Main menu of the game
+ * used in mainMenuAction()
+ */
 int mainMenu();
 
+/**
+ * Action after user choice
+ */
+void mainMenuAction();
+
+/**
+ * Launch a new game
+ * @return
+ */
 int newGame();
 
+/**
+ * Load an existing game
+ * @return
+ */
 int loadGame();
 
-int interactionPNJ();
-
+/**
+ *
+ * @return
+ */
 int tour();
 

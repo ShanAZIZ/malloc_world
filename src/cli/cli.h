@@ -41,7 +41,12 @@ int newGame();
 int loadGame();
 
 /**
- *
+ * Play menu
+ * @return
+ */
+int tourMenu();
+/**
+ * Play
  * @return
  */
 int tour();

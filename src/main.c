@@ -27,7 +27,10 @@ int main(int argc, char const *argv[])
 
     showInventoryContent(inventory, 0);*/
 
-    Player* player = initPlayer();
+    Item** itemList = createItemList();
+    printf("%s\n", itemList[1]->name);
+    Player* player = initPlayer(itemList);
+    printf("test2");
     menuPnj(player);
 
     return 0;

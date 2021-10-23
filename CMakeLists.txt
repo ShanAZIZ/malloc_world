@@ -7,6 +7,13 @@ include_directories(src/items)
 include_directories(src/player)
 
 add_executable(malloc_world
+        src/inventory/inventory.c
+        src/inventory/inventory.h
         src/items/items.c
+        src/items/items.h
         src/player/player.c
-        src/main.c src/pnj/pnj.c)
+        src/player/player.h
+        src/main.c
+        src/pnj/pnj.c
+        src/pnj/pnj.h
+        )

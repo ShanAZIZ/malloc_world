@@ -12,7 +12,7 @@ InventoryPnj* initInventoryPnj() {
     return inventory;
 }
 
-InventoryPnj* fillInventory(item* item, Player* player, InventoryPnj *inventory) {
+InventoryPnj* fillInventory(Item* item, Player* player, InventoryPnj *inventory) {
     if(inventory->next == NULL) {
         inventory->next = initInventoryPnj();
         inventory->next->idObject = item->value;
@@ -28,7 +28,7 @@ InventoryPnj* fillInventory(item* item, Player* player, InventoryPnj *inventory)
 }
 
 void showInventoryContent(InventoryPnj* inventory, int id) {
-    item** itemList = createItemList();
+    Item** itemList = createItemList();
     InventoryPnj* nextElement = malloc(sizeof(InventoryPnj));
     nextElement = inventory;
     while(nextElement != NULL) {
@@ -56,11 +56,9 @@ void menuPnj(Player* player) {
 
 void repairStuff(Player* player) {
     // TODO function to repair the stuff of the player
-    item** itemList = createItemList();
-    printf("%d", itemList[player->inventory[0]]->durability);
-    printf("%s", itemList[player->inventory[1]]->name);
-    printf("%s", itemList[player->inventory[2]]->name);
-    printf("%s", itemList[player->inventory[3]]->name);
+    Item** itemList = createItemList();
+    Inventory* inventoryPlayer = getInventory(player);
+    printf("%d", itemList[inventoryPlayer->current_tool]->durability);
 }
 
 void inventoryMenu() {
@@ -70,11 +68,11 @@ void inventoryMenu() {
         scanf("%d", &choice);
     } while(choice < 1 || choice > 2);
 
-    if(choice == 1) {
+    /*if(choice == 1) {
         // TODO choose the objects (id) and number check if exists and put it in pnj's inventory
         printf("Choose the object");
     } else if(choice == 2) {
         // TODO choose the objects (id) and number check if exists and put it in player's inventory
         printf("Choose the object");
-    }
+    }*/
 }

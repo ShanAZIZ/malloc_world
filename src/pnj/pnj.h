@@ -5,9 +5,7 @@
 #ifndef MALLOC_WORLD_PNJ_H
 #define MALLOC_WORLD_PNJ_H
 
-#endif //MALLOC_WORLD_PNJ_H
-
-#include <player.h>
+#include "../player/player.h"
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -22,3 +20,5 @@ void showInventoryContent();
 void menuPnj(Player*);
 void repairStuff(Player*);
 void inventoryMenu();
+
+#endif //MALLOC_WORLD_PNJ_H

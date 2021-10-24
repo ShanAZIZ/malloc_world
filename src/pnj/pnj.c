@@ -55,24 +55,30 @@ void menuPnj(Player* player) {
 }
 
 void repairStuff(Player* player) {
-    // TODO function to repair the stuff of the player
     Item** itemList = createItemList();
     Inventory* inventoryPlayer = getInventory(player);
-    printf("%d", itemList[inventoryPlayer->current_tool]->durability);
+    for(int i = 0; i < INVENTORY_SIZE; i++) {
+        for(int j = 1; j < sizeof(itemList); j++) {
+            if(inventoryPlayer->inventory_content[i]->name == itemList[j]->name) {
+                inventoryPlayer->inventory_content[i]->durability = itemList[j]->durability;
+            }
+        }
+    }
 }
 
-void inventoryMenu() {
+void inventoryMenu(InventoryPnj** inventoryPnj) {
     int choice = 0;
     do {
         printf("\nYou are in the inventory of the pnj. What do you want to do ?\n1 - Drop objects\n2 - Collect objects\n");
         scanf("%d", &choice);
     } while(choice < 1 || choice > 2);
 
-    /*if(choice == 1) {
+    if(choice == 1) {
         // TODO choose the objects (id) and number check if exists and put it in pnj's inventory
         printf("Choose the object");
+        showInventoryContent(inventoryPnj, 0);
     } else if(choice == 2) {
         // TODO choose the objects (id) and number check if exists and put it in player's inventory
         printf("Choose the object");
-    }*/
+    }
 }

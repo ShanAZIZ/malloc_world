@@ -1,10 +1,9 @@
-cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.16.3)
 project(malloc_world C)
 
-set(CMAKE_C_STANDARD 11)
+set(CMAKE_C_STANDARD 99)
 
 include_directories(src/items)
-include_directories(src/player)
 
 add_executable(malloc_world
         src/inventory/inventory.c
@@ -13,7 +12,7 @@ add_executable(malloc_world
         src/items/items.h
         src/player/player.c
         src/player/player.h
-        src/main.c
         src/pnj/pnj.c
         src/pnj/pnj.h
+        src/main.c
         )

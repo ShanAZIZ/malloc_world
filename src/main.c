@@ -9,7 +9,7 @@
 
 #include<stdio.h>
 #include<stdlib.h>
-#include "../pnj/pnj.h"
+#include "pnj/pnj.h"
 
 int main(int argc, char const *argv[])
 {
@@ -28,9 +28,7 @@ int main(int argc, char const *argv[])
     showInventoryContent(inventory, 0);*/
 
     Item** itemList = createItemList();
-    printf("%s\n", itemList[1]->name);
     Player* player = initPlayer(itemList);
-    printf("test2");
     menuPnj(player);
 
     return 0;

@@ -12,7 +12,6 @@
 #include "inventory.h"
 
 Inventory *initPlayerInventory(Item **itemList) {
-    printf("\ninitInventory");
     Inventory *player_inventory = malloc(sizeof(Inventory));
     player_inventory->max_armor = 1;
     player_inventory->max_tool = 6;
@@ -20,13 +19,11 @@ Inventory *initPlayerInventory(Item **itemList) {
     player_inventory->current_armor = 0;
     player_inventory->current_weapon = 1;
     player_inventory->current_tool = 3;
-    printf("\ntest before for");
+    player_inventory->inventory_content = malloc(sizeof(Item*) * INVENTORY_SIZE);
     for (int i = 0; i < INVENTORY_SIZE; i++) {
-        printf("\ntest for");
         player_inventory->inventory_content[i] = malloc(sizeof(Item));
         *(player_inventory->inventory_content[i]) = (Item){0, "", "", 0, 0, 0, 0};
     }
-    printf("\ntest after for");
     appendItemToInventoryWhereEmpty(itemList, 1, player_inventory);
     appendItemToInventoryWhereEmpty(itemList, 2, player_inventory);
     appendItemToInventoryWhereEmpty(itemList, 3, player_inventory);

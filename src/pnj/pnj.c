@@ -1,6 +1,11 @@
-//
-// Created by Audrey Divito on 19/10/2021.
-//
+/**
+ * FILENAME: pnj.c
+ * Made by: GROUPE 5 - AL2
+ * Projet: Malloc-World
+ * Date de création: 19/10/2021
+ * Dernière modification : 25/10/2021
+ * Par: DI VITO Audrey
+ */
 
 #include "pnj.h"
 
@@ -12,16 +17,18 @@ InventoryPnj* initInventoryPnj() {
     return inventory;
 }
 
-InventoryPnj* fillInventory(Item* item, Player* player, InventoryPnj *inventory) {
+InventoryPnj* fillInventory(Item* item, Player* player, InventoryPnj* inventory, int quantity, int idObject) {
     if(inventory->next == NULL) {
         inventory->next = initInventoryPnj();
         inventory->next->idObject = item->value;
-        // player->inventory[item->value] = 0;
+        inventory->next->quantity += quantity;
+        player->inventory[idObject].inventory_content[idObject]->quantity -= quantity;
     } else if(inventory->idObject == 0) {
         inventory->idObject = item->value;
-        // player->inventory[item->value] = 0;
+        inventory->quantity += quantity;
+        player->inventory[idObject].inventory_content[idObject]->quantity -= quantity;
     } else {
-        inventory->next = fillInventory(item, player, inventory->next);
+        inventory->next = fillInventory(item, player, inventory->next, quantity, idObject);
     }
 
     return inventory;
@@ -29,8 +36,7 @@ InventoryPnj* fillInventory(Item* item, Player* player, InventoryPnj *inventory)
 
 void showInventoryContent(InventoryPnj* inventory, int id) {
     Item** itemList = createItemList();
-    InventoryPnj* nextElement = malloc(sizeof(InventoryPnj));
-    nextElement = inventory;
+    InventoryPnj* nextElement = inventory;
     while(nextElement != NULL) {
         printf("%d | %s | %s | %d | %d | %d | %d\n", nextElement->idObject, itemList[nextElement->idObject]->name,
                itemList[nextElement->idObject]->type, itemList[nextElement->idObject]->damage, itemList[nextElement->idObject]->durability, itemList[nextElement->idObject]->quantity,
@@ -43,7 +49,7 @@ void showInventoryContent(InventoryPnj* inventory, int id) {
 void menuPnj(Player* player) {
     int choice = 0;
     do {
-        printf("Hello player. \nWhat do you want to do ?\n1 - Repair your stuff\n2 - Access to the inventory of the PNJ\n");
+        printf("Bonjour joueur. \nQue voulez-vous faire ? \n1 - Réparer l'équipement \n2 - Accéder à l'inventaire du PNJ\n");
         scanf("%d", &choice);
     } while(choice < 1 || choice > 2);
 
@@ -66,19 +72,70 @@ void repairStuff(Player* player) {
     }
 }
 
-void inventoryMenu(InventoryPnj** inventoryPnj) {
+InventoryPnj* inventoryMenu(InventoryPnj** inventoryPnj, Player* player) {
     int choice = 0;
     do {
-        printf("\nYou are in the inventory of the pnj. What do you want to do ?\n1 - Drop objects\n2 - Collect objects\n");
+        printf("\nVous êtes dans l'inventaire du PNJ. Que voulez-vous faire ?\n1 - Déposer des objets\n2 - Récupérer des objets\n");
         scanf("%d", &choice);
     } while(choice < 1 || choice > 2);
 
     if(choice == 1) {
-        // TODO choose the objects (id) and number check if exists and put it in pnj's inventory
-        printf("Choose the object");
-        showInventoryContent(inventoryPnj, 0);
+        choice = 0;
+        printf("Voici l'inventaire du PNJ :\n");
+        showInventoryContent(*inventoryPnj, 0);
+        while(1) {
+            printf("\nTapez l'id de l'objet que vous souhaitez déposer.\n");
+            scanf("%d", &choice);
+
+            Inventory* inventory = getInventory(player);
+            if(inventory->inventory_content[choice]) {
+                continue;
+            } else {
+                int quantity = 0;
+                scanf("%d", &quantity);
+                if(inventory->inventory_content[choice]->quantity <= 0) {
+                    continue;
+                } else {
+                    inventoryPnj = fillInventory(inventory->inventory_content[choice], player, *inventoryPnj, quantity, choice);
+                    return inventoryPnj;
+                }
+            }
+        }
+
     } else if(choice == 2) {
-        // TODO choose the objects (id) and number check if exists and put it in player's inventory
-        printf("Choose the object");
+        choice = 0;
+        printf("Voici l'inventaire du joueur :\n");
+        showInventoryContent(*inventoryPnj, 0);
+        while(1) {
+            printf("\nTapez l'id de l'objet que vous souhaitez déposer.\n");
+            scanf("%d", &choice);
+
+            Inventory* inventory = getInventory(player);
+            if(inventory->inventory_content[choice]) {
+                continue;
+            } else {
+                int quantity = 0;
+                scanf("%d", &quantity);
+                if(inventory->inventory_content[choice]->quantity <= 0) {
+                    continue;
+                } else {
+                    *inventoryPnj = getFromInventory(player, *inventoryPnj, quantity, choice);
+                    return inventoryPnj;
+                }
+            }
+        }
     }
+
+    return NULL;
+}
+
+InventoryPnj* getFromInventory(Player* player, InventoryPnj* inventory, int quantity, int idObject) {
+    for(int i = 0; i < sizeof(*inventory); i++) {
+        if(inventory[i].idObject == idObject) {
+            player->inventory->inventory_content[i]->quantity += quantity;
+            inventory[i].quantity -= quantity;
+        }
+    }
+
+    return inventory;
 }

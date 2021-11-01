@@ -20,10 +20,18 @@ typedef struct InventoryPnj {
     struct InventoryPnj* next;
 } InventoryPnj;
 
+typedef struct Craft {
+    int id;
+    char* name;
+    char* resources;
+    char* zone;
+} Craft;
+
 InventoryPnj* initInventoryPnj();
 InventoryPnj* fillInventory(Item*, Player*, InventoryPnj*, int, int);
 void showInventoryContent();
 void menuPnj(Player*);
+void menuCraft();
 void repairStuff(Player*);
 InventoryPnj* inventoryMenu();
 InventoryPnj* getFromInventory(Player*, InventoryPnj*, int, int);

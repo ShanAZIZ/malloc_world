@@ -13,6 +13,7 @@
 #include <time.h>
 #include "map/map.h"
 #include "player/player.h"
+#include "save/save.h"
 
 int main(int argc, char const *argv[])
 {
@@ -49,5 +50,6 @@ int main(int argc, char const *argv[])
 
     appendRessourceDeCraft(item_list, 6, my_player->inventory);
     my_player->inventory->inventory_content[4]->quantity = 20;
+    saveMap(map, map2, map3, 10, 10);
     return 0;
 }

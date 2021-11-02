@@ -10,6 +10,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "player.h"
 #include "map.h"
 
 #ifndef MALLOC_WORLD_SAVE_H
@@ -17,5 +18,6 @@
 
 #endif
 
-void saveZone(int**, int, int);
+void saveZone(FILE*, int**, int, int);
 void saveMap(int**, int**, int**, int, int);
+void savePlayer(player* player);

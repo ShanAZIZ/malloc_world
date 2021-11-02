@@ -17,6 +17,12 @@ InventoryPnj* initInventoryPnj() {
     return inventory;
 }
 
+char* split(char* str, char* delim) {
+    char* ptr = strtok(str, delim);
+
+    return ptr;
+}
+
 Craft** initCraft() {
     Craft** craft = malloc(sizeof(Craft*) * 25);
 
@@ -29,27 +35,28 @@ Craft** initCraft() {
                         "Serpe en bois", "Serpe en pierre", "Serpe en fer",
                         "Potion de vie I", "Potion de vie II", "Potion de vie III"};
 
-    char* ressources[25] = {"3 sapin", "2 sapin - 3 pierre", "2 hêtre - 4 fer", "2 chêne - 5 fer",
-                            "3 sapin - 4 pierre", "3 hêtre - 5 fer", "3 chêne - 6 diamant",
-                            "2 sapin - 6 pierre", "2 hêtre - 7 fer", "2 chêne - 8 diamant",
-                            "10 pierre", "12 fer", "16 diamant",
-                            "3 sapin", "2 sapin - 3 pierre", "2 hêtre - 4 fer",
-                            "3 sapin", "2 sapin - 3 pierre", "2 hêtre - 4 fer",
-                            "3 sapin", "2 sapin - 3 pierre", "2 hêtre - 4 fer",
-                            "2 plante zone 1", "2 plante zone 2", "2 plante zone 3"};
+    char* resources[25] = {"3 Sapin", "2 Sapin - 3 Pierre", "2 Hetre - 4 Fer", "2 Chene - 5 Fer",
+                            "3 Sapin - 4 Pierre", "3 Hetre - 5 Fer", "3 Chene - 6 Diamant",
+                            "2 Sapin - 6 Pierre", "2 Hetre - 7 Fer", "2 Chene - 8 Diamant",
+                            "10 Pierre", "12 Fer", "16 Diamant",
+                            "3 Sapin", "2 Sapin - 3 Pierre", "2 Hetre - 4 Fer",
+                            "3 Sapin", "2 Sapin - 3 Pierre", "2 Hetre - 4 Fer",
+                            "3 Sapin", "2 Sapin - 3 Pierre", "2 Hetre - 4 Fer",
+                            "2 Plante Zone 1", "2 plante zone 2", "2 plante zone 3"};
 
-    char* zone[25] = {"1 - 2 - 3", "1 - 2 - 3", "2 - 3", "3",
-                      "1 - 2 - 3", "2 - 3", "3",
-                      "1 - 2 - 3", "2 - 3", "3",
-                      "1 - 2 - 3", "2 - 3", "3",
-                      "1 - 2 - 3", "1 - 2 - 3", "2 - 3",
-                      "1 - 2 - 3", "1 - 2 - 3", "2 - 3",
-                      "1 - 2 - 3", "1 - 2 - 3", "2 - 3",
-                      "1 - 2 - 3", "2 - 3", "3"};
+    // 1 -> zone 1, 2 -> zone 2, 3 -> zone 3, 4 -> zones 1 et 2, 5 -> zone 2 et 3, 6 -> zone 1 et 2 et 3
+    unsigned short zone[25] = {6, 6, 5, 3,
+                      6, 5, 3,
+                      6, 5, 3,
+                      6, 5, 3,
+                      6, 6, 5,
+                      6, 6, 5,
+                      6, 6, 5,
+                      6, 5, 3};
 
-    for (int i = 1; i < 35; i++) {
+    for (int i = 0; i < 25; i++) {
         craft[i] = malloc(sizeof(Item));
-        *craft[i] = (Craft) {i, names[i - 1], ressources[i - 1], zone[i - 1]};
+        *craft[i] = (Craft) {i, names[i], resources[i], zone[i]};
     }
 
     return craft;
@@ -84,7 +91,7 @@ void showInventoryContent(InventoryPnj* inventory, int id) {
     }
 }
 
-void menuPnj(Player* player) {
+void menuPnj(Player* player, int zone, InventoryPnj** inventoryPnj) {
     int choice = 0;
     do {
         printf("Bonjour joueur. \nQue voulez-vous faire ? \n1 - Réparer l'équipement \n2 - Accéder à l'inventaire du PNJ\n3 - Crafter des objets\n4 - Quitter");
@@ -94,17 +101,24 @@ void menuPnj(Player* player) {
     if(choice == 1) {
         repairStuff(player);
     } else if(choice == 2) {
-        inventoryMenu();
+        inventoryMenu(inventoryPnj, player);
     } else if(choice == 3) {
-        menuCraft();
+        menuCraft(zone);
     } else {
         return;
     }
 }
 
-void menuCraft() {
-    printf("Vous êtes dans le menu de craft. Voici les objets que vous pouvez créer. \n");
-    // TODO Afficher craft
+void menuCraft(int zone) {
+    printf("Vous êtes dans le menu de craft. Voici les objets que vous pouvez créer.\n");
+    Craft** craft = initCraft();
+    for (int i = 1; i < 25; i++) {
+        if((zone == 1 && (craft[i]->zone == 4 || craft[i]->zone == 6)) || (zone == 2 && (craft[i]->zone == 4 || craft[i]->zone == 5 || craft[i]->zone == 6)) || (zone == 3 && (craft[i]->zone == 3 || craft[i]->zone == 5 || craft[i]->zone == 6))) {
+            printf("%d | %s | %s \n", craft[i]->id, craft[i]->name,
+                   craft[i]->resources);
+        }
+    }
+    printf("\nSaisissez l'id de l'objet que vous souhaitez crafter.\n");
 }
 
 void repairStuff(Player* player) {
@@ -143,8 +157,8 @@ InventoryPnj* inventoryMenu(InventoryPnj** inventoryPnj, Player* player) {
                 if(inventory->inventory_content[choice]->quantity <= 0) {
                     continue;
                 } else {
-                    inventoryPnj = fillInventory(inventory->inventory_content[choice], player, *inventoryPnj, quantity, choice);
-                    return inventoryPnj;
+                    *inventoryPnj = fillInventory(inventory->inventory_content[choice], player, *inventoryPnj, quantity, choice);
+                    return *inventoryPnj;
                 }
             }
         }
@@ -167,7 +181,7 @@ InventoryPnj* inventoryMenu(InventoryPnj** inventoryPnj, Player* player) {
                     continue;
                 } else {
                     *inventoryPnj = getFromInventory(player, *inventoryPnj, quantity, choice);
-                    return inventoryPnj;
+                    return *inventoryPnj;
                 }
             }
         }

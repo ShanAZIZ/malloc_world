@@ -13,6 +13,7 @@
 #include "../player/player.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 typedef struct InventoryPnj {
     int idObject;   // id of the object stock in inventory of pnj
@@ -24,16 +25,16 @@ typedef struct Craft {
     int id;
     char* name;
     char* resources;
-    char* zone;
+    unsigned short zone;
 } Craft;
 
 InventoryPnj* initInventoryPnj();
 InventoryPnj* fillInventory(Item*, Player*, InventoryPnj*, int, int);
-void showInventoryContent();
-void menuPnj(Player*);
-void menuCraft();
+void showInventoryContent(InventoryPnj*, int);
+void menuPnj(Player*, int, InventoryPnj**);
+void menuCraft(int);
 void repairStuff(Player*);
-InventoryPnj* inventoryMenu();
+InventoryPnj* inventoryMenu(InventoryPnj**, Player*);
 InventoryPnj* getFromInventory(Player*, InventoryPnj*, int, int);
 
 #endif //MALLOC_WORLD_PNJ_H

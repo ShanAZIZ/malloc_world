@@ -12,7 +12,6 @@
 #include<string.h>
 #include <time.h>
 #include "map/map.h"
-#include "player/player.h"
 #include "save/save.h"
 
 int main(int argc, char const *argv[])

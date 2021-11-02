@@ -21,3 +21,4 @@
 void saveZone(FILE*, int**, int, int);
 void saveMap(int**, int**, int**, int, int);
 void savePlayer(player* player);
+void saveInventory(FILE*, inventory* inventory);

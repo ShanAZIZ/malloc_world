@@ -39,5 +39,19 @@ void savePlayer(player* player){
     player_save_file = fopen("save_player.txt", "w");
     fprintf(player_save_file, "=== PLAYER ===\n");
     fprintf(player_save_file, "%d\n%d\n%d\n", player->level, player->current_xp, player->current_hp);
+    saveInventory(player_save_file, player->inventory);
     fclose(player_save_file);
+}
+
+void saveInventory(FILE* save_file, inventory* inventory){
+    fprintf(save_file, "-- INVENTORY --\n");
+    for (int i = 0; i < INVENTORY_SIZE; i++) {
+        fprintf(
+                save_file,
+                "%d@%d@%d\n",
+                inventory->inventory_content[i]->quantity,
+                inventory->inventory_content[i]->value,
+                inventory->inventory_content[i]->durability
+                );
+    }
 }

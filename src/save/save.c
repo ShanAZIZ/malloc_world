@@ -33,3 +33,11 @@ void saveZone(FILE* map_save_file, int** zone, int x, int y){
         fprintf(map_save_file,"\n");
     }
 }
+
+void savePlayer(player* player){
+    FILE* player_save_file;
+    player_save_file = fopen("save_player.txt", "w");
+    fprintf(player_save_file, "=== PLAYER ===\n");
+    fprintf(player_save_file, "%d\n%d\n%d\n", player->level, player->current_xp, player->current_hp);
+    fclose(player_save_file);
+}

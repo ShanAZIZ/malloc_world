@@ -42,7 +42,7 @@ Craft** initCraft() {
                             "3 Sapin", "2 Sapin - 3 Pierre", "2 Hetre - 4 Fer",
                             "3 Sapin", "2 Sapin - 3 Pierre", "2 Hetre - 4 Fer",
                             "3 Sapin", "2 Sapin - 3 Pierre", "2 Hetre - 4 Fer",
-                            "2 Plante Zone 1", "2 plante zone 2", "2 plante zone 3"};
+                            "2 Herbe", "2 Lavande", "2 Chanvre"};
 
     // 1 -> zone 1, 2 -> zone 2, 3 -> zone 3, 4 -> zones 1 et 2, 5 -> zone 2 et 3, 6 -> zone 1 et 2 et 3
     unsigned short zone[25] = {6, 6, 5, 3,
@@ -109,16 +109,41 @@ void menuPnj(Player* player, int zone, InventoryPnj** inventoryPnj) {
     }
 }
 
-void menuCraft(int zone) {
+void menuCraft(int zone, Player* player) {
     printf("Vous êtes dans le menu de craft. Voici les objets que vous pouvez créer.\n");
     Craft** craft = initCraft();
-    for (int i = 1; i < 25; i++) {
+    for (int i = 0; i < 24; i++) {
         if((zone == 1 && (craft[i]->zone == 4 || craft[i]->zone == 6)) || (zone == 2 && (craft[i]->zone == 4 || craft[i]->zone == 5 || craft[i]->zone == 6)) || (zone == 3 && (craft[i]->zone == 3 || craft[i]->zone == 5 || craft[i]->zone == 6))) {
             printf("%d | %s | %s \n", craft[i]->id, craft[i]->name,
                    craft[i]->resources);
         }
     }
-    printf("\nSaisissez l'id de l'objet que vous souhaitez crafter.\n");
+
+    int choice = 0;
+    do {
+        printf("Tapez l'id de l'objet que vous souhaitez créer.\n");
+        choice = scanf("%d", &choice);
+    } while (choice < 0 || choice > 25);
+
+    int nbResource1 = 0;
+    int nbResource2 = 0;
+    char* resource1 = malloc(sizeof(char) * (sizeof(craft[choice]->resources) / 2));
+    char* resource2 = malloc(sizeof(char) * (sizeof(craft[choice]->resources) / 2);
+    sscanf(craft[choice]->resources, "%d %[^-] - %d %[^-]", &nbResource1, resource1, &nbResource2, resource2);
+
+    for(int i = 0; i < sizeof(player->inventory->inventory_content); i++) {
+        if(player->inventory->inventory_content[i]->name == resource1 && player->inventory->inventory_content[i]->quantity >= nbResource1) {
+            for(int j = 0; j < sizeof(player->inventory->inventory_content); j++) {
+                if(player->inventory->inventory_content[j]->name == resource2 && player->inventory->inventory_content[j]->quantity >= nbResource2) {
+                    player->inventory->inventory_content[i]->quantity -= nbResource1;
+                    player->inventory->inventory_content[j]->quantity -= nbResource2;
+                } else {
+                    player->inventory->inventory_content[i]->quantity -= nbResource1;
+                }
+            }
+        }
+    }
+
 }
 
 void repairStuff(Player* player) {

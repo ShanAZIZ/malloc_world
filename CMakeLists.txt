@@ -7,7 +7,9 @@ set(CMAKE_C_STANDARD 99)
 include_directories(src/inventory
         src/map
         src/player
-        src/items)
+        src/items
+        src/save
+        )
 
 
 add_executable(malloc_world
@@ -18,4 +20,6 @@ add_executable(malloc_world
         src/player/player.c
         src/player/player.h
         src/map/map.c
-        src/main.c)
+        src/main.c
+        src/save/save.c
+        )

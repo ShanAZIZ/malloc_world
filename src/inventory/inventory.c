@@ -36,7 +36,6 @@ void appendItemToInventoryWhereEmpty(item** itemList, int itemId, inventory *inv
             inventory->inventory_content[i]->durability = item->durability;
             inventory->inventory_content[i]->quantity = item->quantity;
             inventory->inventory_content[i]->protection = item->protection;
-
             break;
         }
     }

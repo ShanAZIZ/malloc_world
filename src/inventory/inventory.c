@@ -13,12 +13,7 @@
 
 inventory *initPlayerInventory(item **itemList) {
     inventory *player_inventory = malloc(sizeof(inventory));
-    player_inventory->max_armor = 1;
-    player_inventory->max_tool = 6;
-    player_inventory->max_weapon = 3;
-    player_inventory->current_armor = 0;
-    player_inventory->current_weapon = 1;
-    player_inventory->current_tool = 3;
+    player_inventory->inventory_content = malloc(sizeof(item*) * 10);
     for (int i = 0; i < INVENTORY_SIZE; i++) {
         player_inventory->inventory_content[i] = malloc(sizeof(item));
         *(player_inventory->inventory_content[i]) = (item){0, "", "", 0, 0, 0, 0};
@@ -47,27 +42,6 @@ void appendItemToInventoryWhereEmpty(item** itemList, int itemId, inventory *inv
     }
 }
 
-void appendNewItemToInventory(item** itemList, item* item, inventory *player_inventory) {
-    if (strcmp(item->type, "Arme") == 0) {
-        if (canAppendWeapon(player_inventory)) {
-            appendItemToInventoryWhereEmpty(itemList, item->value, player_inventory);
-        }
-    }
-    if (strcmp(item->type, "Outil") == 0) {
-        if (canAppendTool(player_inventory)) {
-            appendItemToInventoryWhereEmpty(itemList, item->value, player_inventory);
-        }
-    }
-    if (strcmp(item->type, "Soin") == 0) {
-        appendItemToInventoryWhereEmpty(itemList, item->value, player_inventory);
-    }
-    if (strcmp(item->type, "Armure") == 0) {
-        if (canAppendArmor(player_inventory)) {
-            appendItemToInventoryWhereEmpty(itemList, item->value, player_inventory);
-        }
-    }
-}
-
 void appendRessourceDeCraft(item** itemList, int itemId, inventory* player_inventory){
     item* item = getOneItem(itemList, itemId);
     for(int i = 0; i < INVENTORY_SIZE ; i++) {
@@ -80,25 +54,3 @@ void appendRessourceDeCraft(item** itemList, int itemId, inventory* player_inven
         }
     }
 }
-
-int canAppendArmor(inventory *player_inventory) {
-    if (player_inventory->max_armor > player_inventory->current_armor) {
-        return 1;
-    }
-    return 0;
-}
-
-int canAppendTool(inventory *player_inventory) {
-    if (player_inventory->max_tool > player_inventory->current_tool) {
-        return 1;
-    }
-    return 0;
-}
-
-int canAppendWeapon(inventory *player_inventory) {
-    if (player_inventory->max_weapon > player_inventory->current_weapon) {
-        return 1;
-    }
-    return 0;
-}
-

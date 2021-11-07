@@ -9,13 +9,16 @@
 
 #include<stdio.h>
 #include<stdlib.h>
-#include<string.h>
 #include <time.h>
-#include "map/map.h"
 #include "save/save.h"
 
 int main(int argc, char const *argv[])
 {
+    // LOAD INITIAL OBLIGATOIRE
+    item** item_list = createItemList();
+    player* my_player = initPlayer(item_list);
+
+    // LOAD DE LA MAP
     srand( time( NULL ) );
     int x = 10;
     int y = 10;
@@ -42,14 +45,15 @@ int main(int argc, char const *argv[])
     int** map3 = initMap(x, y, zone);
     fillMap(map3, x, y, zone);
     displayMap(map3, x, y);
-    printf("bonjour\n");
-    item** item_list = createItemList();
-    player* my_player = initPlayer(item_list);
+
+    // TESTS
     printf("%s", my_player->inventory->inventory_content[0]->type);
 
     appendRessourceDeCraft(item_list, 6, my_player->inventory);
     my_player->inventory->inventory_content[4]->quantity = 20;
     saveMap(map, map2, map3, 10, 10);
-    savePlayer(my_player);
+    //savePlayer(my_player);
+    loadPlayer(my_player, item_list);
+    printf("level : %d", my_player->level);
     return 0;
 }

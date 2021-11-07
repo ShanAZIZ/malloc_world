@@ -24,4 +24,4 @@ void saveMap(int**, int**, int**, int, int);
 void savePlayer(player* player);
 void saveInventory(FILE*, inventory* inventory);
 void loadPlayer(player* player, item**);
-// void loadPlayerInventory(FILE* player_save_file, inventory* player_inventory, item**);
+void loadPlayerInventory(FILE* player_save_file, inventory* player_inventory, item**);

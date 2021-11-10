@@ -17,12 +17,6 @@ InventoryPnj* initInventoryPnj() {
     return inventory;
 }
 
-char* split(char* str, char* delim) {
-    char* ptr = strtok(str, delim);
-
-    return ptr;
-}
-
 Craft** initCraft() {
     Craft** craft = malloc(sizeof(Craft*) * 25);
 
@@ -103,7 +97,7 @@ void menuPnj(Player* player, int zone, InventoryPnj** inventoryPnj) {
     } else if(choice == 2) {
         inventoryMenu(inventoryPnj, player);
     } else if(choice == 3) {
-        menuCraft(zone);
+        menuCraft(zone, player);
     } else {
         return;
     }
@@ -128,8 +122,9 @@ void menuCraft(int zone, Player* player) {
     int nbResource1 = 0;
     int nbResource2 = 0;
     char* resource1 = malloc(sizeof(char) * (sizeof(craft[choice]->resources) / 2));
-    char* resource2 = malloc(sizeof(char) * (sizeof(craft[choice]->resources) / 2);
+    char* resource2 = malloc(sizeof(char) * (sizeof(craft[choice]->resources) / 2));
     sscanf(craft[choice]->resources, "%d %[^-] - %d %[^-]", &nbResource1, resource1, &nbResource2, resource2);
+    Item** itemList = createItemList();
 
     for(int i = 0; i < sizeof(player->inventory->inventory_content); i++) {
         if(player->inventory->inventory_content[i]->name == resource1 && player->inventory->inventory_content[i]->quantity >= nbResource1) {
@@ -137,6 +132,13 @@ void menuCraft(int zone, Player* player) {
                 if(player->inventory->inventory_content[j]->name == resource2 && player->inventory->inventory_content[j]->quantity >= nbResource2) {
                     player->inventory->inventory_content[i]->quantity -= nbResource1;
                     player->inventory->inventory_content[j]->quantity -= nbResource2;
+                    for(int k = 0, l = 0; l < sizeof(player->inventory->inventory_content); k++, l++) {
+                        if(itemList[k]->name == craft[choice]->name && player->inventory->inventory_content[l] == NULL) {
+                            player->inventory->inventory_content[l]->name = itemList[k]->name;
+                            player->inventory->inventory_content[l]->durability = itemList[k]->durability;
+                            player->inventory->inventory_content[l]->quantity = 1;
+                        }
+                    }
                 } else {
                     player->inventory->inventory_content[i]->quantity -= nbResource1;
                 }

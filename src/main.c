@@ -47,13 +47,16 @@ int main(int argc, char const *argv[])
     displayMap(map3, x, y);
 
     // TESTS
-    printf("%s", my_player->inventory->inventory_content[0]->type);
+    //printf("%s", my_player->inventory->inventory_content[0]->type);
 
     appendRessourceDeCraft(item_list, 6, my_player->inventory);
     my_player->inventory->inventory_content[4]->quantity = 20;
     saveMap(map, map2, map3, 10, 10);
     //savePlayer(my_player);
     loadPlayer(my_player, item_list);
-    printf("level : %d", my_player->level);
+    printf("level : %d \n", my_player->level);
+    printf("Inventory at index 4 quantity: %d \n", my_player->inventory->inventory_content[4]->quantity);
+    printf("Inventory at index 4 name: %s \n", my_player->inventory->inventory_content[4]->name);
+
     return 0;
 }

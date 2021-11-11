@@ -68,7 +68,6 @@ void loadPlayer(player* player, item** item_list){
         signed char texte[256];
         fgets(texte, 255, player_save_file);
         if(strcmp(texte, "=== PLAYER ===\n") == 0){
-            printf("IN THE PLAYER\n");
             fscanf(player_save_file, "%d\n", &player->level);
             fscanf(player_save_file, "%d\n", &player->current_xp);
             fscanf(player_save_file, "%d\n", &player->current_hp);
@@ -86,22 +85,15 @@ void loadPlayerInventory(FILE* player_save_file, inventory* player_inventory, it
     signed char texte[256];
     fgets(texte, 255, player_save_file);
     if(strcmp(texte, "-- INVENTORY --\n") == 0){
-        printf("in inventory");
         int actual_value;
         int actual_quantity;
         int actual_durability;
-        for(int i=0; i< INVENTORY_SIZE; i++){
+        int i=0;
+        for(; i< INVENTORY_SIZE; i++){
             fscanf(player_save_file, "%d@%d@%d\n", &actual_quantity, &actual_value, &actual_durability);
             appendItemToInventoryAtIndex(item_list, actual_value, i, player_inventory);
-            printf("ITEM : %s \n", player_inventory->inventory_content[i]->name);
             player_inventory->inventory_content[i]->quantity = actual_quantity;
             player_inventory->inventory_content[i]->durability = actual_durability;
         }
     }
 }
-
-
-// fgets(texte, 255, player_save_file); // Read one line
-//    while (fgets(texte, 255, player_save_file) != NULL){ // Read line by line the file
-//        printf("%s\n", texte);
-//    }

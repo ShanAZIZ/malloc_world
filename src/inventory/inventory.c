@@ -42,14 +42,21 @@ void appendItemToInventoryWhereEmpty(item** itemList, int itemId, inventory *inv
 }
 
 void appendItemToInventoryAtIndex(item** itemList, int itemId, int index, inventory* inventory){
-    item* item = getOneItem(itemList, itemId);
-    inventory->inventory_content[index]->value = item->value;
-    inventory->inventory_content[index]->name = item->name;
-    inventory->inventory_content[index]->type = item->type;
-    inventory->inventory_content[index]->damage = item->damage;
-    inventory->inventory_content[index]->durability = item->durability;
-    inventory->inventory_content[index]->quantity = item->quantity;
-    inventory->inventory_content[index]->protection = item->protection;
+    if(itemId != 0){
+        item* item = getOneItem(itemList, itemId);
+        inventory->inventory_content[index]->value = item->value;
+        inventory->inventory_content[index]->name = item->name;
+        inventory->inventory_content[index]->type = item->type;
+        inventory->inventory_content[index]->damage = item->damage;
+        inventory->inventory_content[index]->durability = item->durability;
+        inventory->inventory_content[index]->quantity = item->quantity;
+        inventory->inventory_content[index]->protection = item->protection;
+    }
+    else {
+        *(inventory->inventory_content[index]) = (item){0, "", "", 0, 0, 0, 0};
+    }
+
+
 }
 
 void appendRessourceDeCraft(item** itemList, int itemId, inventory* player_inventory){

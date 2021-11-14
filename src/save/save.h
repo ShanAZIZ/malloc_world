@@ -21,6 +21,7 @@
 
 void saveZone(FILE*, int**, int, int);
 void saveMap(int**, int**, int**, int, int);
+void loadMapZone(int** map, int zone, int x, int y);
 void savePlayer(player* player);
 void saveInventory(FILE*, inventory* inventory);
 void loadPlayer(player* player, item**);

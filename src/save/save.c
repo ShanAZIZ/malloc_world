@@ -12,8 +12,8 @@
 void saveMap(int** zone_1, int** zone_2, int** zone_3, int x, int y){
     //TODO: manage size differently
     FILE* map_save_file;
+    map_save_file = fopen("save_map.txt", "w");
     if(map_save_file != NULL){
-        map_save_file = fopen("save_map.txt", "w");
         fprintf(map_save_file, "=== MAP ===\n");
         fprintf(map_save_file, "-- ZONE 1 --\n");
         saveZone(map_save_file, zone_1, x, y);
@@ -34,6 +34,27 @@ void saveZone(FILE* map_save_file, int** zone, int x, int y){
             }
         }
         fprintf(map_save_file,"\n");
+    }
+}
+
+void loadMapZone(int** map, int zone, int x, int y){
+    FILE* map_save_file;
+    map_save_file = fopen("save_map.txt", "r");
+    if(map_save_file != NULL){
+        char zoneStr[14];
+        snprintf(zoneStr, 14, "-- ZONE %d --\n", zone); // puts string into buffer
+        signed char texte[256];
+        do {
+            fgets(texte, 255, map_save_file);
+            if(strcmp(texte,zoneStr) == 0){
+                for( int i=0; i<x; i++){
+                    for(int j = 0; j<y; j++){
+                        fscanf(map_save_file,"%d", &map[i][j]);
+                    }
+                }
+                break;
+            }
+        } while (texte != NULL);
     }
 }
 

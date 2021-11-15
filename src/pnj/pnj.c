@@ -20,6 +20,15 @@ InventoryPnj* initInventoryPnj() {
 Craft** initCraft() {
     Craft** craft = malloc(sizeof(Craft*) * 25);
 
+    unsigned short id[25] = {1, 8, 19, 30,
+                              9, 20, 31,
+                              10, 21, 32,
+                              11, 22, 33,
+                              2, 12, 23,
+                              4, 14, 25,
+                              3, 13, 24,
+                              15, 26, 34};
+
     char* names[25] = {"Epee en bois", "Epee en pierre", "Epee en fer", "Epee en diamant",
                         "Lance en pierre", "Lance en fer", "Lance en diamant",
                         "Marteau en pierre", "Marteau en fer", "Marteau en diamant",
@@ -50,7 +59,7 @@ Craft** initCraft() {
 
     for (int i = 0; i < 25; i++) {
         craft[i] = malloc(sizeof(Item));
-        *craft[i] = (Craft) {i, names[i], resources[i], zone[i]};
+        *craft[i] = (Craft) {id[i], names[i], resources[i], zone[i]};
     }
 
     return craft;
@@ -119,6 +128,7 @@ void menuCraft(int zone, Player* player) {
         choice = scanf("%d", &choice);
     } while (choice < 0 || choice > 25);
 
+    // new function craft()
     int nbResource1 = 0;
     int nbResource2 = 0;
     char* resource1 = malloc(sizeof(char) * (sizeof(craft[choice]->resources) / 2));
@@ -130,15 +140,7 @@ void menuCraft(int zone, Player* player) {
         if(player->inventory->inventory_content[i]->name == resource1 && player->inventory->inventory_content[i]->quantity >= nbResource1) {
             for(int j = 0; j < sizeof(player->inventory->inventory_content); j++) {
                 if(player->inventory->inventory_content[j]->name == resource2 && player->inventory->inventory_content[j]->quantity >= nbResource2) {
-                    player->inventory->inventory_content[i]->quantity -= nbResource1;
-                    player->inventory->inventory_content[j]->quantity -= nbResource2;
-                    for(int k = 0, l = 0; l < sizeof(player->inventory->inventory_content); k++, l++) {
-                        if(itemList[k]->name == craft[choice]->name && player->inventory->inventory_content[l] == NULL) {
-                            player->inventory->inventory_content[l]->name = itemList[k]->name;
-                            player->inventory->inventory_content[l]->durability = itemList[k]->durability;
-                            player->inventory->inventory_content[l]->quantity = 1;
-                        }
-                    }
+                    appendItemToInventoryWhereEmpty(itemList, choice, player->inventory);
                 } else {
                     player->inventory->inventory_content[i]->quantity -= nbResource1;
                 }

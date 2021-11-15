@@ -15,6 +15,9 @@
 #include <stdio.h>
 #include <string.h>
 
+// use function appendItemToInventoryWhereEmpty of inventory.h
+// put id of the itemList
+
 typedef struct InventoryPnj {
     int idObject;   // id of the object stock in inventory of pnj
     int quantity; // quantity of the object stock in inventory of pnj
@@ -22,7 +25,7 @@ typedef struct InventoryPnj {
 } InventoryPnj;
 
 typedef struct Craft {
-    int id;
+    unsigned short id;
     char* name;
     char* resources;
     unsigned short zone;

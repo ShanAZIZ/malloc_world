@@ -12,10 +12,10 @@
 
 #include "items.h"
 
-item** createItemList(){
+Item** createItemList(){
     int count = 1;
-    item **itemList = malloc(sizeof(item*) * 35);
-    itemList[0] = malloc(sizeof(item));
+    Item **itemList = malloc(sizeof(Item*) * 35);
+    itemList[0] = malloc(sizeof(Item));
     itemList[0] = NULL;
 
     char* names[34] = {"Epee en bois", "Pioche en bois", "Serpe en bois", "Hache en bois", "Sapin", "Pierre",
@@ -43,18 +43,12 @@ item** createItemList(){
 
     for (int i = 1; i < 35; i++) {
         count += 1;
-        itemList[i] = malloc(sizeof(item));
-        *itemList[i] = (item) {i, names[i - 1], types[i - 1], damage[i - 1], durability[i - 1], 1, protection[i - 1]};
+        itemList[i] = malloc(sizeof(Item));
+        *itemList[i] = (Item) {i, names[i - 1], types[i - 1], damage[i - 1], durability[i - 1], 1, protection[i - 1]};
     }
-    for (int i = 1; i < count; i++) {
-        printf("%p | %d | %s | %s | %d | %d | %d | %d\n", itemList[i], itemList[i]->value, itemList[i]->name,
-               itemList[i]->type, itemList[i]->damage, itemList[i]->durability, itemList[i]->quantity,
-               itemList[i]->protection);
-    }
-
     return itemList;
 }
 
-item* getOneItem(item** itemList, int id){
+Item* getOneItem(Item** itemList, int id){
     return itemList[id];
 }

@@ -7,7 +7,7 @@
  * Par: DAILLY Armand
  */
 
-struct item {
+typedef struct Item {
     int value;
     char *name;
     char *type;
@@ -15,14 +15,13 @@ struct item {
     unsigned short durability;
     unsigned short quantity;
     unsigned short protection;
-};
+} Item;
 
-typedef struct item item;
 
 #ifndef MALLOC_WORLD_ITEMS_H
 #define MALLOC_WORLD_ITEMS_H
 
-item** createItemList();
-item* getOneItem(item**, int);
+Item** createItemList();
+Item* getOneItem(Item**, int);
 
 #endif //MALLOC_WORLD_ITEMS_H

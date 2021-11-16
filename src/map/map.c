@@ -25,17 +25,43 @@ void displayMap(int** map, int x, int y) {
 }
 
 //function to initialize map to 0
-int** initMap(int width, int height, int zone){
-    int** map = malloc(sizeof(int*) * width);
+int** initMap(int height, int width){
+    int** map = malloc(sizeof(int*) * height);
 
     for(int i = 0; i < width; i++) {
-        map[i] = malloc(sizeof(int) * height);
+        map[i] = malloc(sizeof(int) * width);
         for(int j = 0; j < height; j++) {
             map[i][j] = 0;
         }
     }
     return map;
 }
+
+int*** initAllMaps(int height, int width){
+    int*** maps = malloc(sizeof(int**) * 10);
+    maps[9] = malloc(sizeof(int*) * 3);
+    for(int x = 0; x < 3; x += 1){
+        maps[9][x] = malloc(sizeof(int)*2);
+        maps[9][x][0] = height + 2 * x;
+        maps[9][x][1] = width + 2 * x;
+    }
+
+    for(int i = 0; i < 9; i += 1){
+        maps[i] = initMap(maps[9][i/3][0], maps[9][i/3][1]);
+    }
+    return maps;
+}
+
+void fillBaseMap(int** map, int** baseMap, int height, int width){
+    for(int i = 0; i < height; i += 1){
+        for(int j = 0; j < width; j += 1){
+            if(map[i][j] != 1){
+                baseMap[i][j] = map[i][j];
+            }
+        }
+    }
+}
+
 
 //function that place walls
 int** placeWalls(int** map, int width, int height){
@@ -215,5 +241,13 @@ int** fillMap(int** map, int width, int height, int zone){
     map = placeGrass(map, width, height, zone);
     map = placeWalls(map, width, height);
     return map;
+
+}
+
+void fillAllMaps(int*** maps, int zone){
+    for(int x = 0; x < 3; x += 1){
+        maps[0 + x * 3] = fillMap(maps[0 + x * 3], maps[9][x][1], maps[9][x][0], zone + x);
+        fillBaseMap(maps[0 + x * 3], maps[2 + x * 3], maps[9][x][0], maps[9][x][1]);
+    }
 }
 

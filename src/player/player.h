@@ -13,12 +13,14 @@ typedef struct Player {
     int current_xp;
     int level;
     int current_hp;
-    inventory* inventory;
-} player;
+    Inventory* inventory;
+    int posX;
+    int posY;
+} Player;
 
 /**
  * Initialise un joueur de debut de partie
  * @return
  */
-player* initPlayer(item**);
-inventory* getInventory(player* player);
+Player* initPlayer(Item**);
+Inventory* getInventory(Player* player);

@@ -11,12 +11,12 @@
 #include <string.h>
 #include "inventory.h"
 
-inventory *initPlayerInventory(item **itemList) {
-    inventory *player_inventory = malloc(sizeof(inventory));
-    player_inventory->inventory_content = malloc(sizeof(item*) * 10);
+Inventory *initPlayerInventory(Item **itemList) {
+    Inventory *player_inventory = malloc(sizeof(Inventory));
+    player_inventory->inventory_content = malloc(sizeof(Item*) * 10);
     for (int i = 0; i < INVENTORY_SIZE; i++) {
-        player_inventory->inventory_content[i] = malloc(sizeof(item));
-        *(player_inventory->inventory_content[i]) = (item){0, "", "", 0, 0, 0, 0};
+        player_inventory->inventory_content[i] = malloc(sizeof(Item));
+        *(player_inventory->inventory_content[i]) = (Item){0, "", "", 0, 0, 0, 0};
     }
     appendItemToInventoryWhereEmpty(itemList, 1, player_inventory);
     appendItemToInventoryWhereEmpty(itemList, 2, player_inventory);
@@ -25,8 +25,8 @@ inventory *initPlayerInventory(item **itemList) {
     return player_inventory;
 }
 
-void appendItemToInventoryWhereEmpty(item** itemList, int itemId, inventory *inventory) {
-    item* item = getOneItem(itemList, itemId);
+void appendItemToInventoryWhereEmpty(Item** itemList, int itemId, Inventory *inventory) {
+    Item* item = getOneItem(itemList, itemId);
     for (int i = 0; i < INVENTORY_SIZE; i++) {
         if (inventory->inventory_content[i]->value == 0) {
             inventory->inventory_content[i]->value = item->value;
@@ -42,8 +42,8 @@ void appendItemToInventoryWhereEmpty(item** itemList, int itemId, inventory *inv
     }
 }
 
-void appendItemToInventoryAtIndex(item** itemList, int itemId, int index, inventory* inventory){
-    item* item = getOneItem(itemList, itemId);
+void appendItemToInventoryAtIndex(Item** itemList, int itemId, int index, Inventory* inventory){
+    Item* item = getOneItem(itemList, itemId);
     inventory->inventory_content[index]->value = item->value;
     inventory->inventory_content[index]->name = item->name;
     inventory->inventory_content[index]->type = item->type;
@@ -53,8 +53,8 @@ void appendItemToInventoryAtIndex(item** itemList, int itemId, int index, invent
     inventory->inventory_content[index]->protection = item->protection;
 }
 
-void appendRessourceDeCraft(item** itemList, int itemId, inventory* player_inventory){
-    item* item = getOneItem(itemList, itemId);
+void appendRessourceDeCraft(Item** itemList, int itemId, Inventory* player_inventory){
+    Item* item = getOneItem(itemList, itemId);
     for(int i = 0; i < INVENTORY_SIZE ; i++) {
         if(item->value == player_inventory->inventory_content[i]->value && player_inventory->inventory_content[i]->quantity < 20) {
             player_inventory->inventory_content[i]->quantity += 1;

@@ -1,7 +1,7 @@
 #include "player.h"
 
-player * initPlayer(item** item_list){
-    player * mainPlayer = malloc(sizeof(player));
+Player * initPlayer(Item** item_list){
+    Player * mainPlayer = malloc(sizeof(Player));
     mainPlayer->current_hp = 100;
     mainPlayer->level = 1;
     mainPlayer->current_xp=0;
@@ -9,6 +9,6 @@ player * initPlayer(item** item_list){
     return mainPlayer;
 }
 
-inventory* getInventory(player* player){
+Inventory* getInventory(Player* player){
     return player->inventory;
 }

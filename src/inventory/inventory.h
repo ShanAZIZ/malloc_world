@@ -14,10 +14,10 @@
 #define INVENTORY_SIZE 10
 
 typedef struct Inventory {
-    item** inventory_content;
-} inventory;
+    Item** inventory_content;
+} Inventory;
 
-inventory* initPlayerInventory(item** item_list);
-void appendItemToInventoryWhereEmpty(item** itemList, int itemId, inventory *inventory);
-void appendItemToInventoryAtIndex(item** itemList, int itemId, int index, inventory* inventory);
-void appendRessourceDeCraft(item** itemList, int itemId, inventory* player_inventory);
+Inventory* initPlayerInventory(Item** item_list);
+void appendItemToInventoryWhereEmpty(Item** itemList, int itemId, Inventory *inventory);
+void appendItemToInventoryAtIndex(Item** itemList, int itemId, int index, Inventory* inventory);
+void appendRessourceDeCraft(Item** itemList, int itemId, Inventory* player_inventory);

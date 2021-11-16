@@ -9,6 +9,8 @@ include_directories(src/inventory)
 add_executable(malloc_world
         src/inventory/inventory.c
         src/inventory/inventory.h
+        src/battles/battles.c
+        src/battles/battles.h
         src/items/items.c
         src/items/items.h
         src/player/player.c

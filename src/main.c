@@ -7,8 +7,9 @@
  * Par: DAILLY Armand
  */
 
-#include<stdio.h>
-#include<stdlib.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include "monsters/monsters.h"
 
 #include "battles/battles.h"
 

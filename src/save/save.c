@@ -58,13 +58,14 @@ void loadMapZone(int** map, int zone, int x, int y){
     }
 }
 
-void savePlayer(player* player){
+void savePlayer(player* player, storage* storage){
     FILE* player_save_file;
     player_save_file = fopen("save_player.txt", "w");
     if(player_save_file != NULL) {
         fprintf(player_save_file, "=== PLAYER ===\n");
         fprintf(player_save_file, "%d\n%d\n%d\n", player->level, player->current_xp, player->current_hp);
         saveInventory(player_save_file, player->inventory);
+        saveStorage(player_save_file, storage);
     }
     fclose(player_save_file);
 }
@@ -79,6 +80,14 @@ void saveInventory(FILE* save_file, inventory* inventory){
                 inventory->inventory_content[i]->value,
                 inventory->inventory_content[i]->durability
                 );
+    }
+}
+
+void saveStorage(FILE* player_save_file, storage* storage){
+    fprintf(player_save_file, "-- STORAGE --\n");
+    while(storage != NULL){
+        fprintf(player_save_file,"%d@%d\n", storage->item->quantity, storage->item->value);
+        storage = storage->next;
     }
 }
 
@@ -117,4 +126,21 @@ void loadPlayerInventory(FILE* player_save_file, inventory* player_inventory, it
             player_inventory->inventory_content[i]->durability = actual_durability;
         }
     }
+}
+
+storage* initTempStorage(item** itemList){
+    storage* tempStorage = malloc(sizeof(storage));
+    storage* tempStorage1 = malloc(sizeof(storage));
+    tempStorage->next = NULL;
+    item* tempItemStored1 = malloc(sizeof(item*));
+    item* tempItemStored2 = malloc(sizeof(item*));
+    tempItemStored1 = getOneItem(itemList, 6);
+    tempItemStored1->quantity = 10;
+    tempItemStored2 = getOneItem(itemList, 8);
+    tempItemStored2->quantity = 15;
+    tempStorage->item = tempItemStored1;
+    tempStorage->next = tempStorage1;
+    tempStorage1->item = tempItemStored2;
+    tempStorage1->next = NULL;
+    return tempStorage;
 }

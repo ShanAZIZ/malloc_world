@@ -51,8 +51,9 @@ int main(int argc, char const *argv[])
 
     appendRessourceDeCraft(item_list, 6, my_player->inventory);
     my_player->inventory->inventory_content[4]->quantity = 20;
+    storage* tempStorage = initTempStorage(item_list);
     //saveMap(map, map2, map3, 10, 10);
-    //savePlayer(my_player);
+    savePlayer(my_player, tempStorage);
     loadMapZone(map, 1, 10, 10);
     displayMap(map, 10, 10);
     loadPlayer(my_player, item_list);
@@ -61,6 +62,8 @@ int main(int argc, char const *argv[])
     printf("Inventory at index 4 name: %s \n", my_player->inventory->inventory_content[4]->name);
 
     //ladMapZone(map, 2, 10,10);o
+
+
 
     return 0;
 }

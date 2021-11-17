@@ -19,10 +19,18 @@
 
 #endif
 
+struct storage {
+    item* item;
+    struct storage* next;
+};
+typedef struct storage storage;
+
+storage* initTempStorage(item**);
 void saveZone(FILE*, int**, int, int);
 void saveMap(int**, int**, int**, int, int);
 void loadMapZone(int** map, int zone, int x, int y);
-void savePlayer(player* player);
+void savePlayer(player* player, storage* storage);
 void saveInventory(FILE*, inventory* inventory);
+void saveStorage(FILE* player_save_file, storage* storage);
 void loadPlayer(player* player, item**);
 void loadPlayerInventory(FILE* player_save_file, inventory* player_inventory, item**);

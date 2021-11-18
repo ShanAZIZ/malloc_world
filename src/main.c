@@ -53,17 +53,17 @@ int main(int argc, char const *argv[])
     my_player->inventory->inventory_content[4]->quantity = 20;
     storage* tempStorage = initTempStorage(item_list);
     //saveMap(map, map2, map3, 10, 10);
-    savePlayer(my_player, tempStorage);
+    //savePlayer(my_player, tempStorage);
     loadMapZone(map, 1, 10, 10);
     displayMap(map, 10, 10);
-    loadPlayer(my_player, item_list);
+    loadPlayer(my_player, item_list, tempStorage);
+    printf("storage first qty : %d \n", tempStorage->item->quantity);
+    printf("second value: %d \n", tempStorage->next->item->value);
     printf("level : %d \n", my_player->level);
     printf("Inventory at index 4 quantity: %d \n", my_player->inventory->inventory_content[4]->quantity);
     printf("Inventory at index 4 name: %s \n", my_player->inventory->inventory_content[4]->name);
 
     //ladMapZone(map, 2, 10,10);o
-
-
 
     return 0;
 }

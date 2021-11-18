@@ -24,5 +24,6 @@ typedef struct item item;
 
 item** createItemList(void);
 item* getOneItem(item** itemList, int itemId);
+item* setNewItemFromList(item** itemList, int itemId);
 
 #endif //MALLOC_WORLD_ITEMS_H

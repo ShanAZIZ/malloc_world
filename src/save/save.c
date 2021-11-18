@@ -91,7 +91,7 @@ void saveStorage(FILE* player_save_file, storage* storage){
     }
 }
 
-void loadPlayer(player* player, item** item_list){
+void loadPlayer(player* player, item** item_list, storage* storage){
     FILE* player_save_file;
     player_save_file = fopen("save_player.txt", "r");
     if(player_save_file != NULL){
@@ -102,6 +102,7 @@ void loadPlayer(player* player, item** item_list){
             fscanf(player_save_file, "%d\n", &player->current_xp);
             fscanf(player_save_file, "%d\n", &player->current_hp);
             loadPlayerInventory(player_save_file, player->inventory, item_list);
+            loadStorage(player_save_file, storage, item_list);
         }else {
             printf("Fichier invalide \n");
         }
@@ -127,6 +128,32 @@ void loadPlayerInventory(FILE* player_save_file, inventory* player_inventory, it
         }
     }
 }
+void loadStorage(FILE* player_save_file, storage* storage1, item** item_list){
+    signed char texte[256];
+    fgets(texte, 255, player_save_file);
+    if(strcmp(texte, "-- STORAGE --\n") == 0){
+        int actual_quantity;
+        int actual_value;
+        if(fscanf(player_save_file, "%d@%d\n", &actual_quantity, &actual_value) == 2){
+            printf("actual value : %d\n", actual_value);
+            storage1->item = setNewItemFromList(item_list, actual_value);
+            storage1->item->quantity = actual_quantity;
+            storage1->next= NULL;
+        }
+        while (fscanf(player_save_file, "%d@%d\n", &actual_quantity, &actual_value) == 2){
+            printf("actual value : %d\n", actual_value);
+            item* tempItem = setNewItemFromList(item_list, actual_value);
+            appendToStorage(storage1, tempItem);
+        }
+    }
+}
+
+storage* initEmptyStorage(){
+    storage* tempStorage = malloc(sizeof(storage));
+    tempStorage->item = NULL;
+    tempStorage->next = NULL;
+    return tempStorage;
+}
 
 storage* initTempStorage(item** itemList){
     storage* tempStorage = malloc(sizeof(storage));
@@ -134,13 +161,20 @@ storage* initTempStorage(item** itemList){
     tempStorage->next = NULL;
     item* tempItemStored1 = malloc(sizeof(item*));
     item* tempItemStored2 = malloc(sizeof(item*));
-    tempItemStored1 = getOneItem(itemList, 6);
+    tempItemStored1 = setNewItemFromList(itemList, 6);
     tempItemStored1->quantity = 10;
-    tempItemStored2 = getOneItem(itemList, 8);
+    tempItemStored2 = setNewItemFromList(itemList, 8);
     tempItemStored2->quantity = 15;
     tempStorage->item = tempItemStored1;
     tempStorage->next = tempStorage1;
     tempStorage1->item = tempItemStored2;
     tempStorage1->next = NULL;
     return tempStorage;
+}
+
+void appendToStorage(storage* storage1, item* item){
+    storage* storage2 = malloc(sizeof(storage));
+    storage2->item = item;
+    storage1->next = storage2;
+    storage2->next = NULL;
 }

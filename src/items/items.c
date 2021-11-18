@@ -49,3 +49,18 @@ item** createItemList(void){
 item* getOneItem(item** itemList, int itemId){
     return itemList[itemId];
 }
+
+item* setNewItemFromList(item** itemList, int itemId){
+    item* item1 = malloc(sizeof(item));
+    item* temp = getOneItem(itemList, itemId);
+    *(item1) = (item){0, "", "", 0, 0, 0, 0};
+    item1->value = temp->value;
+    item1->name = temp->name;
+    item1->type = temp->type;
+    item1->damage = temp->damage;
+    item1->durability = temp->durability;
+    item1->quantity = temp->quantity;
+    item1->protection = temp->protection;
+
+    return  item1;
+}

@@ -9,6 +9,7 @@ Player * initPlayer(Item** item_list){
     mainPlayer->posX = 4;
     mainPlayer->posY = 4;
     mainPlayer->inventory = initPlayerInventory(item_list);
+    mainPlayer->mapId = 0;
     return mainPlayer;
 }
 

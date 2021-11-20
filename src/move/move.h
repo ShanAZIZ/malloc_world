@@ -6,8 +6,20 @@
 #define MALLOC_WORLD_MOVE_H
 
 #include "../player/player.h"
-int** checkCanMove(int** map, player* player, int* playerPosX, int* playerPosY, int choice, int lenX, int lenY);
-int** collectRessources(int** map, player* player, int posX, int posY);
-int** move(int** map, player* player, int* playerPosX, int* playerPosY, int posX, int posY);
+
+typedef struct Game {
+    int ***maps;
+    Item **itemList;
+    Player *player;
+
+} Game;
+
+void checkCanMove(Game* game, int choice);
+int checkInInventory(Player* player, int itemId);
+int collectStone(Game* game, int posX, int posY);
+int collectWood(Game* game, int posX, int posY);
+int collectPlant(Game* game, int posX, int posY);
+void collectRessources(Game* game, int posX, int posY);
+void move(Game* game, int posX, int posY);
 
 #endif //MALLOC_WORLD_MOVE_H

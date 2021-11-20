@@ -177,7 +177,20 @@ void passPortal(Game* game, int idPortal){
 }
 
 void decrementTimers(Game* game){
-
+    for(int x = 0; x < game->maps[9][game->player->mapId / 3][0]; x += 1) {
+        for (int y = 0; y < game->maps[9][game->player->mapId / 3][1]; y += 1) {
+            if(game->maps[game->player->mapId + 1][x][y] != 0){
+                if(game->maps[game->player->mapId + 1][x][y] > 1){
+                    game->maps[game->player->mapId + 1][x][y] = game->maps[game->player->mapId + 1][x][y] - 1;
+                }else{
+                    if(game->maps[game->player->mapId][x][y] != 1){
+                        game->maps[game->player->mapId + 1][x][y] = 0;
+                        game->maps[game->player->mapId][x][y] = game->maps[game->player->mapId + 2][x][y];
+                    }
+                }
+            }
+        }
+    }
 }
 void move(Game* game, int posX, int posY) {
     if (game->maps[game->player->mapId][posX][posY] < 12 && game->maps[game->player->mapId][posX][posY] > 2) {

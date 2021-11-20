@@ -40,6 +40,7 @@ int main(int argc, char const *argv[]) {
             checkCanMove(game, input);
             displayMap(game->maps[game->player->mapId], game->maps[9][game->player->mapId / 3][0],
                        game->maps[9][game->player->mapId / 3][1]);
+            decrementTimers(game);
         }
     }
     printf("Leaving the game");

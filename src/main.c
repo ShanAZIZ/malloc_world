@@ -41,6 +41,7 @@ int main(int argc, char const *argv[]) {
             displayMap(game->maps[game->player->mapId], game->maps[9][game->player->mapId / 3][0],
                        game->maps[9][game->player->mapId / 3][1]);
             decrementTimers(game);
+            fflush(stdin);
         }
     }
     printf("Leaving the game");

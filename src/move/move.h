@@ -19,7 +19,7 @@ int checkInInventory(Player* player, int itemId);
 int collectStone(Game* game, int posX, int posY);
 int collectWood(Game* game, int posX, int posY);
 int collectPlant(Game* game, int posX, int posY);
-void collectRessources(Game* game, int posX, int posY);
+void collectResources(Game* game, int posX, int posY);
 void findPortal(Game* game, int idPortal);
 void passPortal(Game* game, int idPortal);
 void decrementTimers(Game* game);

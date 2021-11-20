@@ -111,7 +111,7 @@ int collectPlant(Game *game, int posX, int posY) {
     return -1;
 }
 
-void collectRessources(Game *game, int posX, int posY) {
+void collectResources(Game *game, int posX, int posY) {
     if (game->maps[game->player->mapId][posX][posY] == 4 || game->maps[game->player->mapId][posX][posY] == 7 || game->maps[game->player->mapId][posX][posY] == 10) {
         if (collectStone(game, posX, posY) == 1) {
             game->maps[game->player->mapId][game->player->posX][game->player->posY] = 0;
@@ -159,7 +159,7 @@ void findPortal(Game* game, int idPortal){
 }
 
 void passPortal(Game* game, int idPortal){
-    if(game->player->mapId == 0 && game->player->level <= 3){
+    if(game->player->mapId == 0 && game->player->level >= 3){
         game->player->mapId = 3;
         findPortal(game, idPortal);
     }else if(game->player->mapId == 6){
@@ -169,7 +169,7 @@ void passPortal(Game* game, int idPortal){
         if(idPortal == -2){
             game->player->mapId = 0;
             findPortal(game, idPortal);
-        }else if(idPortal == -3 && game->player->level <= 7){
+        }else if(idPortal == -3 && game->player->level >= 7){
             game->player->mapId = 6;
             findPortal(game, idPortal);
         }
@@ -194,11 +194,11 @@ void decrementTimers(Game* game){
 }
 void move(Game* game, int posX, int posY) {
     if (game->maps[game->player->mapId][posX][posY] < 12 && game->maps[game->player->mapId][posX][posY] > 2) {
-        collectRessources(game, posX, posY);
+        collectResources(game, posX, posY);
     } else if (game->maps[game->player->mapId][posX][posY] == 2) {
         printf("pnj\n");
     } else if (game->maps[game->player->mapId][posX][posY] == -1) {
-        printf("Je ne peux pas\n");
+        printf("I can't\n");
     } else if (game->maps[game->player->mapId][posX][posY] < 100 && game->maps[game->player->mapId][posX][posY] > 11) {
         printf("monstre\n");
     } else if (game->maps[game->player->mapId][posX][posY] == -2 || game->maps[game->player->mapId][posX][posY] == -3) {

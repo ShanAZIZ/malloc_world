@@ -27,7 +27,7 @@ int main(int argc, char const *argv[]) {
     game->itemList = createItemList();
 
     game->player = initPlayer(game->itemList);
-
+    game->player->level = 3;
     displayMap(game->maps[0], game->maps[9][0][0], game->maps[9][0][1]);
 
     int done = 0;
@@ -42,6 +42,6 @@ int main(int argc, char const *argv[]) {
                        game->maps[9][game->player->mapId / 3][1]);
         }
     }
-
+    printf("Leaving the game");
     return 0;
 }

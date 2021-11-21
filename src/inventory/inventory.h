@@ -15,12 +15,9 @@
 
 typedef struct Inventory {
     Item** inventory_content;
-
 } Inventory;
 
 Inventory* initPlayerInventory(Item** item_list);
 void appendItemToInventoryWhereEmpty(Item** itemList, int itemId, Inventory *inventory);
-void appendNewItemToInventory(Item** itemList, Item* item, Inventory* player_inventory);
+void appendItemToInventoryAtIndex(Item** itemList, int itemId, int index, Inventory* inventory);
 void appendRessourceDeCraft(Item** itemList, int itemId, Inventory* player_inventory);
-
-

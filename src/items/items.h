@@ -3,9 +3,10 @@
  * Made by: GROUPE 5 - AL2
  * Projet: Malloc-World
  * Date de création: 15/10/2021
- * Dernière modification : 15/10/2021
- * Par: DAILLY Armand
+ * Dernière modification : 21/11/2021
+ * Par: AZIZ Shana
  */
+
 
 typedef struct Item {
     int value;
@@ -23,5 +24,7 @@ typedef struct Item {
 
 Item** createItemList();
 Item* getOneItem(Item**, int);
+Item* setNewItemFromList(Item** itemList, int itemId);
+
 
 #endif //MALLOC_WORLD_ITEMS_H

@@ -19,9 +19,12 @@ typedef struct Player {
     int mapId;
 } Player;
 
+
 /**
  * Initialise un joueur de debut de partie
  * @return
  */
+
 Player* initPlayer(Item**);
 Inventory* getInventory(Player* player);
+

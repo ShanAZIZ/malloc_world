@@ -13,8 +13,7 @@
 
 Inventory *initPlayerInventory(Item **itemList) {
     Inventory *player_inventory = malloc(sizeof(Inventory));
-
-    player_inventory->inventory_content = malloc(sizeof(Item*) * INVENTORY_SIZE);
+    player_inventory->inventory_content = malloc(sizeof(Item*) * 10);
     for (int i = 0; i < INVENTORY_SIZE; i++) {
         player_inventory->inventory_content[i] = malloc(sizeof(Item));
         *(player_inventory->inventory_content[i]) = (Item){0, "", "", 0, 0, 0, 0};
@@ -42,30 +41,33 @@ void appendItemToInventoryWhereEmpty(Item** itemList, int itemId, Inventory *inv
     }
 }
 
-void appendNewItemToInventory(Item** itemList, Item* item, Inventory *player_inventory) {
-
-    if (strcmp(item->type, "Soin") == 0) {
-        appendItemToInventoryWhereEmpty(itemList, item->value, player_inventory);
+void appendItemToInventoryAtIndex(Item** itemList, int itemId, int index, Inventory* inventory){
+    if(itemId != 0){
+        Item* item = getOneItem(itemList, itemId);
+        inventory->inventory_content[index]->value = item->value;
+        inventory->inventory_content[index]->name = item->name;
+        inventory->inventory_content[index]->type = item->type;
+        inventory->inventory_content[index]->damage = item->damage;
+        inventory->inventory_content[index]->durability = item->durability;
+        inventory->inventory_content[index]->quantity = item->quantity;
+        inventory->inventory_content[index]->protection = item->protection;
     }
+    else {
+        *(inventory->inventory_content[index]) = (Item){0, "", "", 0, 0, 0, 0};
+    }
+
 
 }
 
 void appendRessourceDeCraft(Item** itemList, int itemId, Inventory* player_inventory){
-    Item** itemList2 = createItemList();
     Item* item = getOneItem(itemList, itemId);
-    int result;
-    result = 0;
     for(int i = 0; i < INVENTORY_SIZE ; i++) {
         if(item->value == player_inventory->inventory_content[i]->value && player_inventory->inventory_content[i]->quantity < 20) {
             player_inventory->inventory_content[i]->quantity += 1;
-            result = 1;
+            break;
+        }else if(player_inventory->inventory_content[i]->value == 0){
+            appendItemToInventoryWhereEmpty(itemList, itemId, player_inventory);
             break;
         }
     }
-    if(result == 0){
-        appendItemToInventoryWhereEmpty(itemList2, itemId, player_inventory);
-    }
 }
-
-
-

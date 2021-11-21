@@ -49,6 +49,22 @@ Item** createItemList(){
     return itemList;
 }
 
+
 Item* getOneItem(Item** itemList, int id){
     return itemList[id];
+}
+
+// TODO: Tester si la valeur n'est pas réécraseé
+Item* setNewItemFromList(Item** itemList, int id){
+    Item* item1 = malloc(sizeof(Item));
+    Item* temp = getOneItem(itemList, id);
+    *(item1) = (Item){0, "", "", 0, 0, 0, 0};
+    item1->value = temp->value;
+    item1->name = temp->name;
+    item1->type = temp->type;
+    item1->damage = temp->damage;
+    item1->durability = temp->durability;
+    item1->quantity = temp->quantity;
+    item1->protection = temp->protection;
+    return  item1;
 }

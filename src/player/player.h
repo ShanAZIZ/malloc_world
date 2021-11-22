@@ -14,6 +14,9 @@ typedef struct Player {
     int level;
     int current_hp;
     Inventory* inventory;
+    int posX;
+    int posY;
+    int mapId;
 } Player;
 
 /**

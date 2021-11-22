@@ -1,52 +1,50 @@
 /**
  * FILENAME: main.c
- * Made by: GROUPE 5 - AL2 
+ * Made by: GROUPE 5 - AL2
  * Projet: Malloc-World
  * Date de création: 09/10/2021
  * Dernière modification : 22/10/2021
  * Par: DAILLY Armand
  */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include "monsters/monsters.h"
+#include<stdio.h>
+#include<stdlib.h>
 
 #include "battles/battles.h"
+#include "move/move.h"
+#include <time.h>
+#include "map/map.h"
 
-int main(int argc, char const *argv[])
-{
-    Item** itemList = createItemList();
-    Player *player = initPlayer(itemList);
-    Monster** monsterList = createMonsterList();
-    Monster* monster = getOneMonster(monsterList, 12);
-    appendItemToInventoryWhereEmpty(itemList, 26, player->inventory);
-    appendItemToInventoryWhereEmpty(itemList, 11, player->inventory);
+int main(int argc, char const *argv[]) {
+    srand(time(NULL));
+    int x = 10;
+    int y = 10;
+    int zone = 1;
 
-    menu(player, monster);
-}
+    Game *game = malloc(sizeof(Game));
+    game->maps = initAllMaps(x, y);
+    game->maps[0][4][4] = 1;
+    fillAllMaps(game->maps, zone);
+    game->itemList = createItemList();
 
-/*
- *
- * Generator experience
- *  #include<math.h>
-    long total = 0;
-    int level;
+    game->player = initPlayer(game->itemList);
 
-    long tnl = 100;
+    displayMap(game->maps[0], game->maps[9][0][0], game->maps[9][0][1]);
 
-    double factor = 0.95;
-
-    int levels = 20;
-
-    printf("%-10s|  %-13s|  %-13s\n", "Level", "Exp acquired", "Exp until next level");
-    printf("-------------------------------------------\n");
-    for (level = 1; level <= levels; level++)
-    {
-        printf("Level %2d  |  %-12ld |  %-12ld |\n", level, total, tnl);
-        total += tnl;
-        tnl = tnl * (1 + pow(factor, level));
+    int done = 0;
+    int input = 0;
+    while (done == 0) {
+        scanf("%d", &input);
+        if (input == 5) {
+            done = 1;
+        } else {
+            checkCanMove(game, input);
+            displayMap(game->maps[game->player->mapId], game->maps[9][game->player->mapId / 3][0],
+                       game->maps[9][game->player->mapId / 3][1]);
+            decrementTimers(game);
+            fflush(stdin);
+        }
     }
-
+    printf("Leaving the game");
     return 0;
- *
- */
+}

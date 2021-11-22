@@ -14,6 +14,9 @@
 
 #include<stdio.h>
 #include<stdlib.h>
+#include "move.h"
+#include "save.h"
+#include "map.h"
 
 /**
  * Entry point of the CLI
@@ -35,12 +38,12 @@ int mainMenu();
 /**
  * Action after user choice
  */
-void mainMenuAction();
+void mainMenuAction(Game* game);
 
 /**
  * Launch a new game
  */
-void newGame();
+void newGame(Game* game);
 
 /**
  * Play menu
@@ -50,4 +53,15 @@ int tourMenu();
 /**
  * Play
  */
-void tour();
+void tourAction(Game* game);
+
+/**
+ * Lancer le deplacement du joueur
+ * @param game
+ */
+int callMove(Game* game);
+
+/**
+ * Launch tests written for development Feature
+ */
+void test(Game* game);

@@ -31,86 +31,91 @@ int mainMenu(){
     return value;
 }
 
-void mainMenuAction() {
+void mainMenuAction(Game* game) {
     int value;
     do {
         value = mainMenu();
         switch (value) {
             case 1:
-                printf("\nDebut d'une partie ");
-                newGame();
+                printf("\nDebut d'une partie \n");
+                newGame(game);
                 break;
             case 2:
-                printf("\nChargement d'une partie ");
+                printf("\nChargement d'une partie \n");
+                storage* tempStorage = initTempStorage(game->itemList); // A supprimer plus tard
+                loadGame(game, tempStorage);
+                newGame(game);
                 break;
             case 3:
-                printf("\nLancement des tests ");
+                printf("\nLancement des tests \n");
+                test(game);
                 break;
             case 0:
-                printf("\nJeu stopper ! ");
+                printf("\nFin ! \n");
                 break;
             default:
-                printf("\nChoix incorrect");
+                printf("\nChoix incorrect\n");
                 break;
         }
     } while (value != 0);
 }
 
 
-void start(){
+void start(Game* game){
     title();
-    mainMenuAction();
+    mainMenuAction(game);
 }
 
-void newGame(){
-    // Initialisation du jeu ( se fera dans un module game)
-    // Affichage de la map 1
-    // Ici l'enchainement des tours dans une fonction
-    // Pour le moment un seul tour
-    // Enchainement des tours dans une fonction
-    printf("\n Etat du joueur a ce tour et coordonnee peut etre");
-    // Afficher l'etat du joueur ( santé etc)
-    int game;
+void newGame(Game* game){
+    int choice;
     do {
+        printf("\n---- Joueur ----- \n");
+        printf("niveau : %d\n", game->player->level);
+        printf("sante : %d\n", game->player->current_hp);
+        printf("xp : %d\n", game->player->current_xp);
+        printf("position : %d | %d\n", game->player->posX, game->player->posY);
+        printf("map : %d\n", game->player->mapId/3);
         printf("\n1. Jouer");
         printf("\n2. Sauvegarder la partie");
         printf("\n0. Quitter la partie");
         printf("\nVotre choix : ");
-        scanf("%d", &game);
-        switch (game) {
+        scanf(" %d", &choice);
+        switch (choice) {
             case 1:
-                tour();// prendra en paramètre la map, le joueur et la liste d'item
+                tourAction(game);// prendra en paramètre la map, le joueur et la liste d'item
                 break;
             case 2:
-                printf("\nSauvegarder");
+                printf("\nSauvegarde..");
+                storage* tempStorage = initTempStorage(game->itemList); // A supprimer plus tard
+                saveGame(game, tempStorage);
                 break;
             case 0:
                 break;
             default:
                 printf("\nChoix incorrect");
         }
-    } while (game != 0);
+    } while (choice != 0);
 }
 
 int tourMenu(){
     int value;
     printf("\nQue souhaitez vous faire : ");
-    printf("\n     1. Effectuer une action (se deplacer, interagir avec les alentours) ");
-    printf("\n     2. Mon inventaire");
-    printf("\n     0. Terminer le tour ");
+    printf("\n1. Me deplacer ");
+    printf("\n2. Mon inventaire");
+    printf("\n0. Terminer le tour ");
     printf("\nVotre choix : ");
-    scanf("%d", &value);
+    scanf(" %d", &value);
     return value;
 }
 
-void tourAction(){
+void tourAction(Game* game){
     int value;
     do {
         value = tourMenu();
         switch (value) {
             case 1:
-                printf("\nLe menu d'interaction dynamique selon l'emplacement du joueur ");
-                value = 0;
+                printf("\n");
+                value = callMove(game);
                 break;
             case 2:
                 printf("\nInventaire du joueur ");
@@ -123,4 +128,60 @@ void tourAction(){
                 printf("\nChoix incorrect");
         }
     }while (value != 0);
+}
+
+int callMove(Game* game){
+    int input;
+    int done;
+    displayMap(game->maps[game->player->mapId], game->maps[9][game->player->mapId / 3][0],
+               game->maps[9][game->player->mapId / 3][1]);
+    printf("1. Haut\n");
+    printf("2. Droite\n");
+    printf("3. Bas\n");
+    printf("4. Gauche\n");
+    printf("5. Passer\n");
+    scanf(" %d", &input);
+    if (input == 5) {
+        done = 0;
+    } else {
+        checkCanMove(game, input);
+        displayMap(game->maps[game->player->mapId], game->maps[9][game->player->mapId / 3][0],
+                   game->maps[9][game->player->mapId / 3][1]);
+        decrementTimers(game);
+        fflush(stdin);
+    }
+    return done;
+}
+
+void test(Game* game){
+    storage* tempStorage = initTempStorage(game->itemList); // A supprimer plus tard
+    game->player->level = 3;
+    displayMap(game->maps[0], game->maps[9][0][0], game->maps[9][0][1]);
+    //loadMap(game);
+    int done = 0;
+    int input = 0;
+
+
+    //saveGame(game, tempStorage);
+    //loadGame(game, tempStorage);
+    //loadPlayer(game->player, game->itemList, tempStorage);
+    printf("first value : %d \n", tempStorage->item->value);
+    printf("second value: %d \n", tempStorage->next->item->value);
+
+    printf("level : %d \n", game->player->level);
+    printf("Inventory at index 4 quantity: %d \n", game->player->inventory->inventory_content[4]->quantity);
+    printf("Inventory at index 4 name: %s \n", game->player->inventory->inventory_content[4]->name);
+    while (done == 0) {
+        scanf("%d", &input);
+        if (input == 5) {
+            done = 1;
+        } else {
+            checkCanMove(game, input);
+            displayMap(game->maps[game->player->mapId], game->maps[9][game->player->mapId / 3][0],
+                       game->maps[9][game->player->mapId / 3][1]);
+            decrementTimers(game);
+            fflush(stdin);
+        }
+    }
+    printf("Leaving the game");
 }

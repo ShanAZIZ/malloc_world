@@ -19,6 +19,8 @@ int main(int argc, char const *argv[])
     Player *player = initPlayer(itemList);
     Monster** monsterList = createMonsterList();
     Monster* monster = getOneMonster(monsterList, 12);
+    appendItemToInventoryWhereEmpty(itemList, 26, player->inventory);
+    appendItemToInventoryWhereEmpty(itemList, 11, player->inventory);
 
     menu(player, monster);
 }

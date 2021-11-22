@@ -114,31 +114,19 @@ int collectPlant(Game *game, int posX, int posY) {
 void collectResources(Game *game, int posX, int posY) {
     if (game->maps[game->player->mapId][posX][posY] == 4 || game->maps[game->player->mapId][posX][posY] == 7 || game->maps[game->player->mapId][posX][posY] == 10) {
         if (collectStone(game, posX, posY) == 1) {
-            game->maps[game->player->mapId][game->player->posX][game->player->posY] = 0;
-            game->maps[game->player->mapId][posX][posY] = 1;
-            game->maps[game->player->mapId + 1][posX][posY] = 10;
-            game->player->posX = posX;
-            game->player->posY = posY;
+            movePlayerAddTimer(game, posX, posY, 10);
         }else{
             printf("I don't have the tool or it has no durability left");
         }
     } else if (game->maps[game->player->mapId][posX][posY] == 5 || game->maps[game->player->mapId][posX][posY] == 8 || game->maps[game->player->mapId][posX][posY] == 11) {
         if (collectWood(game, posX, posY) == 1) {
-            game->maps[game->player->mapId][game->player->posX][game->player->posY] = 0;
-            game->maps[game->player->mapId][posX][posY] = 1;
-            game->maps[game->player->mapId + 1][posX][posY] = 10;
-            game->player->posX = posX;
-            game->player->posY = posY;
+            movePlayerAddTimer(game, posX, posY, 10);
         }else{
             printf("I don't have the tool or it has no durability left");
         }
     } else if (game->maps[game->player->mapId][posX][posY] == 3 || game->maps[game->player->mapId][posX][posY] == 6 || game->maps[game->player->mapId][posX][posY] == 9) {
         if (collectPlant(game, posX, posY) == 1) {
-            game->maps[game->player->mapId][game->player->posX][game->player->posY] = 0;
-            game->maps[game->player->mapId][posX][posY] = 1;
-            game->maps[game->player->mapId + 1][posX][posY] = 10;
-            game->player->posX = posX;
-            game->player->posY = posY;
+            movePlayerAddTimer(game, posX, posY, 10);
         }else{
             printf("I don't have the tool or it has no durability left");
         }
@@ -206,7 +194,7 @@ void move(Game* game, int posX, int posY) {
     } else if (game->maps[game->player->mapId][posX][posY] == -1) {
         printf("I can't\n");
     } else if (game->maps[game->player->mapId][posX][posY] < 100 && game->maps[game->player->mapId][posX][posY] > 11) {
-        printf("monstre\n");
+        menu(game->player, game->monsterList[game->maps[game->player->mapId][posX][posY]], game, posX, posY);
     } else if (game->maps[game->player->mapId][posX][posY] == -2 || game->maps[game->player->mapId][posX][posY] == -3) {
         passPortal(game, game->maps[game->player->mapId][posX][posY]);
     } else {
@@ -215,4 +203,12 @@ void move(Game* game, int posX, int posY) {
         game->player->posY = posY;
         game->player->posX = posX;
     }
+}
+
+void movePlayerAddTimer(Game *game, int posX, int posY, int timer) {
+    game->maps[game->player->mapId][game->player->posX][game->player->posY] = 0;
+    game->maps[game->player->mapId][posX][posY] = 1;
+    game->maps[game->player->mapId + 1][posX][posY] = timer;
+    game->player->posX = posX;
+    game->player->posY = posY;
 }

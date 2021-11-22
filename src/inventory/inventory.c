@@ -62,7 +62,7 @@ void appendRessourceDeCraft(Item** itemList, int itemId, Inventory* player_inven
         }
     }
     if(result == 0){
-        appendItemToInventoryWhereEmpty(itemList2, itemId, player_inventory);
+        appendItemToInventoryWhereEmpty(itemList, itemId, player_inventory);
     }
 }
 

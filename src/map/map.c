@@ -221,7 +221,7 @@ int** placeMonsters(int** map, int width, int height, int zone){
         randomPosX = rand() % width;
         randomPosY = rand() % height;
         if(map[randomPosX][randomPosY] == 0){
-            map[randomPosX][randomPosY] = rand() % 85 + 12;
+            map[randomPosX][randomPosY] = rand() % 3 + 9 + (zone * 3);
             cpt_monster += 1;
         }
     }

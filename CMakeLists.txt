@@ -17,7 +17,6 @@ add_executable(malloc_world
         src/player/player.c
         src/player/player.h
         src/map/map.c
-        src/main.c src/move/move.h src/move/move.c)
-
         src/monsters/monsters.c
         src/monsters/monsters.h
+        src/main.c src/move/move.h src/move/move.c src/include/structures.h)

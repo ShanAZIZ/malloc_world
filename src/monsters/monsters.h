@@ -10,14 +10,7 @@
 #ifndef MALLOC_WORLD_MONSTERS_H
 #define MALLOC_WORLD_MONSTERS_H
 
-typedef struct monster {
-    int id;
-    char *name;
-    unsigned short hp;
-    unsigned short att;
-    unsigned short def;
-    unsigned short xp;
-}Monster;
+#include "../include/structures.h"
 
 Monster** createMonsterList(void);
 Monster* getOneMonster(Monster **monsterList, int monsterId);

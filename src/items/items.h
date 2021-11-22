@@ -7,19 +7,10 @@
  * Par: DAILLY Armand
  */
 
-typedef struct Item {
-    int value;
-    char *name;
-    char *type;
-    unsigned short damage;
-    unsigned short durability;
-    unsigned short quantity;
-    unsigned short protection;
-} Item;
-
-
 #ifndef MALLOC_WORLD_ITEMS_H
 #define MALLOC_WORLD_ITEMS_H
+
+#include "../include/structures.h"
 
 Item** createItemList();
 Item* getOneItem(Item**, int);

@@ -51,13 +51,13 @@ int weaponChoice(Player* player) {
 }
 
 Monster* battle(Player* player, Monster* monster, int idWeapon) {
-    monster->hp -= getOneItem(player->inventory->inventory_content, player->inventory->inventory_content[idWeapon]->value)->damage;
+    monster->hp -= player->inventory->inventory_content[idWeapon]->damage;
     printf("%d\n", player->current_hp);
     player->inventory->inventory_content[idWeapon]->durability -= 1;
     return monster;
 }
 
-int menu(Player* player, Monster* monster) {
+int menu(Player* player, Monster* monster, Game* game, int posX, int posY) {
     int idWeapon = weaponChoice(player);
     int maxArmor = armorChoice(player);
 
@@ -75,6 +75,9 @@ int menu(Player* player, Monster* monster) {
         scanf("%d", &choice);
         res = roundChoices(player, copyMonster, choice, idWeapon, maxArmor);
         if(res == 1 || res == 2 || res == 3) {
+            if(res == 1) {
+                movePlayerAddTimer(game, posX, posY, 15);
+            }
             break;
         }
     } while(1);
@@ -117,6 +120,7 @@ int roundChoices(Player* player, Monster* monster, int choice, int idWeapon, int
     }
 
     player->current_hp -= (monster->att * (1 - (0.01 * maxArmor)));
+    printf("HP monstre : %d\n", monster->hp);
 
     return 0;
 }

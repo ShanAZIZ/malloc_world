@@ -6,13 +6,7 @@
 #define MALLOC_WORLD_MOVE_H
 
 #include "../player/player.h"
-
-typedef struct Game {
-    int ***maps;
-    Item **itemList;
-    Player *player;
-
-} Game;
+#include "../battles/battles.h"
 
 void checkCanMove(Game* game, int choice);
 int checkInInventory(Player* player, int itemId);
@@ -24,5 +18,6 @@ void findPortal(Game* game, int idPortal);
 void passPortal(Game* game, int idPortal);
 void decrementTimers(Game* game);
 void move(Game* game, int posX, int posY);
+void movePlayerAddTimer(Game *game, int posX, int posY, int timer);
 
 #endif //MALLOC_WORLD_MOVE_H

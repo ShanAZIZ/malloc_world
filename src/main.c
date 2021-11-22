@@ -26,7 +26,7 @@ int main(int argc, char const *argv[]) {
     game->maps[0][4][4] = 1;
     fillAllMaps(game->maps, zone);
     game->itemList = createItemList();
-
+    game->monsterList = createMonsterList();
     game->player = initPlayer(game->itemList);
 
     displayMap(game->maps[0], game->maps[9][0][0], game->maps[9][0][1]);

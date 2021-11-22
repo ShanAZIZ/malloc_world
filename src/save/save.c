@@ -9,25 +9,22 @@
 
 #include "save.h"
 
-void saveMap(Game* game){
-    FILE* map_save_file;
-    map_save_file = fopen("save_map.txt", "w");
+void saveMap(Game* game, FILE* save_file){
     //Recuperer ce qu'il y a à l'emplacement actuel du joueur sur la map source
     int temp_player_position_item = game->maps[game->player->mapId+2][game->player->posX][game->player->posY];
     //Placer le joueur sur la map mirroir
     game->maps[game->player->mapId+2][game->player->posX][game->player->posY] = 1;
-    if(map_save_file != NULL){
-        fprintf(map_save_file, "=== MAP ===\n");
-        fprintf(map_save_file, "-- ZONE 1 --\n");
-        saveZone(map_save_file, game->maps[2], game->maps[9][0][0], game->maps[9][0][1]);
-        fprintf(map_save_file, "-- ZONE 2 --\n");
-        saveZone(map_save_file, game->maps[5],game->maps[9][1][0], game->maps[9][1][1]);
-        fprintf(map_save_file, "-- ZONE 3 --\n");
-        saveZone(map_save_file,game->maps[8],game->maps[9][2][0], game->maps[9][2][1]);
+    if(save_file != NULL){
+        fprintf(save_file, "=== MAP ===\n");
+        fprintf(save_file, "-- ZONE 1 --\n");
+        saveZone(save_file, game->maps[2], game->maps[9][0][0], game->maps[9][0][1]);
+        fprintf(save_file, "-- ZONE 2 --\n");
+        saveZone(save_file, game->maps[5],game->maps[9][1][0], game->maps[9][1][1]);
+        fprintf(save_file, "-- ZONE 3 --\n");
+        saveZone(save_file,game->maps[8],game->maps[9][2][0], game->maps[9][2][1]);
     }
     //Replacer ce qu'il y a à l'emplacement actuel du joueur sur la map source
     game->maps[game->player->mapId+2][game->player->posX][game->player->posY] = temp_player_position_item;
-    fclose(map_save_file);
 }
 
 void saveZone(FILE* map_save_file, int** zone, int x, int y){
@@ -42,28 +39,26 @@ void saveZone(FILE* map_save_file, int** zone, int x, int y){
     }
 }
 
-void loadMap(Game* game){
+void loadMap(Game* game, FILE* save_file){
     for(int i = 0; i<3; i+=1){
-        loadMapZone(game->maps[i*3], i+1, game->maps[9][i][0], game->maps[9][i][1], game->player);
+        loadMapZone(save_file,game->maps[i*3], i+1, game->maps[9][i][0], game->maps[9][i][1], game->player);
         fillBaseMap(game->maps[i*3], game->maps[i*3+2], game->maps[9][i][0], game->maps[9][i][1]);
     }
     game->maps[game->player->mapId][game->player->posX][game->player->posY] = 1;
 }
 
-void loadMapZone(int** map, int zone, int x, int y, Player* player){
-    FILE* map_save_file;
-    map_save_file = fopen("save_map.txt", "r");
-    if(map_save_file != NULL){
+void loadMapZone(FILE* save_file, int** map, int zone, int x, int y, Player* player){
+    if(save_file != NULL){
         int value;
         char zoneStr[14];
         snprintf(zoneStr, 14, "-- ZONE %d --\n", zone); // puts string into buffer
         signed char texte[256];
         do {
-            fgets(texte, 255, map_save_file);
+            fgets(texte, 255, save_file);
             if(strcmp(texte,zoneStr) == 0){
                 for( int i=0; i<x; i++){
                     for(int j = 0; j<y; j++){
-                        fscanf(map_save_file,"%d", &value);
+                        fscanf(save_file,"%d", &value);
                         if(value !=1){
                             map[i][j] = value;
                         } else {
@@ -80,16 +75,13 @@ void loadMapZone(int** map, int zone, int x, int y, Player* player){
     }
 }
 
-void savePlayer(Player* player, storage* storage){
-    FILE* player_save_file;
-    player_save_file = fopen("save_player.txt", "w");
-    if(player_save_file != NULL) {
-        fprintf(player_save_file, "=== PLAYER ===\n");
-        fprintf(player_save_file, "%d\n%d\n%d\n", player->level, player->current_xp, player->current_hp);
-        saveInventory(player_save_file, player->inventory);
-        saveStorage(player_save_file, storage);
+void savePlayer(FILE* save_file, Player* player, storage* storage){
+    if(save_file != NULL) {
+        fprintf(save_file, "=== PLAYER ===\n");
+        fprintf(save_file, "%d\n%d\n%d\n", player->level, player->current_xp, player->current_hp);
+        saveInventory(save_file, player->inventory);
+        saveStorage(save_file, storage);
     }
-    fclose(player_save_file);
 }
 
 void saveInventory(FILE* save_file, Inventory* inventory){
@@ -113,25 +105,23 @@ void saveStorage(FILE* player_save_file, storage* storage){
     }
 }
 
-void loadPlayer(Player* player, Item** item_list, storage* storage){
-    FILE* player_save_file;
-    player_save_file = fopen("save_player.txt", "r");
-    if(player_save_file != NULL){
+void loadPlayer(FILE* save_file, Player* player, Item** item_list, storage* storage){
+    if(save_file != NULL){
         signed char texte[256];
-        fgets(texte, 255, player_save_file);
-        if(strcmp(texte, "=== PLAYER ===\n") == 0){
-            fscanf(player_save_file, "%d\n", &player->level);
-            fscanf(player_save_file, "%d\n", &player->current_xp);
-            fscanf(player_save_file, "%d\n", &player->current_hp);
-            loadPlayerInventory(player_save_file, player->inventory, item_list);
-            loadStorage(player_save_file, storage, item_list);
-        }else {
-            printf("Fichier invalide \n");
-        }
+        do {
+            fgets(texte, 255, save_file);
+            if(strcmp(texte, "=== PLAYER ===\n") == 0) {
+                fscanf(save_file, "%d\n", &player->level);
+                fscanf(save_file, "%d\n", &player->current_xp);
+                fscanf(save_file, "%d\n", &player->current_hp);
+                loadPlayerInventory(save_file, player->inventory, item_list);
+                loadStorage(save_file, storage, item_list);
+                break;
+            }
+        } while (texte!= NULL);
     } else {
         printf("Impossible d'ouvrir le fichier de sauvegarder");
     }
-    fclose(player_save_file);
 }
 
 void loadPlayerInventory(FILE* player_save_file, Inventory* player_inventory, Item** item_list){
@@ -170,12 +160,26 @@ void loadStorage(FILE* player_save_file, storage* storage1, Item** item_list){
     }
 }
 
-storage* initEmptyStorage(){
-    storage* tempStorage = malloc(sizeof(storage));
-    tempStorage->item = NULL;
-    tempStorage->next = NULL;
-    return tempStorage;
+void saveGame(Game* game, storage* storage){
+    FILE* save_file;
+    save_file = fopen("save.txt", "w");
+    if(save_file != NULL){
+        saveMap(game, save_file);
+        savePlayer(save_file, game->player, storage);
+    }
+    fclose(save_file);
 }
+
+void loadGame(Game* game, storage* storage){
+    FILE* save_file;
+    save_file = fopen("save.txt", "r");
+    if(save_file != NULL){
+        loadMap(game, save_file);
+        loadPlayer(save_file, game->player, game->itemList, storage);
+    }
+    fclose(save_file);
+}
+
 
 storage* initTempStorage(Item** itemList){
     storage* tempStorage = malloc(sizeof(storage));

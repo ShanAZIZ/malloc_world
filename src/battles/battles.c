@@ -14,37 +14,54 @@ void initHpByLevel(Player* player) {
 void updateXP(Player* player, Monster* monster) {
     player->current_xp += monster->xp;
     for(int i = 0; i < 11; i++) {
-        if(player->current_xp <= xpEvolution[i] && player->current_xp > xpEvolution[i++]) {
+        if(player->current_xp >= xpEvolution[i] && player->current_xp < xpEvolution[++i]) {
             player->level = i;
             initHpByLevel(player);
         }
     }
 }
 
-void battle(Player* player, Monster* monster, int round, int idWeapon) {
+Monster* battle(Player* player, Monster* monster, int round, int idWeapon) {
     if(round % 2 == 0) {
-        monster->current_hp -= getOneItem(player->inventory->inventory_content, 2)->damage;
+        monster->hp -= getOneItem(player->inventory->inventory_content, 0)->damage;
     } else {
-        player->current_hp -= monster->damage;
+        player->current_hp -= monster->att;
     }
 
     getOneItem(player->inventory->inventory_content, idWeapon)->durability -= 1;
+    return monster;
 }
 
 int menu(Player* player, Monster* monster) {
     Monster* copyMonster = monster;
     int choice = 0;
     printf("Vous êtes arrivés sur une case Monstre. Voici ses caractéristiques :\n");
-    printf("\tNom : %s\n", monster->name);
-    printf("\tHP : %d\n", monster->current_hp);
+    printf("\tNom : %s\n", copyMonster->name);
+    printf("\tHP : %d\n", copyMonster->hp);
+
     do {
-        printf("Que voulez-vous faire ?\n1 - Combattre\n2 - Fuir");
+        printf("Que voulez-vous faire ?\n1 - Combattre\n2 - Fuir\n");
         scanf("%d", &choice);
     } while(choice < 1 || choice > 2);
 
     if(choice == 1) {
-        // TODO fight while player got hp
-    } else {
-        return 0;
+        int i = 0;
+        while(player->current_hp > 0 && copyMonster->hp > 0) {
+            copyMonster = battle(player, copyMonster, i, 1);
+            i += 1;
+        }
+
+        if(copyMonster->hp <= 0) {
+            updateXP(player, copyMonster);
+            printf("Vous avez gagné %d point d'xp. Vous êtes niveau %d.\n", player->current_xp, player->level);
+            return 1;
+        }
+
+        // TODO case if the player lose the fight
+        if(player->current_hp <= 0) {
+            printf("Effacer la sauvegarde\n");
+            return 2;
+        }
     }
+    return 0;
 }

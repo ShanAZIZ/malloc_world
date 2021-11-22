@@ -17,14 +17,10 @@ int main(int argc, char const *argv[])
 {
     Item** itemList = createItemList();
     Player *player = initPlayer(itemList);
-    Monster monster;
-    monster = (Monster) {"Test", 50, 1, 150};
+    Monster** monsterList = createMonsterList();
+    Monster* monster = getOneMonster(monsterList, 12);
 
-    int resFight = menu(player, monster);
-
-    initHpByLevel(player);
-
-    return 0;
+    menu(player, monster);
 }
 
 /*

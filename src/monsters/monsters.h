@@ -20,6 +20,6 @@ typedef struct monster {
 }Monster;
 
 Monster** createMonsterList(void);
-Monster getOneMonster(Monster **monsterList, int monsterId);
+Monster* getOneMonster(Monster **monsterList, int monsterId);
 
 #endif //MALLOC_WORLD_MONSTERS_H

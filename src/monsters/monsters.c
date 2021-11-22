@@ -12,7 +12,7 @@
 #include "monsters.h"
 
 Monster **createMonsterList(void) {
-    Monster **monsterList = malloc(sizeof(Monster *) * 10);
+    Monster **monsterList = malloc(sizeof(Monster *) * 100);
     for (int i = 0; i < 12; i++) {
         monsterList[i] = malloc(sizeof(Monster));
         monsterList[i] = NULL;
@@ -27,13 +27,12 @@ Monster **createMonsterList(void) {
         monsterList[i] = malloc(sizeof(Monster));
         *monsterList[i] = (Monster) {i, names[i - 12], hp[i - 12], att[i - 12], def[i - 12], xp[i - 12]};
     }
-
-    *monsterList[99] = malloc(sizeof(Monster));
+    monsterList[99] = malloc(sizeof(Monster));
     *monsterList[99] = (Monster) {99, names[9], hp[9], att[9], def[9], xp[9]};
 
     return monsterList;
 }
 
-Monster getOneMonster(Monster **monsterList, int monsterId) {
+Monster* getOneMonster(Monster **monsterList, int monsterId) {
     return monsterList[monsterId];
 }

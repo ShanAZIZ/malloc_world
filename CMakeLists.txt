@@ -15,4 +15,6 @@ add_executable(malloc_world
         src/items/items.h
         src/player/player.c
         src/player/player.h
+        src/monsters/monsters.c
+        src/monsters/monsters.h
         src/main.c)

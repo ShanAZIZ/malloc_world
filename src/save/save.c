@@ -78,7 +78,7 @@ void loadMapZone(FILE* save_file, int** map, int zone, int x, int y, Player* pla
 void savePlayer(FILE* save_file, Player* player, storage* storage){
     if(save_file != NULL) {
         fprintf(save_file, "=== PLAYER ===\n");
-        fprintf(save_file, "%d\n%d\n%d\n", player->level, player->current_xp, player->current_hp);
+        fprintf(save_file, "{%d}\n{%d}\n{%d}\n", player->level, player->current_xp, player->current_hp);
         saveInventory(save_file, player->inventory);
         saveStorage(save_file, storage);
     }
@@ -89,7 +89,7 @@ void saveInventory(FILE* save_file, Inventory* inventory){
     for (int i = 0; i < INVENTORY_SIZE; i++) {
         fprintf(
                 save_file,
-                "%d@%d@%d\n",
+                "{%d}@{%d}@{%d}\n",
                 inventory->inventory_content[i]->quantity,
                 inventory->inventory_content[i]->value,
                 inventory->inventory_content[i]->durability
@@ -100,7 +100,7 @@ void saveInventory(FILE* save_file, Inventory* inventory){
 void saveStorage(FILE* player_save_file, storage* storage){
     fprintf(player_save_file, "-- STORAGE --\n");
     while(storage != NULL){
-        fprintf(player_save_file,"%d@%d\n", storage->item->quantity, storage->item->value);
+        fprintf(player_save_file,"{%d}@{%d}\n", storage->item->quantity, storage->item->value);
         storage = storage->next;
     }
 }
@@ -111,9 +111,9 @@ void loadPlayer(FILE* save_file, Player* player, Item** item_list, storage* stor
         do {
             fgets(texte, 255, save_file);
             if(strcmp(texte, "=== PLAYER ===\n") == 0) {
-                fscanf(save_file, "%d\n", &player->level);
-                fscanf(save_file, "%d\n", &player->current_xp);
-                fscanf(save_file, "%d\n", &player->current_hp);
+                fscanf(save_file, "{%d}\n", &player->level);
+                fscanf(save_file, "{%d}\n", &player->current_xp);
+                fscanf(save_file, "{%d}\n", &player->current_hp);
                 loadPlayerInventory(save_file, player->inventory, item_list);
                 loadStorage(save_file, storage, item_list);
                 break;
@@ -133,7 +133,7 @@ void loadPlayerInventory(FILE* player_save_file, Inventory* player_inventory, It
         int actual_durability;
         int i=0;
         for(; i< INVENTORY_SIZE; i++){
-            fscanf(player_save_file, "%d@%d@%d\n", &actual_quantity, &actual_value, &actual_durability);
+            fscanf(player_save_file, "{%d}@{%d}@{%d}\n", &actual_quantity, &actual_value, &actual_durability);
             appendItemToInventoryAtIndex(item_list, actual_value, i, player_inventory);
             player_inventory->inventory_content[i]->quantity = actual_quantity;
             player_inventory->inventory_content[i]->durability = actual_durability;
@@ -146,13 +146,13 @@ void loadStorage(FILE* player_save_file, storage* storage1, Item** item_list){
     if(strcmp(texte, "-- STORAGE --\n") == 0){
         int actual_quantity;
         int actual_value;
-        if(fscanf(player_save_file, "%d@%d\n", &actual_quantity, &actual_value) == 2){
+        if(fscanf(player_save_file, "{%d}@{%d}\n", &actual_quantity, &actual_value) == 2){
             printf("actual value : %d\n", actual_value);
             storage1->item = setNewItemFromList(item_list, actual_value);
             storage1->item->quantity = actual_quantity;
             storage1->next= NULL;
         }
-        while (fscanf(player_save_file, "%d@%d\n", &actual_quantity, &actual_value) == 2){
+        while (fscanf(player_save_file, "{%d}@{%d}\n", &actual_quantity, &actual_value) == 2){
             printf("actual value : %d\n", actual_value);
             Item* tempItem = setNewItemFromList(item_list, actual_value);
             appendToStorage(storage1, tempItem);

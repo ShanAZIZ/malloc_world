@@ -42,10 +42,19 @@ void saveZone(FILE* map_save_file, int** zone, int x, int y){
     }
 }
 
-void loadMapZone(int** map, int zone, int x, int y){
+void loadMap(Game* game){
+    for(int i = 0; i<3; i+=1){
+        loadMapZone(game->maps[i*3], i+1, game->maps[9][i][0], game->maps[9][i][1], game->player);
+        fillBaseMap(game->maps[i*3], game->maps[i*3+2], game->maps[9][i][0], game->maps[9][i][1]);
+    }
+    game->maps[game->player->mapId][game->player->posX][game->player->posY] = 1;
+}
+
+void loadMapZone(int** map, int zone, int x, int y, Player* player){
     FILE* map_save_file;
     map_save_file = fopen("save_map.txt", "r");
     if(map_save_file != NULL){
+        int value;
         char zoneStr[14];
         snprintf(zoneStr, 14, "-- ZONE %d --\n", zone); // puts string into buffer
         signed char texte[256];
@@ -54,7 +63,14 @@ void loadMapZone(int** map, int zone, int x, int y){
             if(strcmp(texte,zoneStr) == 0){
                 for( int i=0; i<x; i++){
                     for(int j = 0; j<y; j++){
-                        fscanf(map_save_file,"%d", &map[i][j]);
+                        fscanf(map_save_file,"%d", &value);
+                        if(value !=1){
+                            map[i][j] = value;
+                        } else {
+                            map[i][j] = 0;
+                            player->posX = i;
+                            player->posY = j;
+                        }
                     }
                 }
                 break;

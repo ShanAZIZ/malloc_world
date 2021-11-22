@@ -12,6 +12,7 @@
 #include <stdlib.h>
 #include "string.h"
 #include "move.h"
+#include "map.h"
 
 #ifndef MALLOC_WORLD_SAVE_H
 #define MALLOC_WORLD_SAVE_H
@@ -27,7 +28,8 @@ typedef struct storage storage;
 storage* initTempStorage(Item**);
 void saveZone(FILE*, int**, int, int);
 void saveMap(Game* game);
-void loadMapZone(int** map, int mapId, int x, int y);
+void loadMap(Game* game);
+void loadMapZone(int** map, int mapId, int x, int y, Player* player);
 void savePlayer(Player* player, storage* storage);
 void saveInventory(FILE*, Inventory* inventory);
 void saveStorage(FILE* player_save_file, storage* storage);

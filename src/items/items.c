@@ -54,7 +54,6 @@ Item* getOneItem(Item** itemList, int id){
     return itemList[id];
 }
 
-// TODO: Tester si la valeur n'est pas réécraseé
 Item* setNewItemFromList(Item** itemList, int id){
     Item* item1 = malloc(sizeof(Item));
     Item* temp = getOneItem(itemList, id);

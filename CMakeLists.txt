@@ -11,6 +11,7 @@ include_directories(src/inventory
         src/items
         src/save
         src/move
+        src/cli
         )
 
 
@@ -21,5 +22,6 @@ add_executable(malloc_world
         src/save/save.c
         src/map/map.c
         src/move/move.c
+        src/cli/cli.c
         src/main.c
         )

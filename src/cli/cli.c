@@ -1,8 +1,61 @@
-//
-// Created by shana on 22/10/2021.
-//
+/**
+ * FILENAME: main.c
+ * Made by: GROUPE 5 - AL2
+ * Projet: Malloc-World
+ * Date de création: 09/10/2021
+ * Dernière modification : 22/11/2021
+ * Par: AZIZ Shana
+ */
 
 #include "cli.h"
+
+void title(){
+    printf("|||           ||| |||         |||      |||          |||         |||||||\n");
+    printf("||||||      ||||| ||||||      |||      |||        |||  |||    |||      \n");
+    printf("||| |||   ||| ||| |||  |||    |||      |||       |||    |||  |||       \n");
+    printf("|||  ||| |||  ||| |||||||||   |||      |||        |||   |||   |||      \n");
+    printf("|||    |||    ||| |||    |||  |||||||| |||||||||    |||||       |||||||\n");
+    printf("\nESGI AL GROUPE 5\n");
+}
+
+int mainMenu(){
+    int value;
+    printf("\nBienvenue dans le menu principal");
+    printf("\nQue souhaitez vous faire ? ");
+    printf("\n     1. Commencer une nouvelle partie");
+    printf("\n     2. Charger une partie");
+    printf("\n     3. Lancer les tests");
+    printf("\n     0. Quitter");
+    printf("\nVotre choix : ");
+    scanf(" %d", &value);
+    return value;
+}
+
+void mainMenuAction() {
+    int value;
+    do {
+        value = mainMenu();
+        switch (value) {
+            case 1:
+                printf("\nDebut d'une partie ");
+                newGame();
+                break;
+            case 2:
+                printf("\nChargement d'une partie ");
+                break;
+            case 3:
+                printf("\nLancement des tests ");
+                break;
+            case 0:
+                printf("\nJeu stopper ! ");
+                break;
+            default:
+                printf("\nChoix incorrect");
+                break;
+        }
+    } while (value != 0);
+}
+
 
 void start(){
     title();
@@ -39,49 +92,6 @@ void newGame(){
     } while (game != 0);
 }
 
-void title(){
-    printf("|||           ||| |||         |||      |||          |||         |||||||\n");
-    printf("||||||      ||||| ||||||      |||      |||        |||  |||    |||      \n");
-    printf("||| |||   ||| ||| |||  |||    |||      |||       |||    |||  |||       \n");
-    printf("|||  ||| |||  ||| |||||||||   |||      |||        |||   |||   |||      \n");
-    printf("|||    |||    ||| |||    |||  |||||||| |||||||||    |||||       |||||||\n");
-    printf("\nESGI AL GROUPE 5\n");
-}
-
-int mainMenu(){
-    int value;
-    printf("\nBienvenue dans le menu principal");
-    printf("\nQue souhaitez vous faire ? ");
-    printf("\n     1. Commencer une nouvelle partie");
-    printf("\n     2. Charger une partie");
-    printf("\n     0. Quitter");
-    printf("\nVotre choix : ");
-    scanf(" %d", &value);
-    return value;
-}
-
-void mainMenuAction() {
-    int value;
-    do {
-        value = mainMenu();
-        switch (value) {
-            case 1:
-                printf("\nDebut d'une partie ");
-                newGame();
-                break;
-            case 2:
-                printf("\nChargement d'une partie ");
-                break;
-            case 0:
-                printf("\nJeu stopper ! ");
-                break;
-            default:
-                printf("\nChoix incorrect");
-                break;
-        }
-    } while (value != 0);
-}
-
 int tourMenu(){
     int value;
     printf("\nQue souhaitez vous faire : ");
@@ -93,7 +103,7 @@ int tourMenu(){
     return value;
 }
 
-void tour(){
+void tourAction(){
     int value;
     do {
         value = tourMenu();

@@ -162,17 +162,23 @@ void passPortal(Game* game, int idPortal){
     if(game->player->mapId == 0 && game->player->level >= 3){
         game->player->mapId = 3;
         findPortal(game, idPortal);
+        printf("You are now on map %d, you are on the row %d and the column %d\n", 1 + game->player->mapId / 3, game->player->posX, game->player->posY);
     }else if(game->player->mapId == 6){
         game->player->mapId = 3;
         findPortal(game, idPortal);
-    }else{
+        printf("You are now on map %d, you are on the row %d and the column %d\n", 1 + game->player->mapId / 3, game->player->posX, game->player->posY);
+    }else if(game->player->mapId == 3){
         if(idPortal == -2){
             game->player->mapId = 0;
             findPortal(game, idPortal);
+            printf("You are now on map %d, you are on the row %d and the column %d\n", 1 + game->player->mapId / 3, game->player->posX, game->player->posY);
         }else if(idPortal == -3 && game->player->level >= 7){
             game->player->mapId = 6;
             findPortal(game, idPortal);
+            printf("You are now on map %d, you are on the row %d and the column %d\n", 1 + game->player->mapId / 3, game->player->posX, game->player->posY);
         }
+    }else{
+        printf("You do not have the required level, come back later.\n");
     }
 }
 
@@ -203,7 +209,6 @@ void move(Game* game, int posX, int posY) {
         printf("monstre\n");
     } else if (game->maps[game->player->mapId][posX][posY] == -2 || game->maps[game->player->mapId][posX][posY] == -3) {
         passPortal(game, game->maps[game->player->mapId][posX][posY]);
-        printf("You are now on map %d, you are on the row %d and the column %d\n", 1 + game->player->mapId / 3, game->player->posX, game->player->posY);
     } else {
         game->maps[game->player->mapId][posX][posY] = 1;
         game->maps[game->player->mapId][game->player->posX][game->player->posY] = 0;

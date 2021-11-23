@@ -83,5 +83,21 @@ void appendRessourceDeCraft(Item** itemList, int itemId, Inventory* player_inven
     }
 }
 
+void showPlayerInventory(Inventory* player_inventory){
+    for(int i = 0; i < INVENTORY_SIZE; i += 1){
+        if(player_inventory->inventory_content[i]->value != 0){
+            printf("\n %d | %s | %s | %d | %d | %d | %d |",
+                   player_inventory->inventory_content[i]->value,
+                   player_inventory->inventory_content[i]->type,
+                   player_inventory->inventory_content[i]->name,
+                   player_inventory->inventory_content[i]->quantity,
+                   player_inventory->inventory_content[i]->durability,
+                   player_inventory->inventory_content[i]->damage,
+                   player_inventory->inventory_content[i]->protection
+                   );
+        }
+    }
+}
+
 
 

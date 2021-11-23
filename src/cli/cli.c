@@ -118,7 +118,8 @@ void tourAction(Game* game){
                 value = callMove(game);
                 break;
             case 2:
-                printf("\nInventaire du joueur ");
+                printf("\nInventaire du joueur \n");
+                showPlayerInventory(game->player->inventory);
                 value = 0;
                 break;
             case 0:

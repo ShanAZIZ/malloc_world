@@ -179,26 +179,8 @@ void loadGame(Game* game){
     fclose(save_file);
 }
 
-
-storage* initTempStorage(Item** itemList){
-    storage* tempStorage = malloc(sizeof(storage));
-    storage* tempStorage1 = malloc(sizeof(storage));
-    tempStorage->next = NULL;
-    Item* tempItemStored1 = malloc(sizeof(Item*));
-    Item* tempItemStored2 = malloc(sizeof(Item*));
-    tempItemStored1 = setNewItemFromList(itemList, 5);
-    tempItemStored1->quantity = 10;
-    tempItemStored2 = setNewItemFromList(itemList, 8);
-    tempItemStored2->quantity = 15;
-    tempStorage->item = tempItemStored1;
-    tempStorage->next = tempStorage1;
-    tempStorage1->item = tempItemStored2;
-    tempStorage1->next = NULL;
-    return tempStorage;
-}
-
 void appendToStorage(InventoryPnj* inventoryPnj, int actual_value, int actual_quantity){
-    InventoryPnj * inventoryPnj1 = malloc(sizeof(storage));
+    InventoryPnj * inventoryPnj1 = malloc(sizeof(InventoryPnj));
     inventoryPnj->idObject = actual_value;
     inventoryPnj->quantity = actual_quantity;
     inventoryPnj->next = inventoryPnj1;

@@ -19,13 +19,6 @@
 
 #endif
 
-struct storage {
-    Item* item;
-    struct storage* next;
-};
-typedef struct storage storage;
-
-storage* initTempStorage(Item**);
 void saveZone(FILE*, int**, int, int);
 void saveMap(Game* game, FILE* save_file);
 void loadMap(Game* game, FILE* save_file);
@@ -39,4 +32,4 @@ void loadStorage(FILE* player_save_file, InventoryPnj * inventoryPnj, Item** ite
 void appendToStorage(InventoryPnj * inventoryPnj, int actual_value, int actual_quantity);
 void saveGame(Game* game);
 void loadGame(Game* game);
-storage* initEmptyStorage();
+

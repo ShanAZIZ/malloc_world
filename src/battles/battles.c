@@ -5,7 +5,7 @@
 #include "battles.h"
 
 int hpEvolution[11] = {0, 100, 110, 130, 160, 200, 250, 300, 350, 425, 500};
-int xpEvolution[11] = {0, 100, 195, 370, 687, 1246, 2210, 3834, 6511, 10830, 17655};
+int xpEvolution[11] = {0, 10, 15, 25, 30, 40, 50, 52, 58, 64, 70};
 
 int armorChoice(Player* player) {
     int maxArmor = 0;

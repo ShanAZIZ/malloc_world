@@ -21,7 +21,7 @@ Monster **createMonsterList(void) {
     unsigned short hp[10] = {10, 5, 12, 16, 70, 25, 7, 2, 60, 80};
     unsigned short att[10] = {5, 1, 4, 8, 60, 15, 3, 3, 35, 50};
     unsigned short def[10] = {1, 0, 3, 6, 40, 15, 1, 2, 40, 20};
-    unsigned short xp[10] = {3, 1, 5, 7, 50, 10, 2, 2, 60, 60};
+    unsigned short xp[10] = {5, 4, 8, 9, 50, 15, 20, 22, 60, 60};
 
     for (int i = 12; i < 21; i++) {
         monsterList[i] = malloc(sizeof(Monster));

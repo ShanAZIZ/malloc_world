@@ -202,12 +202,11 @@ void move(Game* game, int posX, int posY) {
     if (game->maps[game->player->mapId][posX][posY] < 12 && game->maps[game->player->mapId][posX][posY] > 2) {
         collectResources(game, posX, posY);
     } else if (game->maps[game->player->mapId][posX][posY] == 2) {
-        printf("pnj\n");
-        //menuPnj(game->player, game->player->mapId/3, game->inventoryPnj);
+        menuPnj(game->player, game->player->mapId/3, &(game->inventoryPnj));
     } else if (game->maps[game->player->mapId][posX][posY] == -1) {
         printf("I can't\n");
-    } else if (game->maps[game->player->mapId][posX][posY] < 100 && game->maps[game->player->mapId][posX][posY] > 11) {
-        printf("monstre\n");
+//    } else if (game->maps[game->player->mapId][posX][posY] < 100 && game->maps[game->player->mapId][posX][posY] > 11) {
+//        printf("monstre\n");
     } else if (game->maps[game->player->mapId][posX][posY] == -2 || game->maps[game->player->mapId][posX][posY] == -3) {
         passPortal(game, game->maps[game->player->mapId][posX][posY]);
     } else {

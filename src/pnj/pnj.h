@@ -33,7 +33,7 @@ typedef struct Craft {
 
 InventoryPnj* initInventoryPnj();
 InventoryPnj* fillInventory(Player*, InventoryPnj*, int, int);
-void showInventoryContent(InventoryPnj*, int);
+int showInventoryContent(InventoryPnj*, int);
 void menuPnj(Player*, int, InventoryPnj**);
 int menuCraft(int, Player*);
 void repairStuff(Player*);

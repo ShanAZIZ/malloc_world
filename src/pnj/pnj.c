@@ -87,13 +87,13 @@ InventoryPnj* fillInventory(Player* player, InventoryPnj* inventory, int quantit
     return inventory;
 }
 
-void showInventoryContent(InventoryPnj* inventory, int id) {
+int showInventoryContent(InventoryPnj* inventory, int id) {
     Item** itemList = createItemList();
     InventoryPnj* nextElement = inventory;
 
     if(inventory->idObject == 0) {
         printf("L'inventaire du PNJ est vide.");
-        return;
+        return -1;
     }
 
     while(nextElement != NULL) {
@@ -104,6 +104,8 @@ void showInventoryContent(InventoryPnj* inventory, int id) {
         nextElement = nextElement->next;
         id += 1;
     }
+
+    return 1;
 }
 
 void menuPnj(Player* player, int zone, InventoryPnj** inventoryPnj) {
@@ -142,7 +144,7 @@ int menuCraft(int zone, Player* player) {
     int choice = 0;
     do {
         printf("Tapez l'id de l'objet que vous souhaitez créer.\n");
-        choice = scanf("%d", &choice);
+        scanf("%d", &choice);
     } while (choice < 0 || choice > 25);
 
     // new function craft()
@@ -190,7 +192,10 @@ InventoryPnj* inventoryMenu(InventoryPnj** inventoryPnj, Player* player) {
     if(choice == 1) {
         choice = 0;
         printf("Voici l'inventaire du PNJ :\n");
-        showInventoryContent(*inventoryPnj, 0);
+        int res = showInventoryContent(*inventoryPnj, 0);
+        if(res == -1) {
+            return *inventoryPnj;
+        }
         while(1) {
             printf("\nTapez l'id de l'objet que vous souhaitez déposer.\n");
             scanf("%d", &choice);

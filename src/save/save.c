@@ -75,12 +75,12 @@ void loadMapZone(FILE* save_file, int** map, int zone, int x, int y, Player* pla
     }
 }
 
-void savePlayer(FILE* save_file, Player* player, storage* storage){
+void savePlayer(FILE* save_file, Player* player, InventoryPnj* inventoryPnj){
     if(save_file != NULL) {
         fprintf(save_file, "=== PLAYER ===\n");
         fprintf(save_file, "{%d}\n{%d}\n{%d}\n", player->level, player->current_xp, player->current_hp);
         saveInventory(save_file, player->inventory);
-        saveStorage(save_file, storage);
+        saveStorage(save_file, inventoryPnj);
     }
 }
 
@@ -97,15 +97,15 @@ void saveInventory(FILE* save_file, Inventory* inventory){
     }
 }
 
-void saveStorage(FILE* player_save_file, storage* storage){
+void saveStorage(FILE* player_save_file, InventoryPnj* inventoryPnj){
     fprintf(player_save_file, "-- STORAGE --\n");
-    while(storage != NULL){
-        fprintf(player_save_file,"{%d}@{%d}\n", storage->item->quantity, storage->item->value);
-        storage = storage->next;
+    while(inventoryPnj != NULL){
+        fprintf(player_save_file,"{%d}@{%d}\n", inventoryPnj->quantity, inventoryPnj->idObject);
+        inventoryPnj = inventoryPnj->next;
     }
 }
 
-void loadPlayer(FILE* save_file, Player* player, Item** item_list, storage* storage){
+void loadPlayer(FILE* save_file, Player* player, Item** item_list, InventoryPnj * inventoryPnj){
     if(save_file != NULL){
         signed char texte[256];
         do {
@@ -115,7 +115,7 @@ void loadPlayer(FILE* save_file, Player* player, Item** item_list, storage* stor
                 fscanf(save_file, "{%d}\n", &player->current_xp);
                 fscanf(save_file, "{%d}\n", &player->current_hp);
                 loadPlayerInventory(save_file, player->inventory, item_list);
-                loadStorage(save_file, storage, item_list);
+                loadStorage(save_file, inventoryPnj, item_list);
                 break;
             }
         } while (texte!= NULL);
@@ -140,7 +140,7 @@ void loadPlayerInventory(FILE* player_save_file, Inventory* player_inventory, It
         }
     }
 }
-void loadStorage(FILE* player_save_file, storage* storage1, Item** item_list){
+void loadStorage(FILE* player_save_file, InventoryPnj * inventoryPnj, Item** item_list){
     signed char texte[256];
     fgets(texte, 255, player_save_file);
     if(strcmp(texte, "-- STORAGE --\n") == 0){
@@ -148,34 +148,33 @@ void loadStorage(FILE* player_save_file, storage* storage1, Item** item_list){
         int actual_value;
         if(fscanf(player_save_file, "{%d}@{%d}\n", &actual_quantity, &actual_value) == 2){
             printf("actual value : %d\n", actual_value);
-            storage1->item = setNewItemFromList(item_list, actual_value);
-            storage1->item->quantity = actual_quantity;
-            storage1->next= NULL;
+            inventoryPnj->idObject = actual_value;
+            inventoryPnj->quantity = actual_quantity;
+            inventoryPnj->next= NULL;
         }
         while (fscanf(player_save_file, "{%d}@{%d}\n", &actual_quantity, &actual_value) == 2){
             printf("actual value : %d\n", actual_value);
-            Item* tempItem = setNewItemFromList(item_list, actual_value);
-            appendToStorage(storage1, tempItem);
+            appendToStorage(inventoryPnj, actual_value, actual_quantity);
         }
     }
 }
 
-void saveGame(Game* game, storage* storage){
+void saveGame(Game* game){
     FILE* save_file;
     save_file = fopen("save.txt", "w");
     if(save_file != NULL){
         saveMap(game, save_file);
-        savePlayer(save_file, game->player, storage);
+        savePlayer(save_file, game->player, game->inventoryPnj);
     }
     fclose(save_file);
 }
 
-void loadGame(Game* game, storage* storage){
+void loadGame(Game* game){
     FILE* save_file;
     save_file = fopen("save.txt", "r");
     if(save_file != NULL){
         loadMap(game, save_file);
-        loadPlayer(save_file, game->player, game->itemList, storage);
+        loadPlayer(save_file, game->player, game->itemList, game->inventoryPnj);
     }
     fclose(save_file);
 }
@@ -198,9 +197,10 @@ storage* initTempStorage(Item** itemList){
     return tempStorage;
 }
 
-void appendToStorage(storage* storage1, Item* item){
-    storage* storage2 = malloc(sizeof(storage));
-    storage2->item = item;
-    storage1->next = storage2;
-    storage2->next = NULL;
+void appendToStorage(InventoryPnj* inventoryPnj, int actual_value, int actual_quantity){
+    InventoryPnj * inventoryPnj1 = malloc(sizeof(storage));
+    inventoryPnj->idObject = actual_value;
+    inventoryPnj->quantity = actual_quantity;
+    inventoryPnj->next = inventoryPnj1;
+    inventoryPnj1->next = NULL;
 }

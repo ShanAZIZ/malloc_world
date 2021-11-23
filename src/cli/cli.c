@@ -42,8 +42,7 @@ void mainMenuAction(Game* game) {
                 break;
             case 2:
                 printf("\nChargement d'une partie \n");
-                storage* tempStorage = initTempStorage(game->itemList); // A supprimer plus tard
-                loadGame(game, tempStorage);
+                loadGame(game);
                 newGame(game);
                 break;
             case 3:
@@ -86,8 +85,7 @@ void newGame(Game* game){
                 break;
             case 2:
                 printf("\nSauvegarde..");
-                storage* tempStorage = initTempStorage(game->itemList); // A supprimer plus tard
-                saveGame(game, tempStorage);
+                saveGame(game);
                 break;
             case 0:
                 break;
@@ -157,19 +155,12 @@ int callMove(Game* game){
 }
 
 void test(Game* game){
-    storage* tempStorage = initTempStorage(game->itemList); // A supprimer plus tard
     game->player->level = 3;
     displayMap(game->maps[0], game->maps[9][0][0], game->maps[9][0][1]);
     //loadMap(game);
     int done = 0;
     int input = 0;
 
-
-    //saveGame(game, tempStorage);
-    //loadGame(game, tempStorage);
-    //loadPlayer(game->player, game->itemList, tempStorage);
-    printf("first value : %d \n", tempStorage->item->value);
-    printf("second value: %d \n", tempStorage->next->item->value);
 
     printf("level : %d \n", game->player->level);
     printf("Inventory at index 4 quantity: %d \n", game->player->inventory->inventory_content[4]->quantity);

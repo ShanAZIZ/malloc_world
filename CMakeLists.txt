@@ -1,9 +1,8 @@
 cmake_minimum_required(VERSION 3.20)
+
 project(malloc_world C)
 
 set(CMAKE_C_STANDARD 99)
-
-
 
 include_directories(src/inventory
         src/map
@@ -12,6 +11,7 @@ include_directories(src/inventory
         src/save
         src/move
         src/cli
+        src/pnj
         )
 
 
@@ -23,5 +23,6 @@ add_executable(malloc_world
         src/map/map.c
         src/move/move.c
         src/cli/cli.c
+        src/pnj/pnj.c
         src/main.c
         )

@@ -5,12 +5,14 @@
 #ifndef MALLOC_WORLD_MOVE_H
 #define MALLOC_WORLD_MOVE_H
 
-#include "../player/player.h"
+#include "pnj.h"
+
 
 typedef struct Game {
     int ***maps;
     Item **itemList;
     Player *player;
+    InventoryPnj* inventoryPnj;
 
 } Game;
 

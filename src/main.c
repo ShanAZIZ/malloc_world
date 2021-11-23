@@ -7,6 +7,7 @@
  * Par: DAILLY Armand
  */
 
+
 #include <time.h>
 #include "cli/cli.h"
 
@@ -22,6 +23,7 @@ int main(int argc, char const *argv[]) {
     Game *game = initGame(x, y, zone); // Initialisation de départ du jeu
 
     start(game);
+
     return 0;
 }
 
@@ -32,5 +34,6 @@ Game* initGame(int x, int y, int zone){
     fillAllMaps(game->maps, zone);
     game->itemList = createItemList();
     game->player = initPlayer(game->itemList);
+    game->inventoryPnj = initInventoryPnj();
     return game;
 }

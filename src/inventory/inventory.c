@@ -13,7 +13,8 @@
 
 Inventory *initPlayerInventory(Item **itemList) {
     Inventory *player_inventory = malloc(sizeof(Inventory));
-    player_inventory->inventory_content = malloc(sizeof(Item*) * 10);
+    player_inventory->inventory_content = malloc(sizeof(Item*) * INVENTORY_SIZE);
+
     for (int i = 0; i < INVENTORY_SIZE; i++) {
         player_inventory->inventory_content[i] = malloc(sizeof(Item));
         *(player_inventory->inventory_content[i]) = (Item){0, "", "", 0, 0, 0, 0};
@@ -55,8 +56,6 @@ void appendItemToInventoryAtIndex(Item** itemList, int itemId, int index, Invent
     else {
         *(inventory->inventory_content[index]) = (Item){0, "", "", 0, 0, 0, 0};
     }
-
-
 }
 
 void appendRessourceDeCraft(Item** itemList, int itemId, Inventory* player_inventory){

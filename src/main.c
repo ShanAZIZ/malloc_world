@@ -27,11 +27,14 @@ int main(int argc, char const *argv[])
 
     showInventoryContent(inventory, 0);*/
 
+
     Item** itemList = createItemList();
     Player* player = initPlayer(itemList);
-    //menuPnj(player);
+    InventoryPnj* inventory = initInventoryPnj();
+    //inventory = fillInventory(player, inventory, 5, 5);
+    menuPnj(player, 1, &inventory);
 
-    menuCraft(1, player);
+    //menuCraft(1, player);
 
     return 0;
 }

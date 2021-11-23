@@ -65,18 +65,18 @@ Craft** initCraft() {
     return craft;
 }
 
-InventoryPnj* fillInventory(Item* item, Player* player, InventoryPnj* inventory, int quantity, int idObject) {
+InventoryPnj* fillInventory(Player* player, InventoryPnj* inventory, int quantity, int idObject) {
     if(inventory->next == NULL) {
         inventory->next = initInventoryPnj();
-        inventory->next->idObject = item->value;
+        inventory->next->idObject = idObject;
         inventory->next->quantity += quantity;
-        player->inventory[idObject].inventory_content[idObject]->quantity -= quantity;
+        player->inventory->inventory_content[idObject]->quantity -= quantity;
     } else if(inventory->idObject == 0) {
-        inventory->idObject = item->value;
+        inventory->idObject = idObject;
         inventory->quantity += quantity;
-        player->inventory[idObject].inventory_content[idObject]->quantity -= quantity;
+        player->inventory->inventory_content[idObject]->quantity -= quantity;
     } else {
-        inventory->next = fillInventory(item, player, inventory->next, quantity, idObject);
+        inventory->next = fillInventory(player, inventory->next, quantity, idObject);
     }
 
     return inventory;
@@ -85,9 +85,16 @@ InventoryPnj* fillInventory(Item* item, Player* player, InventoryPnj* inventory,
 void showInventoryContent(InventoryPnj* inventory, int id) {
     Item** itemList = createItemList();
     InventoryPnj* nextElement = inventory;
+
+    if(inventory->idObject == 0) {
+        printf("L'inventaire du PNJ est vide.");
+        return;
+    }
+
     while(nextElement != NULL) {
         printf("%d | %s | %s | %d | %d | %d | %d\n", nextElement->idObject, itemList[nextElement->idObject]->name,
-               itemList[nextElement->idObject]->type, itemList[nextElement->idObject]->damage, itemList[nextElement->idObject]->durability, itemList[nextElement->idObject]->quantity,
+               itemList[nextElement->idObject]->type, itemList[nextElement->idObject]->damage,
+               itemList[nextElement->idObject]->durability, itemList[nextElement->idObject]->quantity,
                itemList[nextElement->idObject]->protection);
         nextElement = nextElement->next;
         id += 1;
@@ -96,6 +103,7 @@ void showInventoryContent(InventoryPnj* inventory, int id) {
 
 void menuPnj(Player* player, int zone, InventoryPnj** inventoryPnj) {
     int choice = 0;
+    int res = 0;
     do {
         printf("Bonjour joueur. \nQue voulez-vous faire ? \n1 - Réparer l'équipement \n2 - Accéder à l'inventaire du PNJ\n3 - Crafter des objets\n4 - Quitter");
         scanf("%d", &choice);
@@ -106,13 +114,17 @@ void menuPnj(Player* player, int zone, InventoryPnj** inventoryPnj) {
     } else if(choice == 2) {
         inventoryMenu(inventoryPnj, player);
     } else if(choice == 3) {
-        menuCraft(zone, player);
+        res = menuCraft(zone, player);
     } else {
+        return;
+    }
+
+    if(res == 1) {
         return;
     }
 }
 
-void menuCraft(int zone, Player* player) {
+int menuCraft(int zone, Player* player) {
     printf("Vous êtes dans le menu de craft. Voici les objets que vous pouvez créer.\n");
     Craft** craft = initCraft();
     for (int i = 0; i < 24; i++) {
@@ -141,13 +153,14 @@ void menuCraft(int zone, Player* player) {
             for(int j = 0; j < sizeof(player->inventory->inventory_content); j++) {
                 if(player->inventory->inventory_content[j]->name == resource2 && player->inventory->inventory_content[j]->quantity >= nbResource2) {
                     appendItemToInventoryWhereEmpty(itemList, choice, player->inventory);
+                    printf("L'objet a bien été créé.");
                 } else {
                     player->inventory->inventory_content[i]->quantity -= nbResource1;
                 }
             }
         }
     }
-
+    return 0;
 }
 
 void repairStuff(Player* player) {
@@ -186,7 +199,7 @@ InventoryPnj* inventoryMenu(InventoryPnj** inventoryPnj, Player* player) {
                 if(inventory->inventory_content[choice]->quantity <= 0) {
                     continue;
                 } else {
-                    *inventoryPnj = fillInventory(inventory->inventory_content[choice], player, *inventoryPnj, quantity, choice);
+                    *inventoryPnj = fillInventory(player, *inventoryPnj, quantity, choice);
                     return *inventoryPnj;
                 }
             }

@@ -13,7 +13,8 @@
 
 Inventory *initPlayerInventory(Item **itemList) {
     Inventory *player_inventory = malloc(sizeof(Inventory));
-    player_inventory->inventory_content = malloc(sizeof(Item*) * 10);
+
+    player_inventory->inventory_content = malloc(sizeof(Item*) * INVENTORY_SIZE);
     for (int i = 0; i < INVENTORY_SIZE; i++) {
         player_inventory->inventory_content[i] = malloc(sizeof(Item));
         *(player_inventory->inventory_content[i]) = (Item){0, "", "", 0, 0, 0, 0};
@@ -55,19 +56,32 @@ void appendItemToInventoryAtIndex(Item** itemList, int itemId, int index, Invent
     else {
         *(inventory->inventory_content[index]) = (Item){0, "", "", 0, 0, 0, 0};
     }
+}
 
+
+void appendNewItemToInventory(Item** itemList, Item* item, Inventory *player_inventory) {
+
+    if (strcmp(item->type, "Soin") == 0) {
+        appendItemToInventoryWhereEmpty(itemList, item->value, player_inventory);
+    }
 
 }
 
 void appendRessourceDeCraft(Item** itemList, int itemId, Inventory* player_inventory){
     Item* item = getOneItem(itemList, itemId);
+    int result;
+    result = 0;
     for(int i = 0; i < INVENTORY_SIZE ; i++) {
         if(item->value == player_inventory->inventory_content[i]->value && player_inventory->inventory_content[i]->quantity < 20) {
             player_inventory->inventory_content[i]->quantity += 1;
-            break;
-        }else if(player_inventory->inventory_content[i]->value == 0){
-            appendItemToInventoryWhereEmpty(itemList, itemId, player_inventory);
+            result = 1;
             break;
         }
     }
+    if(result == 0){
+        appendItemToInventoryWhereEmpty(itemList, itemId, player_inventory);
+    }
 }
+
+
+

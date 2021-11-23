@@ -31,6 +31,7 @@ Game* initGame(int x, int y, int zone){
     game->maps[0][4][4] = 1;
     fillAllMaps(game->maps, zone);
     game->itemList = createItemList();
+    game->monsterList = createMonsterList();
     game->player = initPlayer(game->itemList);
     return game;
 }

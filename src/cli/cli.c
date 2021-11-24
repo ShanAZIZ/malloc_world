@@ -131,23 +131,25 @@ void tourAction(Game* game){
 
 int callMove(Game* game){
     int input;
-    int done;
+    int done = 0;
     displayMap(game->maps[game->player->mapId], game->maps[9][game->player->mapId / 3][0],
                game->maps[9][game->player->mapId / 3][1]);
-    printf("1. Haut\n");
-    printf("2. Droite\n");
-    printf("3. Bas\n");
-    printf("4. Gauche\n");
-    printf("5. Passer\n");
-    scanf(" %d", &input);
-    if (input == 5) {
-        done = 0;
-    } else {
-        checkCanMove(game, input);
-        displayMap(game->maps[game->player->mapId], game->maps[9][game->player->mapId / 3][0],
-                   game->maps[9][game->player->mapId / 3][1]);
-        decrementTimers(game);
-        fflush(stdin);
+    while (done == 0 ){
+        printf("1. Haut\n");
+        printf("2. Droite\n");
+        printf("3. Bas\n");
+        printf("4. Gauche\n");
+        printf("5. Passer\n");
+        scanf(" %d", &input);
+        if (input == 5) {
+            done = 1;
+        } else {
+            checkCanMove(game, input);
+            displayMap(game->maps[game->player->mapId], game->maps[9][game->player->mapId / 3][0],
+                       game->maps[9][game->player->mapId / 3][1]);
+            decrementTimers(game);
+            fflush(stdin);
+        }
     }
     return done;
 }

@@ -105,7 +105,7 @@ int roundChoices(Player* player, Monster* monster, int choice, int idWeapon, int
             printf("Vous avez gagné %d point d'xp. Vous êtes niveau %d.\n", player->current_xp, player->level);
             return 1;
         }
-        
+
         if(player->current_hp <= 0) {
             return 2;
         }

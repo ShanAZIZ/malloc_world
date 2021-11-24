@@ -9,8 +9,7 @@
 
 #include<stdio.h>
 #include<stdlib.h>
-
-#include "move/move.h"
+#include "../move/move.h"
 #include <time.h>
 #include "map/map.h"
 
@@ -25,10 +24,12 @@ int main(int argc, char const *argv[]) {
     game->maps[0][4][4] = 1;
     fillAllMaps(game->maps, zone);
     game->itemList = createItemList();
+    game->craft = initCraft();
+    game->storage = initStorage();
 
     game->player = initPlayer(game->itemList);
 
-    displayMap(game->maps[0], game->maps[9][0][0], game->maps[9][0][1]);
+    /*displayMap(game->maps[0], game->maps[9][0][0], game->maps[9][0][1]);
 
     int done = 0;
     int input = 0;
@@ -43,7 +44,15 @@ int main(int argc, char const *argv[]) {
             decrementTimers(game);
             fflush(stdin);
         }
-    }
+    }*/
+    displayInventory(game);
+    addToStorage(game, 5, 15);
+    addToStorage(game, 1, 2);
+    addToStorage(game, 7, 15);
+    displayPnjStorage(game);
+    retrieveFromStorage(game, 1, 2);
+    displayPnjStorage(game);
+    displayInventory(game);
     printf("Leaving the game");
     return 0;
 }

@@ -15,4 +15,4 @@ add_executable(malloc_world
         src/player/player.c
         src/player/player.h
         src/map/map.c
-        src/main.c src/move/move.h src/move/move.c)
+        src/main.c src/move/move.h src/move/move.c src/pnj/pnj.c src/pnj/pnj.h src/include/structures.h)

@@ -9,15 +9,7 @@
 /**
  * Struct Player
  */
-typedef struct Player {
-    int current_xp;
-    int level;
-    int current_hp;
-    Inventory* inventory;
-    int posX;
-    int posY;
-    int mapId;
-} Player;
+
 
 /**
  * Initialise un joueur de debut de partie

@@ -14,10 +14,10 @@
 Inventory *initPlayerInventory(Item **itemList) {
     Inventory *player_inventory = malloc(sizeof(Inventory));
 
-    player_inventory->inventory_content = malloc(sizeof(Item*) * INVENTORY_SIZE);
+    player_inventory->inventory_content = malloc(sizeof(Item *) * INVENTORY_SIZE);
     for (int i = 0; i < INVENTORY_SIZE; i++) {
         player_inventory->inventory_content[i] = malloc(sizeof(Item));
-        *(player_inventory->inventory_content[i]) = (Item){0, "", "", 0, 0, 0, 0};
+        *(player_inventory->inventory_content[i]) = (Item) {0, "", "", 0, 0, 0, 0};
     }
     appendItemToInventoryWhereEmpty(itemList, 1, player_inventory);
     appendItemToInventoryWhereEmpty(itemList, 2, player_inventory);
@@ -26,8 +26,8 @@ Inventory *initPlayerInventory(Item **itemList) {
     return player_inventory;
 }
 
-void appendItemToInventoryWhereEmpty(Item** itemList, int itemId, Inventory *inventory) {
-    Item* item = getOneItem(itemList, itemId);
+void appendItemToInventoryWhereEmpty(Item **itemList, int itemId, Inventory *inventory) {
+    Item *item = getOneItem(itemList, itemId);
     for (int i = 0; i < INVENTORY_SIZE; i++) {
         if (inventory->inventory_content[i]->value == 0) {
             inventory->inventory_content[i]->value = item->value;
@@ -42,7 +42,7 @@ void appendItemToInventoryWhereEmpty(Item** itemList, int itemId, Inventory *inv
     }
 }
 
-void appendNewItemToInventory(Item** itemList, Item* item, Inventory *player_inventory) {
+void appendNewItemToInventory(Item **itemList, Item *item, Inventory *player_inventory) {
 
     if (strcmp(item->type, "Soin") == 0) {
         appendItemToInventoryWhereEmpty(itemList, item->value, player_inventory);
@@ -50,20 +50,33 @@ void appendNewItemToInventory(Item** itemList, Item* item, Inventory *player_inv
 
 }
 
-void appendRessourceDeCraft(Item** itemList, int itemId, Inventory* player_inventory){
-    Item** itemList2 = createItemList();
-    Item* item = getOneItem(itemList, itemId);
+void appendRessourceDeCraft(Item **itemList, int itemId, Inventory *player_inventory) {
+    Item *item = getOneItem(itemList, itemId);
     int result;
     result = 0;
-    for(int i = 0; i < INVENTORY_SIZE ; i++) {
-        if(item->value == player_inventory->inventory_content[i]->value && player_inventory->inventory_content[i]->quantity < 20) {
+    for (int i = 0; i < INVENTORY_SIZE; i++) {
+        if (item->value == player_inventory->inventory_content[i]->value &&
+            player_inventory->inventory_content[i]->quantity < 20) {
             player_inventory->inventory_content[i]->quantity += 1;
             result = 1;
             break;
         }
     }
-    if(result == 0){
-        appendItemToInventoryWhereEmpty(itemList2, itemId, player_inventory);
+    if (result == 0) {
+        appendItemToInventoryWhereEmpty(itemList, itemId, player_inventory);
+    }
+}
+
+void emptyInventoryElement(Game *game, int id) {
+    *game->player->inventory->inventory_content[id] = (Item) {0, "", "", 0, 0, 0, 0};
+}
+
+void displayInventory(Game *game) {
+    for (int i = 0; i < INVENTORY_SIZE; i += 1) {
+        if (game->player->inventory->inventory_content[i]->value != 0) {
+            printf("%d | %d | %s\n", i, game->player->inventory->inventory_content[i]->quantity,
+                   game->player->inventory->inventory_content[i]->name);
+        }
     }
 }
 

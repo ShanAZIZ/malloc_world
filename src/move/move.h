@@ -6,13 +6,9 @@
 #define MALLOC_WORLD_MOVE_H
 
 #include "../player/player.h"
+#include "../pnj/pnj.h"
 
-typedef struct Game {
-    int ***maps;
-    Item **itemList;
-    Player *player;
 
-} Game;
 
 void checkCanMove(Game* game, int choice);
 int checkInInventory(Player* player, int itemId);

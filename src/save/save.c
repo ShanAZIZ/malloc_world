@@ -75,12 +75,12 @@ void loadMapZone(FILE* save_file, int** map, int zone, int x, int y, Player* pla
     }
 }
 
-void savePlayer(FILE* save_file, Player* player, storage* storage){
+void savePlayer(FILE* save_file, Game* game){
     if(save_file != NULL) {
         fprintf(save_file, "=== PLAYER ===\n");
-        fprintf(save_file, "{%d}\n{%d}\n{%d}\n", player->level, player->current_xp, player->current_hp);
-        saveInventory(save_file, player->inventory);
-        saveStorage(save_file, storage);
+        fprintf(save_file, "{%d}\n{%d}\n{%d}\n", game->player->level, game->player->current_xp, game->player->current_hp);
+        saveInventory(save_file, game->player->inventory);
+        saveStorage(save_file, game);
     }
 }
 
@@ -97,25 +97,25 @@ void saveInventory(FILE* save_file, Inventory* inventory){
     }
 }
 
-void saveStorage(FILE* player_save_file, storage* storage){
+void saveStorage(FILE* player_save_file, Game* game){
     fprintf(player_save_file, "-- STORAGE --\n");
-    while(storage != NULL){
-        fprintf(player_save_file,"{%d}@{%d}\n", storage->item->quantity, storage->item->value);
-        storage = storage->next;
+    while(game->storage != NULL){
+        fprintf(player_save_file,"{%d}@{%d}\n", game->storage->quantity, game->storage->objectId);
+        game->storage = game->storage->next;
     }
 }
 
-void loadPlayer(FILE* save_file, Player* player, Item** item_list, storage* storage){
+void loadPlayer(FILE* save_file, Game* game){
     if(save_file != NULL){
         signed char texte[256];
         do {
             fgets(texte, 255, save_file);
             if(strcmp(texte, "=== PLAYER ===\n") == 0) {
-                fscanf(save_file, "{%d}\n", &player->level);
-                fscanf(save_file, "{%d}\n", &player->current_xp);
-                fscanf(save_file, "{%d}\n", &player->current_hp);
-                loadPlayerInventory(save_file, player->inventory, item_list);
-                loadStorage(save_file, storage, item_list);
+                fscanf(save_file, "{%d}\n", &game->player->level);
+                fscanf(save_file, "{%d}\n", &game->player->current_xp);
+                fscanf(save_file, "{%d}\n", &game->player->current_hp);
+                loadPlayerInventory(save_file, game->player->inventory, game->itemList);
+                loadStorage(save_file, game);
                 break;
             }
         } while (texte!= NULL);
@@ -133,7 +133,6 @@ void loadPlayerInventory(FILE* player_save_file, Inventory* player_inventory, It
         int actual_durability;
         int i=0;
         for(; i< INVENTORY_SIZE; i++){
-            // TODO: User AppendWhereEmpty
             fscanf(player_save_file, "{%d}@{%d}@{%d}\n", &actual_quantity, &actual_value, &actual_durability);
             appendItemToInventoryAtIndex(item_list, actual_value, i, player_inventory);
             player_inventory->inventory_content[i]->quantity = actual_quantity;
@@ -141,67 +140,42 @@ void loadPlayerInventory(FILE* player_save_file, Inventory* player_inventory, It
         }
     }
 }
-void loadStorage(FILE* player_save_file, storage* storage1, Item** item_list){
+void loadStorage(FILE* player_save_file, Game* game){
     signed char texte[256];
+    game->storage = initStorage();
     fgets(texte, 255, player_save_file);
     if(strcmp(texte, "-- STORAGE --\n") == 0){
         int actual_quantity;
         int actual_value;
-        if(fscanf(player_save_file, "{%d}@{%d}\n", &actual_quantity, &actual_value) == 2){
-            printf("actual value : %d\n", actual_value);
-            storage1->item = setNewItemFromList(item_list, actual_value);
-            storage1->item->quantity = actual_quantity;
-            storage1->next= NULL;
-        }
+//        if(fscanf(player_save_file, "{%d}@{%d}\n", &actual_quantity, &actual_value) == 2){
+//            printf("actual value : %d\n", actual_value);
+//            //storage1->item = setNewItemFromList(item_list, actual_value);
+//            storage1->item->quantity = actual_quantity;
+//            storage1->next= NULL;
+//        }
         while (fscanf(player_save_file, "{%d}@{%d}\n", &actual_quantity, &actual_value) == 2){
             printf("actual value : %d\n", actual_value);
-            Item* tempItem = setNewItemFromList(item_list, actual_value);
-            appendToStorage(storage1, tempItem);
+            addToStorage(game, actual_value, actual_quantity);
         }
     }
 }
 
-void saveGame(Game* game, storage* storage){
+void saveGame(Game* game){
     FILE* save_file;
     save_file = fopen("save.txt", "w");
     if(save_file != NULL){
         saveMap(game, save_file);
-        savePlayer(save_file, game->player, storage);
+        savePlayer(save_file, game);
     }
     fclose(save_file);
 }
 
-void loadGame(Game* game, storage* storage){
+void loadGame(Game* game){
     FILE* save_file;
     save_file = fopen("save.txt", "r");
     if(save_file != NULL){
         loadMap(game, save_file);
-        loadPlayer(save_file, game->player, game->itemList, storage);
+        loadPlayer(save_file, game);
     }
     fclose(save_file);
-}
-
-
-storage* initTempStorage(Item** itemList){
-    storage* tempStorage = malloc(sizeof(storage));
-    storage* tempStorage1 = malloc(sizeof(storage));
-    tempStorage->next = NULL;
-    Item* tempItemStored1 = malloc(sizeof(Item*));
-    Item* tempItemStored2 = malloc(sizeof(Item*));
-    tempItemStored1 = setNewItemFromList(itemList, 5);
-    tempItemStored1->quantity = 10;
-    tempItemStored2 = setNewItemFromList(itemList, 8);
-    tempItemStored2->quantity = 15;
-    tempStorage->item = tempItemStored1;
-    tempStorage->next = tempStorage1;
-    tempStorage1->item = tempItemStored2;
-    tempStorage1->next = NULL;
-    return tempStorage;
-}
-
-void appendToStorage(storage* storage1, Item* item){
-    storage* storage2 = malloc(sizeof(storage));
-    storage2->item = item;
-    storage1->next = storage2;
-    storage2->next = NULL;
 }

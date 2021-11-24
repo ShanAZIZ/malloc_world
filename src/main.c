@@ -12,6 +12,7 @@
 
 Game* initGame(int, int, int);
 
+
 int main(int argc, char const *argv[]) {
     srand(time(NULL));
 
@@ -22,6 +23,7 @@ int main(int argc, char const *argv[]) {
     Game *game = initGame(x, y, zone); // Initialisation de départ du jeu
 
     start(game);
+    freeGame(game);
     return 0;
 }
 

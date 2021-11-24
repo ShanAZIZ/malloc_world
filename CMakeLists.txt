@@ -31,5 +31,7 @@ add_executable(malloc_world
         src/cli/cli.c
         src/main.c
         src/monsters/monsters.c
-        src/pnj/pnj.c)
+        src/pnj/pnj.c
+        src/structures.c
+        )
 

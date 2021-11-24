@@ -25,18 +25,15 @@ struct storage {
 };
 typedef struct storage storage;
 
-storage* initTempStorage(Item**);
 void saveZone(FILE*, int**, int, int);
 void saveMap(Game* game, FILE* save_file);
 void loadMap(Game* game, FILE* save_file);
 void loadMapZone(FILE* save_file, int** map, int mapId, int x, int y, Player* player);
-void savePlayer(FILE* save_file, Player* player, storage* storage);
+void savePlayer(FILE* save_file, Game* game);
 void saveInventory(FILE*, Inventory* inventory);
-void saveStorage(FILE* player_save_file, storage* storage);
-void loadPlayer(FILE* save_file, Player* player, Item**, storage*);
+void saveStorage(FILE* player_save_file, Game* game);
+void loadPlayer(FILE* save_file, Game* game);
 void loadPlayerInventory(FILE* player_save_file, Inventory* player_inventory, Item**);
-void loadStorage(FILE* player_save_file, storage* storage1, Item** item_list);
-void appendToStorage(storage* storage1, Item* item);
-void saveGame(Game* game, storage* storage);
-void loadGame(Game* game, storage* storage);
-storage* initEmptyStorage();
+void loadStorage(FILE* player_save_file, Game* game);
+void saveGame(Game* game);
+void loadGame(Game* game);

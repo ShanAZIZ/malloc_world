@@ -60,4 +60,9 @@ typedef struct Game {
     Monster** monsterList;
     Storage* storage;
 } Game;
+
+void freeGame(Game* game);
+void freeMap(Game* game);
+void freeStorage(Storage* storage);
+
 #endif //MALLOC_WORLD_STRUCTURES_H

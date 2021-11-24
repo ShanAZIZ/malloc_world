@@ -42,7 +42,6 @@ void appendItemToInventoryWhereEmpty(Item **itemList, int itemId, Inventory *inv
     }
 }
 
-//TODO : To delete
 void appendItemToInventoryAtIndex(Item** itemList, int itemId, int index, Inventory* inventory){
     if(itemId != 0){
         Item* item = getOneItem(itemList, itemId);

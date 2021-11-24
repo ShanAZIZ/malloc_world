@@ -78,6 +78,14 @@ int menu(Player* player, Monster* monster, Game* game, int posX, int posY) {
             if(res == 1) {
                 movePlayerAddTimer(game, posX, posY, 15);
             }
+            else if(res == 2){
+                printf("Effacer la sauvegarde\n");
+                FILE* save_file;
+                save_file = fopen("save.txt", "w");
+                fclose(save_file);
+                freeGame(game);
+                exit(1);
+            }
             break;
         }
     } while(1);
@@ -97,10 +105,8 @@ int roundChoices(Player* player, Monster* monster, int choice, int idWeapon, int
             printf("Vous avez gagné %d point d'xp. Vous êtes niveau %d.\n", player->current_xp, player->level);
             return 1;
         }
-
-        // TODO case if the player lose the fight
+        
         if(player->current_hp <= 0) {
-            printf("Effacer la sauvegarde\n");
             return 2;
         }
     }

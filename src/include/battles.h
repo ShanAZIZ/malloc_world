@@ -9,9 +9,9 @@
 #include <string.h>
 #include <math.h>
 #include <time.h>
-#include "../player/player.h"
-#include "../monsters/monsters.h"
-#include "../move/move.h"
+#include "player.h"
+#include "monsters.h"
+#include "move.h"
 
 void updateXP(Player* player, Monster* monster);
 Monster* battle(Player* player, Monster* monster, int idWeapon);

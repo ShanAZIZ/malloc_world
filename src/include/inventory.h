@@ -6,7 +6,7 @@
  * Dernière modification : 22/10/2021
  * Par: DAILLY Armand
  */
-#include "../items/items.h"
+#include "items.h"
 #ifndef MALLOC_WORLD_INVENTORY_H
 #define MALLOC_WORLD_INVENTORY_H
 

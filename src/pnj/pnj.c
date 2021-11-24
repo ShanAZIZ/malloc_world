@@ -55,17 +55,24 @@ Craft **initCraft() {
 }
 
 void displayCraft(Game *game) {
+    printf("Menu Craft\nVoici les crafts disponibles dans votre zone : \n");
     for (int x = 0; x < 25; x += 1) {
-        if (game->craft[x]->nbResource2 > 0) {
-            printf("%d, %s, %d %s, %d %s, zone : %d\n", game->craft[x]->id,
-                   game->itemList[game->craft[x]->itemId]->name,
-                   game->craft[x]->nbResource1, game->itemList[game->craft[x]->idResource1]->name,
-                   game->craft[x]->nbResource2, game->itemList[game->craft[x]->idResource2]->name,
-                   game->craft[x]->zone);
-        } else {
-            printf("%d, %s, %d %s, zone : %d\n", game->craft[x]->id, game->itemList[game->craft[x]->itemId]->name,
-                   game->craft[x]->nbResource1, game->itemList[game->craft[x]->idResource1]->name,
-                   game->craft[x]->zone);
+        if ((game->player->mapId / 3 == 0 && (game->craft[x]->zone == 4 || game->craft[x]->zone == 6)) ||
+            (game->player->mapId / 3 == 1 &&
+             (game->craft[x]->zone == 4 || game->craft[x]->zone == 5 || game->craft[x]->zone == 6)) ||
+            (game->player->mapId / 3 == 2 &&
+             (game->craft[x]->zone == 3 || game->craft[x]->zone == 5 || game->craft[x]->zone == 6))) {
+            if (game->craft[x]->nbResource2 > 0) {
+                printf("%d, %s, %d %s, %d %s, zone : %d\n", game->craft[x]->id,
+                       game->itemList[game->craft[x]->itemId]->name,
+                       game->craft[x]->nbResource1, game->itemList[game->craft[x]->idResource1]->name,
+                       game->craft[x]->nbResource2, game->itemList[game->craft[x]->idResource2]->name,
+                       game->craft[x]->zone);
+            } else {
+                printf("%d, %s, %d %s, zone : %d\n", game->craft[x]->id, game->itemList[game->craft[x]->itemId]->name,
+                       game->craft[x]->nbResource1, game->itemList[game->craft[x]->idResource1]->name,
+                       game->craft[x]->zone);
+            }
         }
     }
 }
@@ -131,29 +138,136 @@ void deleteFromStorage(Game *game, int itemId) {
 
 }
 
+void addToInventory(Game *game, int itemId, int quantity) {
+    if (strcmp(game->itemList[itemId]->type, "Ressource de craft") == 0) {
+        for (int i = 0; i < quantity; i += 1) {
+            appendRessourceDeCraft(game->itemList, itemId, game->player->inventory);
+        }
+    } else if (strcmp(game->itemList[itemId]->type, "Soin") == 0) {
+        for (int i = 0; i < quantity; i += 1) {
+            appendPotion(game, itemId);
+        }
+    } else {
+        for (int i = 0; i < quantity; i += 1) {
+            appendItemToInventoryWhereEmpty(game->itemList, itemId, game->player->inventory);
+        }
+    }
+}
+
 void retrieveFromStorage(Game *game, int itemId, int quantity) {
     Storage *nextElt = game->storage;
+    if (nextElt->objectId == itemId && quantity < nextElt->quantity) {
+        nextElt->quantity -= quantity;
+        addToInventory(game, itemId, quantity);
+        return;
+    } else if ((nextElt->objectId == itemId && quantity == nextElt->quantity) ||
+               (nextElt->objectId == itemId && quantity > nextElt->quantity)) {
+        quantity = nextElt->quantity;
+        deleteFromStorage(game, itemId);
+        addToInventory(game, itemId, quantity);
+        return;
+    }
     while (nextElt->next != NULL) {
         if (nextElt->objectId == itemId && quantity < nextElt->quantity) {
             nextElt->quantity -= quantity;
+            addToInventory(game, itemId, quantity);
             return;
-        } else if (nextElt->objectId == itemId && quantity == nextElt->quantity) {
+        } else if ((nextElt->objectId == itemId && quantity == nextElt->quantity) ||
+                   (nextElt->objectId == itemId && quantity > nextElt->quantity)) {
+            quantity = nextElt->quantity;
             deleteFromStorage(game, itemId);
-            if (strcmp(game->itemList[itemId]->type, "Ressource de craft") == 0) {
-                for (int i = 0; i < quantity; i += 1) {
-                    appendRessourceDeCraft(game->itemList, itemId, game->player->inventory);
-                }
-            }else if (strcmp(game->itemList[itemId]->type, "Soin") == 0) {
-                for (int i = 0; i < quantity; i += 1) {
-                    //appendPotion
-                }
-            }else{
-                for (int i = 0; i < quantity; i += 1) {
-                    appendItemToInventoryWhereEmpty(game->itemList, itemId, game->player->inventory);
-                }
-            }
+            addToInventory(game, itemId, quantity);
             return;
         }
         nextElt = nextElt->next;
+    }
+}
+
+void menuCraft(Game *game) {
+    int choice;
+    int success;
+    success = 0;
+    displayCraft(game);
+    do {
+        printf("Tapez l'id de l'objet que vous souhaitez créer.\n");
+        scanf("%d", &choice);
+    } while (choice < 0 || choice > 24);
+    for (int i = 0; i < INVENTORY_SIZE; i += 1) {
+        if (game->player->inventory->inventory_content[i]->value == game->craft[choice]->idResource1 && game->player->inventory->inventory_content[i]->quantity >= game->craft[choice]->nbResource1) {
+            if (game->craft[choice]->nbResource2 > 0) {
+                for (int j = 0; j < INVENTORY_SIZE; j += 1) {
+                    if (game->player->inventory->inventory_content[j]->value == game->craft[choice]->idResource2 && game->player->inventory->inventory_content[j]->quantity >= game->craft[choice]->nbResource2) {
+                        addToInventory(game, game->craft[choice]->itemId, 1);
+                        if(game->player->inventory->inventory_content[j]->quantity == game->craft[choice]->nbResource2){
+                            emptyInventoryElement(game, j);
+                        }else{
+                            game->player->inventory->inventory_content[j]->quantity -= game->craft[choice]->nbResource2;
+                        }
+                        success = 1;
+                        printf("L'objet a bien ete cree.\n");
+                    }
+                }
+            }else{
+                addToInventory(game, game->craft[choice]->itemId, 1);
+                success = 1;
+            }
+            if(success == 1 && game->player->inventory->inventory_content[i]->quantity == game->craft[choice]->nbResource1){
+                emptyInventoryElement(game, i);
+                return;
+            }else if(success == 1 && game->player->inventory->inventory_content[i]->quantity > game->craft[choice]->nbResource1){
+                game->player->inventory->inventory_content[i]->quantity -= game->craft[choice]->nbResource1;
+                return;
+            }
+        }
+    }
+}
+
+void storageMenu(Game *game) {
+    int choice;
+    int itemChoice;
+    int quantity;
+    do {
+        printf("\nVous êtes dans l'inventaire du PNJ. Que voulez-vous faire ?\n1 - Déposer des objets\n2 - Récupérer des objets\n");
+        scanf("%d", &choice);
+    } while (choice < 1 || choice > 3);
+    if (choice == 1) {
+        displayInventory(game);
+        while (1) {
+            printf("Tapez l'id de l'objet que vous souhaitez déposer\n");
+            scanf("%d", &itemChoice);
+            if (game->player->inventory->inventory_content[itemChoice]->value != 0) {
+                addToStorage(game, game->player->inventory->inventory_content[itemChoice]->value,
+                             game->player->inventory->inventory_content[itemChoice]->quantity);
+                emptyInventoryElement(game, itemChoice);
+                break;
+            }
+        }
+    } else if (choice == 2) {
+        displayPnjStorage(game);
+        do {
+            printf("Tapez l'id de l'objet que vous souhaitez récupérer\n");
+            scanf("%d", &itemChoice);
+        } while (itemChoice < 1 || itemChoice > 34);
+        printf("Tapez la quantité voulue\n");
+        scanf("%d", &quantity);
+        retrieveFromStorage(game, itemChoice, quantity);
+    }
+}
+
+void menuPnj(Game *game) {
+    int choice = 0;
+    do {
+        printf("Bonjour joueur. \nQue voulez-vous faire ? \n1 - Réparer l'équipement \n2 - Accéder à l'inventaire du PNJ\n3 - Crafter des objets\n4 - Quitter\n");
+        scanf("%d", &choice);
+    } while (choice < 1 || choice > 4);
+
+    if (choice == 1) {
+        repairStuff(game);
+    } else if (choice == 2) {
+        storageMenu(game);
+    } else if (choice == 3) {
+        menuCraft(game);
+    } else {
+        return;
     }
 }

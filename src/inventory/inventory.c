@@ -42,14 +42,6 @@ void appendItemToInventoryWhereEmpty(Item **itemList, int itemId, Inventory *inv
     }
 }
 
-void appendNewItemToInventory(Item **itemList, Item *item, Inventory *player_inventory) {
-
-    if (strcmp(item->type, "Soin") == 0) {
-        appendItemToInventoryWhereEmpty(itemList, item->value, player_inventory);
-    }
-
-}
-
 void appendRessourceDeCraft(Item **itemList, int itemId, Inventory *player_inventory) {
     Item *item = getOneItem(itemList, itemId);
     int result;
@@ -64,6 +56,21 @@ void appendRessourceDeCraft(Item **itemList, int itemId, Inventory *player_inven
     }
     if (result == 0) {
         appendItemToInventoryWhereEmpty(itemList, itemId, player_inventory);
+    }
+}
+
+void appendPotion(Game* game, int idPotion){
+    int result;
+    result = 0;
+    for (int i = 0; i < INVENTORY_SIZE; i++) {
+        if (idPotion == game->player->inventory->inventory_content[i]->value){
+            game->player->inventory->inventory_content[i]->quantity += 1;
+            result = 1;
+            break;
+        }
+    }
+    if (result == 0) {
+        appendItemToInventoryWhereEmpty(game->itemList, idPotion, game->player->inventory);
     }
 }
 

@@ -45,14 +45,12 @@ int main(int argc, char const *argv[]) {
             fflush(stdin);
         }
     }*/
+    addToInventory(game, 5, 15);
+    addToInventory(game, 6, 4);
+    addToStorage(game, 5, 30);
+    menuPnj(game);
     displayInventory(game);
-    addToStorage(game, 5, 15);
-    addToStorage(game, 1, 2);
-    addToStorage(game, 7, 15);
     displayPnjStorage(game);
-    retrieveFromStorage(game, 1, 2);
-    displayPnjStorage(game);
-    displayInventory(game);
     printf("Leaving the game");
     return 0;
 }

@@ -4,15 +4,34 @@ project(malloc_world C)
 set(CMAKE_C_STANDARD 99)
 
 
-include_directories(src/inventory)
+
+include_directories(src/inventory
+        src/map
+        src/player
+        src/items
+        src/save
+        src/move
+        src/cli
+        src/include
+        src/monsters
+        src/battles
+        src/pnj
+        src/include
+        )
 
 
 add_executable(malloc_world
         src/inventory/inventory.c
-        src/inventory/inventory.h
+        src/battles/battles.c
         src/items/items.c
-        src/items/items.h
         src/player/player.c
-        src/player/player.h
+        src/save/save.c
         src/map/map.c
-        src/main.c src/move/move.h src/move/move.c)
+        src/move/move.c
+        src/cli/cli.c
+        src/main.c
+        src/monsters/monsters.c
+        src/pnj/pnj.c
+        src/structures.c
+        )
+

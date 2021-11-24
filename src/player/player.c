@@ -1,7 +1,6 @@
 #include "player.h"
 
 Player * initPlayer(Item** item_list){
-    Item** itemList2 = createItemList();
     Player * mainPlayer = malloc(sizeof(Player));
     mainPlayer->current_hp = 100;
     mainPlayer->level = 1;

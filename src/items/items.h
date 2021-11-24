@@ -7,13 +7,13 @@
  * Par: DAILLY Armand
  */
 
+#include "../include/structures.h"
+
+
 #ifndef MALLOC_WORLD_ITEMS_H
 #define MALLOC_WORLD_ITEMS_H
 
-#include "../include/structures.h"
-
 Item** createItemList();
 Item* getOneItem(Item**, int);
-Item* setNewItemFromList(Item** itemList, int id);
 
 #endif //MALLOC_WORLD_ITEMS_H

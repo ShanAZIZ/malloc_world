@@ -133,6 +133,7 @@ void loadPlayerInventory(FILE* player_save_file, Inventory* player_inventory, It
         int actual_durability;
         int i=0;
         for(; i< INVENTORY_SIZE; i++){
+            // TODO: User AppendWhereEmpty
             fscanf(player_save_file, "{%d}@{%d}@{%d}\n", &actual_quantity, &actual_value, &actual_durability);
             appendItemToInventoryAtIndex(item_list, actual_value, i, player_inventory);
             player_inventory->inventory_content[i]->quantity = actual_quantity;

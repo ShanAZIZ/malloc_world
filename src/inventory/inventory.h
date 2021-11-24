@@ -16,7 +16,11 @@
 
 Inventory* initPlayerInventory(Item** item_list);
 void appendItemToInventoryWhereEmpty(Item** itemList, int itemId, Inventory *inventory);
-void appendItemToInventoryAtIndex(Item** itemList, int itemId, int index, Inventory* inventory);
+void appendItemToInventoryAtIndex(Item** itemList, int itemId, int index, Inventory* inventory); // TODO : to delete
 void appendRessourceDeCraft(Item** itemList, int itemId, Inventory* player_inventory);
 void showPlayerInventory(Inventory* player_inventory);
+void appendPotion(Game* game, int idPotion);
+void emptyInventoryElement(Game* game, int id);
+void displayInventory(Game* game);
+
 #endif

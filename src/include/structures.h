@@ -1,7 +1,3 @@
-//
-// Created by Audrey Divito on 22/11/2021.
-//
-
 #ifndef MALLOC_WORLD_STRUCTURES_H
 #define MALLOC_WORLD_STRUCTURES_H
 
@@ -19,6 +15,7 @@ typedef struct Inventory {
     Item** inventory_content;
 } Inventory;
 
+
 typedef struct Monster {
     int id;
     char *name;
@@ -27,6 +24,7 @@ typedef struct Monster {
     unsigned short def;
     unsigned short xp;
 } Monster;
+
 
 typedef struct Player {
     int current_xp;
@@ -38,11 +36,28 @@ typedef struct Player {
     int mapId;
 } Player;
 
-typedef struct Game {
-    int*** maps;
-    Item** itemList;
-    Player* player;
-    Monster** monsterList;
-} Game;
+typedef struct Storage {
+    int objectId;
+    int quantity;
+    struct Storage* next;
+} Storage;
 
+typedef struct Craft{
+    unsigned short id;
+    unsigned short itemId;
+    unsigned short idResource1;
+    unsigned short nbResource1;
+    unsigned short idResource2;
+    unsigned short nbResource2;
+    unsigned short zone;
+} Craft;
+
+typedef struct Game {
+    int ***maps;
+    Item **itemList;
+    Player *player;
+    Craft** craft;
+    Monster** monsterList;
+    Storage* storage;
+} Game;
 #endif //MALLOC_WORLD_STRUCTURES_H

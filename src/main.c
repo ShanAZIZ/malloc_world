@@ -33,5 +33,7 @@ Game* initGame(int x, int y, int zone){
     game->itemList = createItemList();
     game->monsterList = createMonsterList();
     game->player = initPlayer(game->itemList);
+    game->craft = initCraft();
+    game->storage = initStorage();
     return game;
 }

@@ -7,6 +7,7 @@
 
 #include "../player/player.h"
 #include "../battles/battles.h"
+#include "pnj.h"
 
 void checkCanMove(Game* game, int choice);
 int checkInInventory(Player* player, int itemId);

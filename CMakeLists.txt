@@ -15,6 +15,8 @@ include_directories(src/inventory
         src/include
         src/monsters
         src/battles
+        src/pnj
+        src/include
         )
 
 
@@ -28,5 +30,6 @@ add_executable(malloc_world
         src/move/move.c
         src/cli/cli.c
         src/main.c
-        src/monsters/monsters.c)
+        src/monsters/monsters.c
+        src/pnj/pnj.c)
 

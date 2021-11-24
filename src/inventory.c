@@ -12,31 +12,31 @@
 #include "inventory.h"
 
 Inventory *initPlayerInventory(Item **itemList) {
-    Inventory *player_inventory = malloc(sizeof(Inventory));
+    Inventory *playerInventory = malloc(sizeof(Inventory));
 
-    player_inventory->inventory_content = malloc(sizeof(Item *) * INVENTORY_SIZE);
+    playerInventory->inventoryContent = malloc(sizeof(Item *) * INVENTORY_SIZE);
     for (int i = 0; i < INVENTORY_SIZE; i++) {
-        player_inventory->inventory_content[i] = malloc(sizeof(Item));
-        *(player_inventory->inventory_content[i]) = (Item) {0, "", "", 0, 0, 0, 0};
+        playerInventory->inventoryContent[i] = malloc(sizeof(Item));
+        *(playerInventory->inventoryContent[i]) = (Item) {0, "", "", 0, 0, 0, 0};
     }
-    appendItemToInventoryWhereEmpty(itemList, 1, player_inventory);
-    appendItemToInventoryWhereEmpty(itemList, 2, player_inventory);
-    appendItemToInventoryWhereEmpty(itemList, 3, player_inventory);
-    appendItemToInventoryWhereEmpty(itemList, 4, player_inventory);
-    return player_inventory;
+    appendItemToInventoryWhereEmpty(itemList, 1, playerInventory);
+    appendItemToInventoryWhereEmpty(itemList, 2, playerInventory);
+    appendItemToInventoryWhereEmpty(itemList, 3, playerInventory);
+    appendItemToInventoryWhereEmpty(itemList, 4, playerInventory);
+    return playerInventory;
 }
 
 void appendItemToInventoryWhereEmpty(Item **itemList, int itemId, Inventory *inventory) {
     Item *item = getOneItem(itemList, itemId);
     for (int i = 0; i < INVENTORY_SIZE; i++) {
-        if (inventory->inventory_content[i]->value == 0) {
-            inventory->inventory_content[i]->value = item->value;
-            inventory->inventory_content[i]->name = item->name;
-            inventory->inventory_content[i]->type = item->type;
-            inventory->inventory_content[i]->damage = item->damage;
-            inventory->inventory_content[i]->durability = item->durability;
-            inventory->inventory_content[i]->quantity = item->quantity;
-            inventory->inventory_content[i]->protection = item->protection;
+        if (inventory->inventoryContent[i]->value == 0) {
+            inventory->inventoryContent[i]->value = item->value;
+            inventory->inventoryContent[i]->name = item->name;
+            inventory->inventoryContent[i]->type = item->type;
+            inventory->inventoryContent[i]->damage = item->damage;
+            inventory->inventoryContent[i]->durability = item->durability;
+            inventory->inventoryContent[i]->quantity = item->quantity;
+            inventory->inventoryContent[i]->protection = item->protection;
             break;
         }
     }
@@ -45,33 +45,33 @@ void appendItemToInventoryWhereEmpty(Item **itemList, int itemId, Inventory *inv
 void appendItemToInventoryAtIndex(Item** itemList, int itemId, int index, Inventory* inventory){
     if(itemId != 0){
         Item* item = getOneItem(itemList, itemId);
-        inventory->inventory_content[index]->value = item->value;
-        inventory->inventory_content[index]->name = item->name;
-        inventory->inventory_content[index]->type = item->type;
-        inventory->inventory_content[index]->damage = item->damage;
-        inventory->inventory_content[index]->durability = item->durability;
-        inventory->inventory_content[index]->quantity = item->quantity;
-        inventory->inventory_content[index]->protection = item->protection;
+        inventory->inventoryContent[index]->value = item->value;
+        inventory->inventoryContent[index]->name = item->name;
+        inventory->inventoryContent[index]->type = item->type;
+        inventory->inventoryContent[index]->damage = item->damage;
+        inventory->inventoryContent[index]->durability = item->durability;
+        inventory->inventoryContent[index]->quantity = item->quantity;
+        inventory->inventoryContent[index]->protection = item->protection;
     }
     else {
-        *(inventory->inventory_content[index]) = (Item){0, "", "", 0, 0, 0, 0};
+        *(inventory->inventoryContent[index]) = (Item){0, "", "", 0, 0, 0, 0};
     }
 }
 
-void appendRessourceDeCraft(Item **itemList, int itemId, Inventory *player_inventory) {
+void appendRessourceDeCraft(Item **itemList, int itemId, Inventory *playerInventory) {
     Item *item = getOneItem(itemList, itemId);
     int result;
     result = 0;
     for (int i = 0; i < INVENTORY_SIZE; i++) {
-        if (item->value == player_inventory->inventory_content[i]->value &&
-            player_inventory->inventory_content[i]->quantity < 20) {
-            player_inventory->inventory_content[i]->quantity += 1;
+        if (item->value == playerInventory->inventoryContent[i]->value &&
+            playerInventory->inventoryContent[i]->quantity < 20) {
+            playerInventory->inventoryContent[i]->quantity += 1;
             result = 1;
             break;
         }
     }
     if (result == 0) {
-        appendItemToInventoryWhereEmpty(itemList, itemId, player_inventory);
+        appendItemToInventoryWhereEmpty(itemList, itemId, playerInventory);
     }
 }
 
@@ -80,8 +80,8 @@ void appendPotion(Game* game, int idPotion){
     int result;
     result = 0;
     for (int i = 0; i < INVENTORY_SIZE; i++) {
-        if (idPotion == game->player->inventory->inventory_content[i]->value){
-            game->player->inventory->inventory_content[i]->quantity += 1;
+        if (idPotion == game->player->inventory->inventoryContent[i]->value){
+            game->player->inventory->inventoryContent[i]->quantity += 1;
             result = 1;
             break;
         }
@@ -91,31 +91,31 @@ void appendPotion(Game* game, int idPotion){
     }
 }
 
-void showPlayerInventory(Inventory* player_inventory){
+void showPlayerInventory(Inventory* playerInventory){
     for(int i = 0; i < INVENTORY_SIZE; i += 1) {
-        if (player_inventory->inventory_content[i]->value != 0) {
+        if (playerInventory->inventoryContent[i]->value != 0) {
             printf("\n %d | %s | %s | %d | %d | %d | %d |",
-                   player_inventory->inventory_content[i]->value,
-                   player_inventory->inventory_content[i]->type,
-                   player_inventory->inventory_content[i]->name,
-                   player_inventory->inventory_content[i]->quantity,
-                   player_inventory->inventory_content[i]->durability,
-                   player_inventory->inventory_content[i]->damage,
-                   player_inventory->inventory_content[i]->protection
+                   playerInventory->inventoryContent[i]->value,
+                   playerInventory->inventoryContent[i]->type,
+                   playerInventory->inventoryContent[i]->name,
+                   playerInventory->inventoryContent[i]->quantity,
+                   playerInventory->inventoryContent[i]->durability,
+                   playerInventory->inventoryContent[i]->damage,
+                   playerInventory->inventoryContent[i]->protection
             );
         }
     }
 }
 
 void emptyInventoryElement(Game *game, int id) {
-    *game->player->inventory->inventory_content[id] = (Item) {0, "", "", 0, 0, 0, 0};
+    *game->player->inventory->inventoryContent[id] = (Item) {0, "", "", 0, 0, 0, 0};
 }
 
 void displayInventory(Game *game) {
     for (int i = 0; i < INVENTORY_SIZE; i += 1) {
-        if (game->player->inventory->inventory_content[i]->value != 0) {
-            printf("%d | %d | %s\n", i, game->player->inventory->inventory_content[i]->quantity,
-                   game->player->inventory->inventory_content[i]->name);
+        if (game->player->inventory->inventoryContent[i]->value != 0) {
+            printf("%d | %d | %s\n", i, game->player->inventory->inventoryContent[i]->quantity,
+                   game->player->inventory->inventoryContent[i]->name);
         }
     }
 }

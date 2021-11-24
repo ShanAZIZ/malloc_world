@@ -70,8 +70,8 @@ void newGame(Game* game){
     do {
         printf("\n---- Joueur ----- \n");
         printf("niveau : %d\n", game->player->level);
-        printf("sante : %d\n", game->player->current_hp);
-        printf("xp : %d\n", game->player->current_xp);
+        printf("sante : %d\n", game->player->currentHp);
+        printf("xp : %d\n", game->player->currentXp);
         printf("position : %d | %d\n", game->player->posX, game->player->posY);
         printf("map : %d\n", game->player->mapId/3);
         printf("\n1. Jouer");
@@ -163,8 +163,8 @@ void test(Game* game){
 
 
     printf("level : %d \n", game->player->level);
-    printf("Inventory at index 4 quantity: %d \n", game->player->inventory->inventory_content[4]->quantity);
-    printf("Inventory at index 4 name: %s \n", game->player->inventory->inventory_content[4]->name);
+    printf("Inventory at index 4 quantity: %d \n", game->player->inventory->inventoryContent[4]->quantity);
+    printf("Inventory at index 4 name: %s \n", game->player->inventory->inventoryContent[4]->name);
     while (done == 0) {
         scanf("%d", &input);
         if (input == 5) {

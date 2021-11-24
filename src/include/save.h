@@ -26,14 +26,14 @@ struct storage {
 typedef struct storage storage;
 
 void saveZone(FILE*, int**, int, int);
-void saveMap(Game* game, FILE* save_file);
-void loadMap(Game* game, FILE* save_file);
-void loadMapZone(FILE* save_file, int** map, int mapId, int x, int y, Player* player);
-void savePlayer(FILE* save_file, Game* game);
+void saveMap(Game* game, FILE* saveFile);
+void loadMap(Game* game, FILE* saveFile);
+void loadMapZone(FILE* saveFile, int** map, int mapId, int x, int y, Player* player);
+void savePlayer(FILE* saveFile, Game* game);
 void saveInventory(FILE*, Inventory* inventory);
-void saveStorage(FILE* player_save_file, Game* game);
-void loadPlayer(FILE* save_file, Game* game);
-void loadPlayerInventory(FILE* player_save_file, Inventory* player_inventory, Item**);
-void loadStorage(FILE* player_save_file, Game* game);
+void saveStorage(FILE* playerSaveFile, Game* game);
+void loadPlayer(FILE* saveFile, Game* game);
+void loadPlayerInventory(FILE* playerSaveFile, Inventory* playerInventory, Item**);
+void loadStorage(FILE* playerSaveFile, Game* game);
 void saveGame(Game* game);
 void loadGame(Game* game);

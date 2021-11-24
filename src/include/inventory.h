@@ -14,11 +14,11 @@
 
 
 
-Inventory* initPlayerInventory(Item** item_list);
+Inventory* initPlayerInventory(Item** itemList);
 void appendItemToInventoryWhereEmpty(Item** itemList, int itemId, Inventory *inventory);
 void appendItemToInventoryAtIndex(Item** itemList, int itemId, int index, Inventory* inventory);
-void appendRessourceDeCraft(Item** itemList, int itemId, Inventory* player_inventory);
-void showPlayerInventory(Inventory* player_inventory);
+void appendRessourceDeCraft(Item** itemList, int itemId, Inventory* playerInventory);
+void showPlayerInventory(Inventory* playerInventory);
 void appendPotion(Game* game, int idPotion);
 void emptyInventoryElement(Game* game, int id);
 void displayInventory(Game* game);

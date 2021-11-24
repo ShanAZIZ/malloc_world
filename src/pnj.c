@@ -7,8 +7,8 @@
 
 void repairStuff(Game *game) {
     for (int i = 0; i < INVENTORY_SIZE; i += 1) {
-        if (game->player->inventory->inventory_content[i]->value != 0) {
-            game->player->inventory->inventory_content[i]->durability = game->itemList[game->player->inventory->inventory_content[i]->value]->durability;
+        if (game->player->inventory->inventoryContent[i]->value != 0) {
+            game->player->inventory->inventoryContent[i]->durability = game->itemList[game->player->inventory->inventoryContent[i]->value]->durability;
         }
     }
 }
@@ -193,15 +193,15 @@ void menuCraft(Game *game) {
         scanf("%d", &choice);
     } while (choice < 0 || choice > 24);
     for (int i = 0; i < INVENTORY_SIZE; i += 1) {
-        if (game->player->inventory->inventory_content[i]->value == game->craft[choice]->idResource1 && game->player->inventory->inventory_content[i]->quantity >= game->craft[choice]->nbResource1) {
+        if (game->player->inventory->inventoryContent[i]->value == game->craft[choice]->idResource1 && game->player->inventory->inventoryContent[i]->quantity >= game->craft[choice]->nbResource1) {
             if (game->craft[choice]->nbResource2 > 0) {
                 for (int j = 0; j < INVENTORY_SIZE; j += 1) {
-                    if (game->player->inventory->inventory_content[j]->value == game->craft[choice]->idResource2 && game->player->inventory->inventory_content[j]->quantity >= game->craft[choice]->nbResource2) {
+                    if (game->player->inventory->inventoryContent[j]->value == game->craft[choice]->idResource2 && game->player->inventory->inventoryContent[j]->quantity >= game->craft[choice]->nbResource2) {
                         addToInventory(game, game->craft[choice]->itemId, 1);
-                        if(game->player->inventory->inventory_content[j]->quantity == game->craft[choice]->nbResource2){
+                        if(game->player->inventory->inventoryContent[j]->quantity == game->craft[choice]->nbResource2){
                             emptyInventoryElement(game, j);
                         }else{
-                            game->player->inventory->inventory_content[j]->quantity -= game->craft[choice]->nbResource2;
+                            game->player->inventory->inventoryContent[j]->quantity -= game->craft[choice]->nbResource2;
                         }
                         success = 1;
                         printf("L'objet a bien ete cree.\n");
@@ -211,11 +211,11 @@ void menuCraft(Game *game) {
                 addToInventory(game, game->craft[choice]->itemId, 1);
                 success = 1;
             }
-            if(success == 1 && game->player->inventory->inventory_content[i]->quantity == game->craft[choice]->nbResource1){
+            if(success == 1 && game->player->inventory->inventoryContent[i]->quantity == game->craft[choice]->nbResource1){
                 emptyInventoryElement(game, i);
                 return;
-            }else if(success == 1 && game->player->inventory->inventory_content[i]->quantity > game->craft[choice]->nbResource1){
-                game->player->inventory->inventory_content[i]->quantity -= game->craft[choice]->nbResource1;
+            }else if(success == 1 && game->player->inventory->inventoryContent[i]->quantity > game->craft[choice]->nbResource1){
+                game->player->inventory->inventoryContent[i]->quantity -= game->craft[choice]->nbResource1;
                 return;
             }
         }
@@ -235,9 +235,9 @@ void storageMenu(Game *game) {
         while (1) {
             printf("Tapez l'id de l'objet que vous souhaitez déposer\n");
             scanf("%d", &itemChoice);
-            if (game->player->inventory->inventory_content[itemChoice]->value != 0) {
-                addToStorage(game, game->player->inventory->inventory_content[itemChoice]->value,
-                             game->player->inventory->inventory_content[itemChoice]->quantity);
+            if (game->player->inventory->inventoryContent[itemChoice]->value != 0) {
+                addToStorage(game, game->player->inventory->inventoryContent[itemChoice]->value,
+                             game->player->inventory->inventoryContent[itemChoice]->quantity);
                 emptyInventoryElement(game, itemChoice);
                 break;
             }

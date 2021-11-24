@@ -6,7 +6,7 @@ void freeGame(Game* game){
     freeMap(game);
     // Free player
     for(int i = 0; i < 10; i++){
-        free(game->player->inventory->inventory_content[i]);
+        free(game->player->inventory->inventoryContent[i]);
     }
     free(game->player->inventory);
     free(game->player);

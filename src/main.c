@@ -8,7 +8,7 @@
  */
 
 #include <time.h>
-#include "cli/cli.h"
+#include "cli.h"
 
 Game* initGame(int, int, int);
 

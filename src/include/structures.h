@@ -12,7 +12,7 @@ typedef struct Item {
 } Item;
 
 typedef struct Inventory {
-    Item** inventory_content;
+    Item** inventoryContent;
 } Inventory;
 
 
@@ -27,9 +27,9 @@ typedef struct Monster {
 
 
 typedef struct Player {
-    int current_xp;
+    int currentXp;
     int level;
-    int current_hp;
+    int currentHp;
     Inventory* inventory;
     int posX;
     int posY;

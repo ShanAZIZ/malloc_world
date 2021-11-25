@@ -5,8 +5,8 @@
 #ifndef MALLOC_WORLD_MOVE_H
 #define MALLOC_WORLD_MOVE_H
 
-#include "../player/player.h"
-#include "../battles/battles.h"
+#include "player.h"
+#include "battles.h"
 #include "pnj.h"
 
 void checkCanMove(Game* game, int choice);

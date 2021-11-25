@@ -10,7 +10,7 @@
 #ifndef MALLOC_WORLD_MONSTERS_H
 #define MALLOC_WORLD_MONSTERS_H
 
-#include "../include/structures.h"
+#include "structures.h"
 
 Monster** createMonsterList(void);
 Monster* getOneMonster(Monster **monsterList, int monsterId);

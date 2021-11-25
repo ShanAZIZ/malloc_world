@@ -11,8 +11,8 @@ int armorChoice(Player* player) {
     int maxArmor = 0;
 
     for(int i = 0; i < INVENTORY_SIZE; i++) {
-        if(player->inventory->inventory_content[i]->protection > maxArmor) {
-            maxArmor = player->inventory->inventory_content[i]->protection;
+        if(player->inventory->inventoryContent[i]->protection > maxArmor) {
+            maxArmor = player->inventory->inventoryContent[i]->protection;
         }
     }
     printf("Vous ferez le combat avec %d %% de protection.\n", maxArmor);
@@ -20,10 +20,10 @@ int armorChoice(Player* player) {
 }
 
 void updateXP(Player* player, Monster* monster) {
-    player->current_xp += monster->xp;
-        if(player->current_xp >= xpEvolution[player->level]) {
+    player->currentXp += monster->xp;
+        if(player->currentXp >= xpEvolution[player->level]) {
             player->level += 1;
-            player->current_hp = hpEvolution[player->level];
+            player->currentHp = hpEvolution[player->level];
         }
 }
 
@@ -33,16 +33,16 @@ int weaponChoice(Player* player) {
     int posWeapon[10] = {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
 
     for(int i = 0; i < INVENTORY_SIZE; i++) {
-        if(strcmp(player->inventory->inventory_content[i]->type, "Arme") == 0 && player->inventory->inventory_content[i]->durability > 0) {
+        if(strcmp(player->inventory->inventoryContent[i]->type, "Arme") == 0 && player->inventory->inventoryContent[i]->durability > 0) {
             posWeapon[cpt] = i;
-            printf("Tapez %d pour prendre cette arme : %s %d %d\n", cpt, player->inventory->inventory_content[i]->name, player->inventory->inventory_content[i]->durability, player->inventory->inventory_content[i]->damage);
+            printf("Tapez %d pour prendre cette arme : %s %d %d\n", cpt, player->inventory->inventoryContent[i]->name, player->inventory->inventoryContent[i]->durability, player->inventory->inventoryContent[i]->damage);
             cpt += 1;
         }
     }
 
     do {
         scanf("%d", &choice);
-        if(player->inventory->inventory_content[posWeapon[choice]]->damage > 0 && player->inventory->inventory_content[posWeapon[choice]]->durability > 0) {
+        if(player->inventory->inventoryContent[posWeapon[choice]]->damage > 0 && player->inventory->inventoryContent[posWeapon[choice]]->durability > 0) {
             break;
         }
     } while (1);
@@ -51,9 +51,9 @@ int weaponChoice(Player* player) {
 }
 
 Monster* battle(Player* player, Monster* monster, int idWeapon) {
-    monster->hp -= player->inventory->inventory_content[idWeapon]->damage;
-    printf("%d\n", player->current_hp);
-    player->inventory->inventory_content[idWeapon]->durability -= 1;
+    monster->hp -= player->inventory->inventoryContent[idWeapon]->damage;
+    printf("%d\n", player->currentHp);
+    player->inventory->inventoryContent[idWeapon]->durability -= 1;
     return monster;
 }
 
@@ -80,9 +80,9 @@ int menu(Player* player, Monster* monster, Game* game, int posX, int posY) {
             }
             else if(res == 2){
                 printf("Effacer la sauvegarde\n");
-                FILE* save_file;
-                save_file = fopen("save.txt", "w");
-                fclose(save_file);
+                FILE* saveFile;
+                saveFile = fopen("save.txt", "w");
+                fclose(saveFile);
                 freeGame(game);
                 exit(1);
             }
@@ -96,17 +96,17 @@ int menu(Player* player, Monster* monster, Game* game, int posX, int posY) {
 int roundChoices(Player* player, Monster* monster, int choice, int idWeapon, int maxArmor) {
     int random = 0;
     if(choice == 1) {
-        if(player->current_hp > 0 && monster->hp > 0) {
+        if(player->currentHp > 0 && monster->hp > 0) {
             monster = battle(player, monster, idWeapon);
         }
 
         if(monster->hp <= 0) {
             updateXP(player, monster);
-            printf("Vous avez gagné %d point d'xp. Vous êtes niveau %d.\n", player->current_xp, player->level);
+            printf("Vous avez gagné %d point d'xp. Vous êtes niveau %d.\n", player->currentXp, player->level);
             return 1;
         }
 
-        if(player->current_hp <= 0) {
+        if(player->currentHp <= 0) {
             return 2;
         }
     }
@@ -125,7 +125,7 @@ int roundChoices(Player* player, Monster* monster, int choice, int idWeapon, int
         }
     }
 
-    player->current_hp -= (monster->att * (1 - (0.01 * maxArmor)));
+    player->currentHp -= (monster->att * (1 - (0.01 * maxArmor)));
     printf("HP monstre : %d\n", monster->hp);
 
     return 0;
@@ -135,13 +135,13 @@ void usingPotion(Player* player) {
     int posPotion[3] = {-1, -1, -1};
     int choice = 0;
 
-    if(player->current_hp < hpEvolution[player->level]) {
+    if(player->currentHp < hpEvolution[player->level]) {
         for(int i = 0; i < INVENTORY_SIZE; i++) {
-            if(player->inventory->inventory_content[i]->value == 15) {
+            if(player->inventory->inventoryContent[i]->value == 15) {
                 posPotion[0] = i;
-            } else if(player->inventory->inventory_content[i]->value == 26) {
+            } else if(player->inventory->inventoryContent[i]->value == 26) {
                 posPotion[1] = i;
-            } else if(player->inventory->inventory_content[i]->value == 34) {
+            } else if(player->inventory->inventoryContent[i]->value == 34) {
                 posPotion[2] = i;
             }
         }
@@ -149,29 +149,29 @@ void usingPotion(Player* player) {
         if(posPotion[0] != -1 || posPotion[1] != -1 || posPotion[2] != -1) {
             do {
                 if(posPotion[0] != -1)
-                    printf("Vous avez %d potions de niveau I. Appuyez sur 1 pour les utiliser.\n", player->inventory->inventory_content[posPotion[0]]->quantity);
+                    printf("Vous avez %d potions de niveau I. Appuyez sur 1 pour les utiliser.\n", player->inventory->inventoryContent[posPotion[0]]->quantity);
 
                 if(posPotion[1] != -1)
-                    printf("Vous avez %d potions de niveau II. Appuyez sur 2 pour les utiliser.\n", player->inventory->inventory_content[posPotion[1]]->quantity);
+                    printf("Vous avez %d potions de niveau II. Appuyez sur 2 pour les utiliser.\n", player->inventory->inventoryContent[posPotion[1]]->quantity);
 
                 if(posPotion[2] != -1)
-                    printf("Vous avez %d potions de niveau III. Appuyez sur 3 pour les utiliser.\n", player->inventory->inventory_content[posPotion[2]]->quantity);
+                    printf("Vous avez %d potions de niveau III. Appuyez sur 3 pour les utiliser.\n", player->inventory->inventoryContent[posPotion[2]]->quantity);
                 scanf("%d", &choice);
             } while (choice < 1 || choice > 3);
 
             if(choice == 1) {
-                player->current_hp += 30;
-                player->inventory->inventory_content[posPotion[choice - 1]]->quantity -= 1;
+                player->currentHp += 30;
+                player->inventory->inventoryContent[posPotion[choice - 1]]->quantity -= 1;
             } else if(choice == 2) {
-                player->current_hp += 80;
-                player->inventory->inventory_content[posPotion[choice - 1]]->quantity -= 1;
+                player->currentHp += 80;
+                player->inventory->inventoryContent[posPotion[choice - 1]]->quantity -= 1;
             } else if(choice == 3) {
-                player->current_hp += 200;
-                player->inventory->inventory_content[posPotion[choice - 1]]->quantity -= 1;
+                player->currentHp += 200;
+                player->inventory->inventoryContent[posPotion[choice - 1]]->quantity -= 1;
             }
 
-            if(player->current_hp > hpEvolution[player->level]) {
-                player->current_hp = hpEvolution[player->level];
+            if(player->currentHp > hpEvolution[player->level]) {
+                player->currentHp = hpEvolution[player->level];
             }
         }
     }

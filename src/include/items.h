@@ -7,7 +7,7 @@
  * Par: DAILLY Armand
  */
 
-#include "../include/structures.h"
+#include "structures.h"
 
 
 #ifndef MALLOC_WORLD_ITEMS_H

@@ -1,8 +1,8 @@
 //
 // Created by arman on 24/11/2021.
 //
-#include "../include/structures.h"
-#include "../inventory/inventory.h"
+#include "structures.h"
+#include "inventory.h"
 #include <string.h>
 
 #ifndef MALLOC_WORLD_PNJ_H

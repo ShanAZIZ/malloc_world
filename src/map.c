@@ -67,14 +67,14 @@ void fillBaseMap(int** map, int** baseMap, int height, int width){
 int** placeWalls(int** map, int width, int height){
     int randomPosX;
     int randomPosY;
-    int cpt_walls;
-    cpt_walls = 0;
-    while(cpt_walls <= (3 + 0.1 * (width * height))){
+    int cptWalls;
+    cptWalls = 0;
+    while(cptWalls <= (3 + 0.1 * (width * height))){
         randomPosX = rand() % width;
         randomPosY = rand() % height;
         if(map[randomPosX][randomPosY] == 0){
             map[randomPosX][randomPosY] = -1;
-            cpt_walls += 1;
+            cptWalls += 1;
         }
     }
     return map;
@@ -84,9 +84,9 @@ int** placeWalls(int** map, int width, int height){
 int** placeGrass(int** map, int width, int height, int zone){
     int randomPosX;
     int randomPosY;
-    int cpt_grass;
-    cpt_grass = 0;
-    while(cpt_grass <= (3 + 0.1 * (width * height))){
+    int cptGrass;
+    cptGrass = 0;
+    while(cptGrass <= (3 + 0.1 * (width * height))){
         randomPosX = rand() % width;
         randomPosY = rand() % height;
         if(map[randomPosX][randomPosY] == 0){
@@ -97,7 +97,7 @@ int** placeGrass(int** map, int width, int height, int zone){
             }else{
                 map[randomPosX][randomPosY] = 9;
             }
-            cpt_grass += 1;
+            cptGrass += 1;
         }
     }
     return map;
@@ -107,9 +107,9 @@ int** placeGrass(int** map, int width, int height, int zone){
 int** placeRock(int** map, int width, int height, int zone){
     int randomPosX;
     int randomPosY;
-    int cpt_rock;
-    cpt_rock = 0;
-    while(cpt_rock <= (3 + 0.1 * (width * height))){
+    int cptRock;
+    cptRock = 0;
+    while(cptRock <= (3 + 0.1 * (width * height))){
         randomPosX = rand() % width;
         randomPosY = rand() % height;
         if(map[randomPosX][randomPosY] == 0){
@@ -120,7 +120,7 @@ int** placeRock(int** map, int width, int height, int zone){
             }else{
                 map[randomPosX][randomPosY] = 10;
             }
-            cpt_rock += 1;
+            cptRock += 1;
         }
     }
     return map;
@@ -130,9 +130,9 @@ int** placeRock(int** map, int width, int height, int zone){
 int** placeWood(int** map, int width, int height, int zone){
     int randomPosX;
     int randomPosY;
-    int cpt_wood;
-    cpt_wood = 0;
-    while(cpt_wood <= (3 + 0.1 * (width * height))){
+    int cptWood;
+    cptWood = 0;
+    while(cptWood <= (3 + 0.1 * (width * height))){
         randomPosX = rand() % width;
         randomPosY = rand() % height;
         if(map[randomPosX][randomPosY] == 0){
@@ -143,7 +143,7 @@ int** placeWood(int** map, int width, int height, int zone){
             }else{
                 map[randomPosX][randomPosY] = 11;
             }
-            cpt_wood += 1;
+            cptWood += 1;
         }
     }
     return map;
@@ -215,14 +215,14 @@ int** placeBoss(int** map, int width, int height){
 int** placeMonsters(int** map, int width, int height, int zone){
     int randomPosX;
     int randomPosY;
-    int cpt_monster;
-    cpt_monster = 0;
-    while(cpt_monster <= (10 + 0.05 * (width * height))){
+    int cptMonster;
+    cptMonster = 0;
+    while(cptMonster <= (10 + 0.05 * (width * height))){
         randomPosX = rand() % width;
         randomPosY = rand() % height;
         if(map[randomPosX][randomPosY] == 0){
             map[randomPosX][randomPosY] = rand() % 3 + 9 + (zone * 3);
-            cpt_monster += 1;
+            cptMonster += 1;
         }
     }
     return map;

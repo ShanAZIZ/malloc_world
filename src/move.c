@@ -34,7 +34,13 @@ void checkCanMove(Game *game, int choice) {
 int checkInInventory(Player *player, int itemId) {
     for (int x = 0; x < INVENTORY_SIZE; x += 1) {
         if (player->inventory->inventoryContent[x]->value == itemId && player->inventory->inventoryContent[x]->durability > 0) {
-            player->inventory->inventoryContent[x]->durability = player->inventory->inventoryContent[x]->durability * (0.9 - 0.1 * (player->mapId / 3));
+            if(player->mapId == 0){
+                player->inventory->inventoryContent[x]->durability = player->inventory->inventoryContent[x]->durability * 0.9;
+            }else if(player->mapId == 3){
+                player->inventory->inventoryContent[x]->durability = player->inventory->inventoryContent[x]->durability * 0.8;
+            }else{
+                player->inventory->inventoryContent[x]->durability = player->inventory->inventoryContent[x]->durability * 0.6;
+            }
             printf("Your %s now has %d durability\n", player->inventory->inventoryContent[x]->name, player->inventory->inventoryContent[x]->durability);
             return x;
         }

@@ -17,5 +17,8 @@ cd ./bin
 ./malloc_world.exe
 ```
 
+Si vous le souhaitez, vous pouvez également utiliser le fichier CMakeLists.txt avec CMake ou 
+dans un IDE tel que CLion.
+
 
 

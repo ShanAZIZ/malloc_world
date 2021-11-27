@@ -3,7 +3,7 @@
  * Made by: GROUPE 5 - AL2
  * Projet: Malloc-World
  * Date de création: 27/10/2021
- * Dernière modification : 27/10/2021
+ * Dernière modification : 23/11/2021
  * Par: AZIZ Shana
  */
 
@@ -162,7 +162,7 @@ void loadStorage(FILE* playerSaveFile, Game* game){
 
 void saveGame(Game* game){
     FILE* saveFile;
-    saveFile = fopen("save.txt", "w");
+    saveFile = fopen("../resources/save.txt", "w");
     if(saveFile != NULL){
         saveMap(game, saveFile);
         savePlayer(saveFile, game);
@@ -172,10 +172,12 @@ void saveGame(Game* game){
 
 void loadGame(Game* game){
     FILE* saveFile;
-    saveFile = fopen("save.txt", "r");
+    saveFile = fopen("../resources/save.txt", "r");
     if(saveFile != NULL){
         loadMap(game, saveFile);
         loadPlayer(saveFile, game);
+    } else {
+        printf("Echec du chargement \n");
     }
     fclose(saveFile);
 }

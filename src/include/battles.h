@@ -1,6 +1,11 @@
-//
-// Created by Audrey Divito on 15/11/2021.
-//
+/**
+ * FILENAME: monsters.c
+ * Made by: GROUPE 5 - AL2
+ * Projet: Malloc-World
+ * Date de création: 15/11/2021
+ * Dernière modification : 20/11/2021
+ * Par: DI VITO Audrey
+**/
 
 #ifndef MALLOC_WORLD_BATTLES_H
 #define MALLOC_WORLD_BATTLES_H

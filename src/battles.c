@@ -1,6 +1,11 @@
-//
-// Created by Audrey Divito on 15/11/2021.
-//
+/**
+ * FILENAME: battles.c
+ * Made by: GROUPE 5 - AL2
+ * Projet: Malloc-World
+ * Date de création: 09/10/2021
+ * Dernière modification : 24/11/2021
+ * Par: DI VITO Audrey
+ */
 
 #include "battles.h"
 
@@ -81,7 +86,7 @@ int menu(Player* player, Monster* monster, Game* game, int posX, int posY) {
             else if(res == 2){
                 printf("Effacer la sauvegarde\n");
                 FILE* saveFile;
-                saveFile = fopen("save.txt", "w");
+                saveFile = fopen("../resources/save.txt", "w");
                 fclose(saveFile);
                 freeGame(game);
                 exit(1);

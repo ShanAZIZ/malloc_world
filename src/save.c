@@ -164,7 +164,7 @@ void loadStorage(FILE* playerSaveFile, Game* game){
 
 void saveGame(Game* game){
     FILE* saveFile;
-    saveFile = fopen("save.txt", "w");
+    saveFile = fopen("../resources/save.txt", "w");
     if(saveFile != NULL){
         saveMap(game, saveFile);
         savePlayer(saveFile, game);
@@ -176,7 +176,7 @@ void saveGame(Game* game){
 
 void loadGame(Game* game){
     FILE* saveFile;
-    saveFile = fopen("save.txt", "r");
+    saveFile = fopen("../resources/save.txt", "r");
     if(saveFile != NULL){
         loadMap(game, saveFile);
         loadPlayer(saveFile, game);

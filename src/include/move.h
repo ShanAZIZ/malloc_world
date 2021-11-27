@@ -25,5 +25,7 @@ void passPortal(Game* game, int idPortal);
 void decrementTimers(Game* game);
 void move(Game* game, int posX, int posY);
 void movePlayerAddTimer(Game *game, int posX, int posY, int timer);
+int getNextHp(Game *game);
+int getNextXp(Game* game);
 
 #endif //MALLOC_WORLD_MOVE_H

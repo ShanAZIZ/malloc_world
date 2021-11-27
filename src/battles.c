@@ -181,3 +181,10 @@ void usingPotion(Player* player) {
         }
     }
 }
+
+int getNextHp(Game *game){
+    return hpEvolution[game->player->level];
+}
+int getNextXp(Game* game){
+    return xpEvolution[game->player->level];
+}

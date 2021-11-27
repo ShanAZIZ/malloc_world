@@ -14,7 +14,6 @@
 
 #include<stdio.h>
 #include<stdlib.h>
-#include "move.h"
 #include "save.h"
 #include "map.h"
 

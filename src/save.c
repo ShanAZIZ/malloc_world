@@ -78,7 +78,15 @@ void loadMapZone(FILE* saveFile, int** map, int zone, int x, int y, Player* play
 void savePlayer(FILE* saveFile, Game* game){
     if(saveFile != NULL) {
         fprintf(saveFile, "=== PLAYER ===\n");
-        fprintf(saveFile, "{%d}\n{%d}\n{%d}\n", game->player->level, game->player->currentXp, game->player->currentHp);
+        fprintf(
+                saveFile,
+                "{%d}\n{%d}/{%d}\n{%d}/{%d}\n",
+                game->player->level,
+                game->player->currentXp,
+                getNextXp(game),
+                game->player->currentHp,
+                getNextHp(game)
+                );
         saveInventory(saveFile, game->player->inventory);
         saveStorage(saveFile, game);
     }
@@ -147,12 +155,6 @@ void loadStorage(FILE* playerSaveFile, Game* game){
     if(strcmp(texte, "-- STORAGE --\n") == 0){
         int actualQuantity;
         int actualValue;
-//        if(fscanf(playerSaveFile, "{%d}@{%d}\n", &actualQuantity, &actualValue) == 2){
-//            printf("actual value : %d\n", actualValue);
-//            //storage1->item = setNewItemFromList(itemList, actualValue);
-//            storage1->item->quantity = actualQuantity;
-//            storage1->next= NULL;
-//        }
         while (fscanf(playerSaveFile, "{%d}@{%d}\n", &actualQuantity, &actualValue) == 2){
             printf("actual value : %d\n", actualValue);
             addToStorage(game, actualValue, actualQuantity);
@@ -162,22 +164,24 @@ void loadStorage(FILE* playerSaveFile, Game* game){
 
 void saveGame(Game* game){
     FILE* saveFile;
-    saveFile = fopen("../resources/save.txt", "w");
+    saveFile = fopen("..\\resources\\save.txt", "w");
     if(saveFile != NULL){
         saveMap(game, saveFile);
         savePlayer(saveFile, game);
+    } else {
+        printf("Echec de creation du fichier de sauvegarde 'save.txt' \n");
     }
     fclose(saveFile);
 }
 
 void loadGame(Game* game){
     FILE* saveFile;
-    saveFile = fopen("../resources/save.txt", "r");
+    saveFile = fopen("..\\resources\\save.txt", "r");
     if(saveFile != NULL){
         loadMap(game, saveFile);
         loadPlayer(saveFile, game);
     } else {
-        printf("Echec du chargement \n");
+        printf("Echec de l'ouverture du fichier de sauvegarde 'save.txt' \n");
     }
     fclose(saveFile);
 }

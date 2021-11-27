@@ -22,7 +22,7 @@ int mainMenu(){
     int value;
     printf("\nBienvenue dans le menu principal");
     printf("\nQue souhaitez vous faire ? ");
-    printf("\n     1. Commencer une nouvelle partie");
+    printf("\n     1. Jouer");
     printf("\n     2. Charger une partie");
     printf("\n     3. Lancer les tests");
     printf("\n     0. Quitter");
@@ -37,7 +37,7 @@ void mainMenuAction(Game* game) {
         value = mainMenu();
         switch (value) {
             case 1:
-                printf("\nDebut d'une partie \n");
+                printf("\nLancement du jeu \n");
                 newGame(game);
                 break;
             case 2:

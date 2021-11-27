@@ -36,23 +36,27 @@ int weaponChoice(Player* player) {
     int cpt = 0;
     int choice = 0;
     int posWeapon[10] = {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
+    int playerHasWeapon = 0;
 
     for(int i = 0; i < INVENTORY_SIZE; i++) {
         if(strcmp(player->inventory->inventoryContent[i]->type, "Arme") == 0 && player->inventory->inventoryContent[i]->durability > 0) {
             posWeapon[cpt] = i;
             printf("Tapez %d pour prendre cette arme : %s %d %d\n", cpt, player->inventory->inventoryContent[i]->name, player->inventory->inventoryContent[i]->durability, player->inventory->inventoryContent[i]->damage);
             cpt += 1;
+            playerHasWeapon = 1;
         }
     }
-
-    do {
-        scanf("%d", &choice);
-        if(player->inventory->inventoryContent[posWeapon[choice]]->damage > 0 && player->inventory->inventoryContent[posWeapon[choice]]->durability > 0) {
-            break;
-        }
-    } while (1);
-
-    return posWeapon[choice];
+    if(playerHasWeapon) {
+        do {
+            scanf("%d", &choice);
+            if(player->inventory->inventoryContent[posWeapon[choice]]->damage > 0 && player->inventory->inventoryContent[posWeapon[choice]]->durability > 0) {
+                break;
+            }
+        } while (1);
+        return posWeapon[choice];
+    } else {
+        return -1;
+    }
 }
 
 Monster* battle(Player* player, Monster* monster, int idWeapon) {
@@ -76,9 +80,24 @@ int menu(Player* player, Monster* monster, Game* game, int posX, int posY) {
     int res = 0;
 
     do {
-        printf("Que voulez-vous faire ?\n1 - Combattre\n2 - Utiliser des potions\n3 - Fuir\n");
-        scanf("%d", &choice);
-        res = roundChoices(player, copyMonster, choice, idWeapon, maxArmor);
+        if(idWeapon == -1) {
+            printf("vous n'avez plus d'arme vous ne pouvez plus vous battre\n");
+            printf("Que voulez-vous faire ?\n2 - Utiliser des potions\n3 - Fuir\n");
+            scanf("%d", &choice);
+            if (choice == 2 || choice == 3) {
+                res = roundChoices(player, copyMonster, choice, idWeapon, maxArmor);
+            }
+        }
+        else if(player->inventory->inventoryContent[idWeapon]->durability > 0 ){
+            printf("Que voulez-vous faire ?\n1 - Combattre\n2 - Utiliser des potions\n3 - Fuir\n");
+            scanf("%d", &choice);
+            res = roundChoices(player, copyMonster, choice, idWeapon, maxArmor);
+        }
+        else {
+            printf("Votre arme n'as plus de durabilite,\nVeuillez choisir une nouvelle arme \n");
+            idWeapon = weaponChoice(player);
+        }
+
         if(res == 1 || res == 2 || res == 3) {
             if(res == 1) {
                 movePlayerAddTimer(game, posX, posY, 15);

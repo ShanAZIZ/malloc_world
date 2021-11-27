@@ -120,8 +120,8 @@ void loadPlayer(FILE* saveFile, Game* game){
             fgets(texte, 255, saveFile);
             if(strcmp(texte, "=== PLAYER ===\n") == 0) {
                 fscanf(saveFile, "{%d}\n", &game->player->level);
-                fscanf(saveFile, "{%d}\n", &game->player->currentXp);
-                fscanf(saveFile, "{%d}\n", &game->player->currentHp);
+                fscanf(saveFile, "{%d}/{%d}\n", &game->player->currentXp);
+                fscanf(saveFile, "{%d}/{%d}\n", &game->player->currentHp);
                 loadPlayerInventory(saveFile, game->player->inventory, game->itemList);
                 loadStorage(saveFile, game);
                 break;

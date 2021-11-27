@@ -105,7 +105,7 @@ int menu(Player* player, Monster* monster, Game* game, int posX, int posY) {
             else if(res == 2){
                 printf("Effacer la sauvegarde\n");
                 FILE* saveFile;
-                saveFile = fopen("../resources/save.txt", "w");
+                saveFile = fopen("save.txt", "w");
                 fclose(saveFile);
                 freeGame(game);
                 exit(1);

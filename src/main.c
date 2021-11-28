@@ -24,7 +24,7 @@ int main(int argc, char const *argv[]) {
 
     start(game);
     freeGame(game);
-    return 0;
+    return EXIT_SUCCESS;
 }
 
 Game* initGame(int x, int y, int zone){

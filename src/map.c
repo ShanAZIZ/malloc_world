@@ -28,9 +28,9 @@ void displayMap(int** map, int x, int y) {
 int** initMap(int height, int width){
     int** map = malloc(sizeof(int*) * height);
 
-    for(int i = 0; i < width; i++) {
+    for(int i = 0; i < height; i++) {
         map[i] = malloc(sizeof(int) * width);
-        for(int j = 0; j < height; j++) {
+        for(int j = 0; j < width; j++) {
             map[i][j] = 0;
         }
     }

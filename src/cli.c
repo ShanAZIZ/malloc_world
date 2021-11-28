@@ -155,27 +155,14 @@ int callMove(Game* game){
 }
 
 void test(Game* game){
-    game->player->level = 3;
-    displayMap(game->maps[0], game->maps[9][0][0], game->maps[9][0][1]);
-    //loadMap(game);
-    int done = 0;
-    int input = 0;
+    FILE* saveFile = fopen("../resources/save.txt", "r");
+    printf("\n line size %d \n", getMapWidth(saveFile, 1));
+    printf("\n line height %d \n", getMapHeight(saveFile, 1));
 
-
-    printf("level : %d \n", game->player->level);
-    printf("Inventory at index 4 quantity: %d \n", game->player->inventory->inventoryContent[4]->quantity);
-    printf("Inventory at index 4 name: %s \n", game->player->inventory->inventoryContent[4]->name);
-    while (done == 0) {
-        scanf("%d", &input);
-        if (input == 5) {
-            done = 1;
-        } else {
-            checkCanMove(game, input);
-            displayMap(game->maps[game->player->mapId], game->maps[9][game->player->mapId / 3][0],
-                       game->maps[9][game->player->mapId / 3][1]);
-            decrementTimers(game);
-            fflush(stdin);
-        }
-    }
+    printf("\n line size %d \n", getMapWidth(saveFile, 2));
+    printf("\n line height %d \n", getMapHeight(saveFile, 2));
+    printf("\n line size %d \n", getMapWidth(saveFile, 3));
+    printf("\n line height %d \n", getMapHeight(saveFile, 3));
+    fclose(saveFile);
     printf("Leaving the game");
 }

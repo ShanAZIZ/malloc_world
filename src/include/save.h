@@ -7,23 +7,15 @@
  * Par: AZIZ Shana
  */
 
+#ifndef MALLOC_WORLD_SAVE_H
+#define MALLOC_WORLD_SAVE_H
+
 
 #include <stdio.h>
 #include <stdlib.h>
 #include "string.h"
 #include "move.h"
 #include "map.h"
-
-#ifndef MALLOC_WORLD_SAVE_H
-#define MALLOC_WORLD_SAVE_H
-
-#endif
-
-struct storage {
-    Item* item;
-    struct storage* next;
-};
-typedef struct storage storage;
 
 void saveZone(FILE*, int**, int, int);
 void saveMap(Game* game, FILE* saveFile);
@@ -37,3 +29,7 @@ void loadPlayerInventory(FILE* playerSaveFile, Inventory* playerInventory, Item*
 void loadStorage(FILE* playerSaveFile, Game* game);
 void saveGame(Game* game);
 void loadGame(Game* game);
+int getMapWidth(FILE* saveFile, int zone);
+int getMapHeight(FILE* saveFile, int zone);
+
+#endif

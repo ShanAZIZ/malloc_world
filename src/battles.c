@@ -108,7 +108,7 @@ int menu(Player* player, Monster* monster, Game* game, int posX, int posY) {
                 saveFile = fopen("../resources/save.txt", "w");
                 fclose(saveFile);
                 freeGame(game);
-                exit(1);
+                exit(EXIT_SUCCESS);
             }
             break;
         }

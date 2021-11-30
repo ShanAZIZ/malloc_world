@@ -194,12 +194,14 @@ void saveStorage(FILE* playerSaveFile, Game* game){
 void loadPlayer(FILE* saveFile, Game* game){
     if(saveFile != NULL){
         signed char texte[256];
+        int temp1;
+        int temp2;
         do {
             fgets(texte, 255, saveFile);
             if(strcmp(texte, "=== PLAYER ===\n") == 0) {
                 fscanf(saveFile, "{%d}\n", &game->player->level);
-                fscanf(saveFile, "{%d}\n", &game->player->currentXp);
-                fscanf(saveFile, "{%d}\n", &game->player->currentHp);
+                fscanf(saveFile, "{%d}/{%d}\n", &game->player->currentXp, &temp1);
+                fscanf(saveFile, "{%d}/{%d}\n", &game->player->currentHp, &temp2);
                 loadPlayerInventory(saveFile, game->player->inventory, game->itemList);
                 loadStorage(saveFile, game);
                 break;
